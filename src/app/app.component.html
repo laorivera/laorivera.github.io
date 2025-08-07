@@ -1,0 +1,21 @@
+<div class="app-container">
+    <div class="sidebar">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="main-container">
+      <div class="top-container">
+         <app-character-box (characterSelected)="onClassSelected($event)" (raceSelected)="onRaceSelected($event)"> </app-character-box>
+      </div>
+      <div class="bottom-container">
+        <app-graph [calculationResult]="calculationResult"></app-graph>
+        <app-stats [calculationResult]="calculationResult"></app-stats> 
+        <app-boxes-group [classSelection]="classSelection" [raceSelection]="raceSelection" (calculationResultChanged)="onCalculationResultChanged($event)"></app-boxes-group>
+      </div>
+   </div>
+   <footer class="disclaimer">
+    <p>
+      This website is not affiliated with or endorsed by ©Ironmace.
+      <span class="version">v0.1.0</span>
+    </p>  
+   </footer>
+  </div>

@@ -1,0 +1,27 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h1>Dark and Data</h1>
+  </div>
+  
+  <div class="sidebar-content">
+    <!-- Calculator Button -->
+    <div class="sidebar-item" (click)="navigateTo('calculator')">
+      <img src="assets/calculator.svg" alt="Calculator" class="sidebar-icon">
+      <span>Calculator</span>
+    </div>
+    
+    <!-- About Button -->
+    <div class="sidebar-item" (click)="navigateTo('about')">
+      <img src="assets/info2.svg" alt="Change Log" class="sidebar-icon">
+      <span>About</span>
+    </div>
+  </div>
+
+  <!-- Support Button at Bottom -->
+  <div class="sidebar-footer">
+    <div class="sidebar-item support-button" (click)="openSupport()">
+      <img src="assets/support.svg" alt="Support" class="sidebar-icon">
+      <span>Support</span>
+    </div>
+  </div>
+</div>

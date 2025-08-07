@@ -1,0 +1,57 @@
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    gap: 20px; /* Space between grid items */
+    border: 0.5px solid #515153f2; /* Border around the entire box */
+    padding: 10px; /* Inner spacing */
+    margin:  5px;
+    height: 750px;
+    width: 450px; /* Fixed width for the box */
+    overflow: hidden;
+    background-color: #22222200; /* Light background for contrast */
+    border-radius: 6px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+  
+.stats h2 {
+    grid-column: span 2; /* Headers span both columns */
+    text-align: center;
+    margin: 10px 0;
+    font-size: 1.6em;
+    color: #cdcdcd;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #22222200;
+    border: 1px solid #6c4f4f;
+    border-radius: 3px;
+    font-size: 1.2em;
+    color: #bbbbbb;
+}
+
+.stat-name {
+    text-align: left;
+    flex: 1;
+}
+
+.stat-value {
+    text-align: right;
+    margin-left: 30px;
+    min-width: 60px;
+}
+
+/* Conditional colors */
+.positive {
+  color: #28a745; /* Bootstrap-like green */
+}
+
+.negative {
+  color: #dc3545; /* Bootstrap-like red */
+}

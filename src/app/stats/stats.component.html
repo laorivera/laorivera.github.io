@@ -1,0 +1,259 @@
+<div class="stats">
+    <div *ngIf="calculationResult">
+      <div class="stat-row">
+        <span class="stat-name">Strength:</span>
+        <span class="stat-value">{{ calculationResult.stats.Strength }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Vigor:</span>
+        <span class="stat-value">{{ calculationResult.stats.Vigor }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Agility:</span>
+        <span class="stat-value">{{ calculationResult.stats.Agility }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Dexterity:</span>
+        <span class="stat-value">{{ calculationResult.stats.Dexterity }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Will:</span>
+        <span class="stat-value">{{ calculationResult.stats.Will }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Knowledge:</span>
+        <span class="stat-value">{{ calculationResult.stats.Knowledge }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Resourcefulness:</span>
+        <span class="stat-value">{{ calculationResult.stats.Resourcefulness }}</span>
+      </div>
+
+      <h2>----------------------------------------------</h2>
+      
+      <div class="stat-row">
+        <span class="stat-name">Health:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.Health)">{{ getRoundValue(calculationResult.computedstats.Health) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Healing:</span>
+        <span class="stat-value"[ngClass]="getStatValue(calculationResult.computedstats.PhysicalHealing)">{{ getRoundValue(calculationResult.computedstats.PhysicalHealing) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Healing:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalHealing)">{{ getRoundValue(calculationResult.computedstats.MagicalHealing) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Capacity:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MemoryCapacity)" >{{ getRoundValue(calculationResult.computedstats.MemoryCapacity) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Spell Payload:</span>
+        <span class="stat-value" ></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Memory Music Payload:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Utility Effectiveness:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Luck:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.Luck)">{{ getRoundValue(calculationResult.computedstats.Luck) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Health Recovery Bonus:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.HealthRecovery)">{{ getRoundValue(calculationResult.computedstats.HealthRecovery) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Spell Recovery:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.SpellRecovery)">{{ getRoundValue(calculationResult.computedstats.SpellRecovery) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Move Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MoveSpeed)">{{ getRoundValue(calculationResult.computedstats.MoveSpeed) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Move Speed Percentage:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MoveSpeedBonus)">{{ getRoundValue(calculationResult.computedstats.MoveSpeedBonus) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Action Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ActionSpeed)">{{ getRoundValue(calculationResult.computedstats.ActionSpeed) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Manual Dexterity:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ManualDexterity)">{{ getRoundValue(calculationResult.computedstats.ManualDexterity) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Spell Casting Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.SpellCastingSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.SpellCastingSpeed, 2)}}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Equip Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.EquipSpeed)">{{ getRoundValue(calculationResult.computedstats.EquipSpeed) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Regular Interaction Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.RegularInteractionSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.RegularInteractionSpeed, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Interaction Speed:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalInteractionSpeed)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicalInteractionSpeed, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Persuasiveness:</span>
+         <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.Persuasiveness)">{{ getRoundValue(calculationResult.computedstats.Persuasiveness) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Buff Duration:</span>
+         
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BuffDuration)">{{ limitDecimalPlaces(calculationResult.computedstats.BuffDuration, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Debuff Duration:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.DebuffDuration)">{{ limitDecimalPlaces(calculationResult.computedstats.DebuffDuration, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Cooldown Reduction:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.CooldownReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.CooldownReduction, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Armor Penetration:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ArmorPenetration)">{{ limitDecimalPlaces(calculationResult.computedstats.ArmorPenetration ,2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magic Penetration:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicPenetration)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicPenetration, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Headshot Reduction:</span>
+          <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.HeadshotReduction)">{{ getRoundValue(calculationResult.computedstats.HeadshotReduction) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Projectile Damage Reduction:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.ProjectileReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.ProjectileReduction, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Damage Reduction:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.PhysicalDamageReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.PhysicalDamageReduction, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Armor Rating:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.FromArmorRating)">{{ getRoundValue(calculationResult.computedstats.FromArmorRating) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+         <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusPhysicalDamageReduction)">{{ getRoundValue(calculationResult.computedstats.BonusPhysicalDamageReduction) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magic Resistance:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalDamageReduction)">{{ limitDecimalPlaces(calculationResult.computedstats.MagicalDamageReduction, 2) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Magic Rating:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicRating)">{{ getRoundValue(calculationResult.computedstats.MagicRating) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusMagicalDamageReduction)">{{ calculationResult.computedstats.BonusMagicalDamageReduction }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Physical Power Bonus:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.PhysicalPowerBonus)">{{ getRoundValue(calculationResult.computedstats.PhysicalPowerBonus) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Physical Power:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.PhysicalPower)">{{ getRoundValue(calculationResult.computedstats.PhysicalPower) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusPhysicalPower)">{{ getRoundValue(calculationResult.computedstats.BonusPhysicalPower) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Magical Power Bonus:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalPowerBonus)">{{ getRoundValue(calculationResult.computedstats.MagicalPowerBonus) }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Magical Power:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.MagicalPower)">{{ getRoundValue(calculationResult.computedstats.MagicalPower) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">From Bonuses:</span>
+        <span class="stat-value" [ngClass]="getStatValue(calculationResult.computedstats.BonusMagicalPower)">{{ getRoundValue(calculationResult.computedstats.BonusMagicalPower) }}</span>
+      </div>
+
+      <h2>----------------------------------------</h2>
+      <div class="stat-row">
+        <span class="stat-name">Primary Weapon</span>
+        <span class="stat-value"></span>
+      </div>
+
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.PrimaryWeapon.Attackone !== 0){
+        <span class="stat-name">Atack 1</span>
+        <span class="stat-value"> {{ calculationResult.computedstatsweapon.PrimaryWeapon.Attackone}} </span>}
+      </div>
+
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.PrimaryWeapon.Attacktwo !== 0){
+        <span class="stat-name">Atack 2</span>
+        <span class="stat-value ">{{ calculationResult.computedstatsweapon.PrimaryWeapon.Attacktwo }}</span>}
+      </div>
+      
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.PrimaryWeapon.Attackthree !== 0) {
+        <span class="stat-name">Atack 3</span>
+        <span class="stat-value">{{ calculationResult.computedstatsweapon.PrimaryWeapon.Attackthree }}</span>}
+      </div>
+
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.PrimaryWeapon.Attackfour != 0) {
+        <span class="stat-name">Atack 4</span>
+        <span class="stat-value">{{ calculationResult.computedstatsweapon.PrimaryWeapon.Attackfour }}</span>}
+      </div>
+
+      <div class="stat-row">
+        <span class="stat-name">Secondary Weapon:</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.SecondaryWeapon.Attackone != 0){
+        <span class="stat-name">Atack 1</span>
+        <span class="stat-value"> {{ calculationResult.computedstatsweapon.SecondaryWeapon.Attackone }}</span>}
+      </div>
+        
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.SecondaryWeapon.Attacktwo != 0){
+        <span class="stat-name">Atack 2</span>
+        <span class="stat-value">{{ calculationResult.computedstatsweapon.SecondaryWeapon.Attacktwo }}</span>}
+      </div>
+
+      <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.SecondaryWeapon.Attackthree != 0){
+        <span class="stat-name">Atack 3</span>
+        <span class="stat-value">{{ calculationResult.computedstatsweapon.SecondaryWeapon.Attackthree }}</span>  }
+      </div>
+      
+       <div class="stat-row">
+        @if(calculationResult.computedstatsweapon.SecondaryWeapon.Attackfour != 0){
+        <span class="stat-name">Atack 4</span>
+        <span class="stat-value">{{ calculationResult.computedstatsweapon.SecondaryWeapon.Attackfour }}</span>}
+      </div>
+    
+      <div class="stat-row">
+        <span class="stat-name">Impact Power</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Primary Weapon Impact Power</span>
+        <span class="stat-value"></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Secondary Weapon Impact Power</span>
+        <span class="stat-value"></span>
+      </div>
+    </div>
+  </div>

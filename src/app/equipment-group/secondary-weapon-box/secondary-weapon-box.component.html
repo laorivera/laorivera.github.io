@@ -1,0 +1,221 @@
+<div class="equipment-box head-box" [ngClass]="rarityBoxColor()">
+    <img
+      [src]="selectedItem?.image || 'assets/placeholderx.png'"
+      alt="Head Item"
+      class="equipment-image"
+    />
+    <!--
+    <div class="item-tooltip">
+      <div class="item-name">{{selectedItem?.name || 'No item selected'}}</div>
+      <div class="item-stats">
+        <div class="stat-label">Rarity:</div>
+        <div class="stat-value">{{rarityHead[selectedRarity]}}</div>
+        <div class="stat-label">Rating:</div>
+        <div class="stat-value">{{selectedRating}}</div>
+      </div>
+      <div class="item-description">
+        
+      </div>
+      
+    </div>
+     -->
+    @if (showList) {
+      <div class="equipment-list"  >
+        @for (item of listItems; track item.name) {
+          <div (click)="selectItem(item)" class="equipment-item">
+            <img [src]="item.image" [alt]="item.name" />
+            <span>{{ item.name }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (showContextMenu && selectedItem) {
+      <div class="modal-box">
+        <div class="rarity-buttons">
+          @for (rarity of rarityHead; track $index) {
+            @if ($index > 0) {
+              <button 
+                [class.active]="selectedRarity === $index"
+                (click)="onChangeRarity($index)"
+                class="rarity-button"
+              >
+                {{ $index === 1 ? 'I' : $index === 2 ? 'II' : $index === 3 ? 'III' : $index === 4 ? 'IV' : $index === 5 ? 'V' : $index === 6 ? 'VI' : 'VII' }}
+              </button>
+            }
+          }
+        </div>
+        <!-- ITEM DATA INFORMATION -->
+        <div class="item-data">
+          @if(selectedItemData?.itemdataweapon?.headshotReduction){
+            <p>Headshot Reduction: {{selectedItemData?.itemdataweapon?.headshotReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.projectileReduction){
+            <p>Projectile Reduction: {{selectedItemData?.itemdataweapon?.projectileReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.magicalResistance && selectedItemData?.itemdataweapon?.magicalResistance[selectedRarity]){
+            <p>Magical Resistance: {{selectedItemData?.itemdataweapon?.magicalResistance[selectedRarity][0]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.magicalHealing && selectedItemData?.itemdataweapon?.magicalHealing[selectedRarity]){
+            <p>Magical Healing: {{selectedItemData?.itemdataweapon?.magicalHealing[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.armorPenetration){
+            <p>Armor Penetration: {{selectedItemData?.itemdataweapon?.armorPenetration}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.magicPenetration){
+            <p>Magical Armor Penetration: {{selectedItemData?.itemdataweapon?.magicPenetration}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon.luck){
+            <p>Luck: {{selectedItemData?.itemdataweapon.luck}}  </p>
+          }
+          @if(selectedItemData?.itemdataweapon.magicalDamageReduction){
+            <p>Magical Damage Reduction: {{selectedItemData?.itemdataweapon.magicalDamageReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon.physicalDamageReduction){
+            <p>Physical Damage Reduction: {{selectedItemData?.itemdataweapon.physicalDamageReduction}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.magicalPower && selectedItemData?.itemdataweapon?.magicalPower[selectedRarity]){
+            <p>Magical Power: {{selectedItemData?.itemdataweapon?.magicalPower[selectedRarity]}} % </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.actionSpeed && selectedItemData?.itemdataweapon?.actionSpeed[selectedRarity]){
+            <p>Action Speed: {{selectedItemData?.itemdataweapon?.actionSpeed[selectedRarity]}} % </p>
+          }      
+          @if(selectedItemData?.itemdataweapon?.moveSpeedBonus){
+            <p>Move Speed Bonus: {{selectedItemData?.itemdataweapon?.moveSpeedBonus}} </p>
+          }
+      <!-------------------------------------------------- ------------------------------------------------------>
+          @if(selectedItemData?.itemdataweapon?.moveSpeed && selectedItemData?.itemdataweapon?.moveSpeed["1"]){
+            <p>Move Speed: {{selectedItemData?.itemdataweapon?.moveSpeed["1"]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.damageRatings && selectedItemData?.itemdataweapon?.damageRatings[selectedRarity]){
+            <p>Damage Rating: {{selectedItemData?.itemdataweapon?.damageRatings[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.impactPower){
+            <p>Imapct Power: {{selectedItemData?.itemdataweapon?.impactPower}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.strength && selectedItemData?.itemdataweapon?.BaseAttribute?.strength[selectedRarity]){
+            <p>Strength: {{selectedItemData?.itemdataweapon?.BaseAttribute?.strength[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.vigor && selectedItemData?.itemdataweapon?.BaseAttribute?.vigor[selectedRarity]){
+            <p>Vigor: {{selectedItemData?.itemdataweapon?.BaseAttribute?.vigor[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.dexterity && selectedItemData?.itemdataweapon?.BaseAttribute?.dexterity[selectedRarity]){
+            <p>Dexterity: {{selectedItemData?.itemdataweapon?.BaseAttribute?.dexterity[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.agility && selectedItemData?.itemdataweapon?.BaseAttribute?.agility[selectedRarity] == selectedRarity){
+            <p>Agility: {{selectedItemData?.itemdataweapon?.BaseAttribute?.agility[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.will && selectedItemData?.itemdataweapon?.BaseAttribute?.will[selectedRarity] == selectedRarity){
+            <p>Will: {{selectedItemData?.itemdataweapon?.BaseAttribute?.will[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.knowledge && selectedItemData?.itemdataweapon?.BaseAttribute?.knowledge[selectedRarity] == selectedRarity){
+            <p>Knowledge: {{selectedItemData?.itemdataweapon?.BaseAttribute?.knowledge[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataweapon?.BaseAttribute?.resourcefulness && selectedItemData?.itemdataweapon?.BaseAttribute?.resourcefulness[selectedRarity] == selectedRarity){
+            <p>Resourcefulness: {{selectedItemData?.itemdataweapon?.BaseAttribute?.resourcefulness[selectedRarity] }} </p>
+          }
+         <!-- <p>Flavor Text: {{selectedItemData?.itemdataweapon?.flavorText}} </p> -->
+        </div>
+
+       
+        <div class="modal-content">
+          <h3 [class]="'rarity-' + selectedRarity">{{ selectedItem.name || 'No Item Selected' }}</h3>
+          <img [src]="selectedItem.image" [alt]="selectedItem.name" class="modal-image" />
+            <div class = "rating-select">
+              <label for="rating-select">Rating:</label>
+              <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
+                @for (rating of listRating; track $index) {
+                  <option [value]="$index">{{ rating }}</option>
+                }
+              </select>
+            </div>
+            
+            @if(selectedRarity >= 3){
+              <div class="enchantment-Uncommon-select uncommon-border">
+                <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
+                  @for (list of enchantmentLists['uncommon'].types; track list + '_uncommon') {
+                    <option [value]="list">{{ list }}</option>
+                  } 
+                </select>
+                @if(selectedEnchantments['uncommon'].type){
+                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="selectedEnchantments['uncommon'].value" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
+                  @for (listvalue of enchantmentLists['uncommon'].values; track listvalue + '_uncommon_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 4){
+              <div class="enchantment-Rare-select rare-border">
+                <select id="enchantment-Rare-select" [(ngModel)]="selectedEnchantments['rare'].type" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
+                  @for (list of enchantmentLists['rare'].types; track list + '_rare') {
+                    <option [value]="list">{{ list }}</option>
+                  } 
+                </select>
+                @if(selectedEnchantments['rare'].type){
+                <select id="enchantmentvalue-Rare-select" [(ngModel)]="selectedEnchantments['rare'].value" (ngModelChange)="onChangeEnchantment_ValueRare($event)">
+                  @for (listvalue of enchantmentLists['rare'].values; track listvalue + '_rare_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 5){
+              <div class="enchantment-Epic-select epic-border">
+                <select id="enchantment-Epic-select" [(ngModel)]="selectedEnchantments['epic'].type" (ngModelChange)="onChangeEnchantment_TypeEpic($event)">
+                  @for (list of enchantmentLists['epic'].types; track list + '_epic') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['epic'].type){
+                <select id="enchantmentvalue-Epic-select" [(ngModel)]="selectedEnchantments['epic'].value" (ngModelChange)="onChangeEnchantment_ValueEpic($event)">
+                  @for (listvalue of enchantmentLists['epic'].values; track listvalue + '_epic_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 6){
+              <div class="enchantment-Legendary-select legendary-border">
+                <select id="enchantment-Legendary-select" [(ngModel)]="selectedEnchantments['legendary'].type" (ngModelChange)="onChangeEnchantment_TypeLegendary($event)">
+                  @for (list of enchantmentLists['legendary'].types; track list + '_legendary') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['legendary'].type){
+                <select id="enchantmentvalue-Legendary-select" [(ngModel)]="selectedEnchantments['legendary'].value" (ngModelChange)="onChangeEnchantment_ValueLegendary($event)">
+                  @for (listvalue of enchantmentLists['legendary'].values; track listvalue + '_legendary_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+            @if(selectedRarity >= 7){
+              <div class="enchantment-Unique-select unique-border">
+                <select id="enchantment-Unique-select" [(ngModel)]="selectedEnchantments['unique'].type" (ngModelChange)="onChangeEnchantment_TypeUnique($event)">
+                  @for (list of enchantmentLists['unique'].types; track list + '_unique') {
+                    <option [value]="list">{{ list }}</option>
+                  }
+                </select>
+                @if(selectedEnchantments['unique'].type){
+                <select id="enchantmentvalue-Unique-select" [(ngModel)]="selectedEnchantments['unique'].value" (ngModelChange)="onChangeEnchantment_ValueUnique($event)">
+                  @for (listvalue of enchantmentLists['unique'].values; track listvalue + '_unique_value') {
+                    <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
+                  } 
+                </select>
+                }
+              </div>
+            }
+   </div>
+        <div class="button-close">
+          <button (click)="showContextMenu = false">Close</button>
+        </div>
+   </div>
+      }
+
+
+</div>

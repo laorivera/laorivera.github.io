@@ -1,0 +1,188 @@
+<!-- Equipment Boxes -->
+<div class="equipment-boxes">
+  
+  <head-box 
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Helmet('itemhelmet', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_helmet', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_helmet', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_helmettype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_helmetvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_helmettype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_helmetvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_helmettype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_helmetvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_helmettype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_helmetvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_helmettype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_helmetvalue5', $event)"
+  > </head-box>
+
+  <chest-box 
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Chest('itemchest', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_chest', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_chest', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_chesttype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_chestvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_chesttype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_chestvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_chesttype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_chestvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_chesttype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_chestvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_chesttype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_chestvalue5', $event)"
+  > </chest-box>
+
+  <gloves-box 
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Gloves('itemgloves', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_gloves', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_gloves', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_glovestype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_glovesvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_glovestype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_glovesvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_glovestype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_glovesvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_glovestype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_glovesvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_glovestype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_glovesvalue5', $event)"
+    > </gloves-box>
+
+  <pants-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Pants('itempants', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_pants', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_pants', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_pantstype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_pantsvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_pantstype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_pantsvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_pantstype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_pantsvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_pantstype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_pantsvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_pantstype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_pantsvalue5', $event)"
+  > </pants-box>
+
+  <boots-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Boots('itemboots', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_boots', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_boots', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_bootstype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_bootsvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_bootstype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_bootsvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_bootstype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_bootsvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_bootstype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_bootsvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_bootstype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_bootsvalue5', $event)"
+  > </boots-box>
+
+  <cloak-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Cloak('itemcloak', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_cloak', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_cloak', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_cloaktype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_cloakvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_cloaktype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_cloakvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_cloaktype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_cloakvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_cloaktype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_cloakvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_cloaktype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_cloakvalue5', $event)"
+  > </cloak-box>
+
+  <necklace-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Necklace('itemnecklace', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_necklace', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_necklacetype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_necklacevalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_necklacetype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_necklacevalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_necklacetype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_necklacevalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_necklacetype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_necklacevalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_necklacetype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_necklacevalue5', $event)"
+  > </necklace-box>
+
+  <ring-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_Ring('itemring', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_ring', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_ringtype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_ringvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_ringtype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_ringvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_ringtype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_ringvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_ringtype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_ringvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_ringtype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_ringvalue5', $event)"
+  > </ring-box>
+
+  <ring-box-two
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_RingTwo('itemringtwo', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_ringtwo', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_ringtwotype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_ringtwovalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_ringtwotype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_ringtwovalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_ringtwotype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_ringtwovalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_ringtwotype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_ringtwovalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_ringtwotype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_ringtwovalue5', $event)"
+  > </ring-box-two>
+
+  <primary-weapon-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_PrimaryWeapon('itempwo', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_pwo', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_pwo', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_pwotype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_pwovalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_pwotype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_pwovalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_pwotype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_pwovalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_pwotype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_pwovalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_pwotype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_pwovalue5', $event)"
+  > </primary-weapon-box>
+
+  <secondary-weapon-box
+    [classSelection]="classSelection"
+    (itemSelected)="onItemSelected_SecondaryWeapon('itempwt', $event)"
+    (raritySelected)="onRaritySelected('rarityselect_pwt', $event)"
+    (ratingSelected)="onRatingSelected('armorrating_pwt', $event)"
+    (enchantmentSelected_TypeUncommon)="onEnchantmentSelected_TypeUncommon('enchantment_pwttype', $event)"
+    (enchantmentSelected_ValueUncommon)="onEnchantmentSelected_ValueUncommon('enchantment_pwtvalue', $event)"
+    (enchantmentSelected_TypeRare)="onEnchantmentSelected_TypeRare('enchantment_pwttype2', $event)"
+    (enchantmentSelected_ValueRare)="onEnchantmentSelected_ValueRare('enchantment_pwtvalue2', $event)"
+    (enchantmentSelected_TypeEpic)="onEnchantmentSelected_TypeEpic('enchantment_pwttype3', $event)"
+    (enchantmentSelected_ValueEpic)="onEnchantmentSelected_ValueEpic('enchantment_pwtvalue3', $event)"
+    (enchantmentSelected_TypeLegendary)="onEnchantmentSelected_TypeLegendary('enchantment_pwttype4', $event)"
+    (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_pwtvalue4', $event)"
+    (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_pwttype5', $event)"
+    (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_pwtvalue5', $event)"
+  > </secondary-weapon-box>   
+  
+</div>

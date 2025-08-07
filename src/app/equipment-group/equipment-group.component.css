@@ -1,0 +1,79 @@
+.equipment-boxes {
+  position: relative;
+  display: flex;
+  border: 0.5px solid #746526;
+  width: 420px;
+  height: 750px;
+  background-color: #22222200; /* Dark background for contrast */
+  border-radius: 6px;
+  margin : auto
+}
+
+head-box {
+  position: absolute;
+  top: 20px;
+  left: 170px;
+}
+
+necklace-box {
+  position: absolute;
+  top: 70px;
+  left: 280px;
+}
+
+chest-box {
+  position: absolute;
+  top: 140px;
+  left: 170px;
+}
+
+gloves-box {
+  position: absolute;
+  top: 460px;
+  left: 60px;
+}
+
+ring-box {
+  position: absolute;
+  top: 390px;
+  left: 110px;
+}
+
+ring-box-two {
+  position: absolute;
+  top: 390px;
+  left: 280px;
+}
+
+pants-box {
+  position: absolute;
+  top: 390px;
+  left: 170px;
+}
+
+boots-box {
+  position: absolute;
+  top: 610px;
+  left: 170px;
+}
+
+cloak-box {
+  position: absolute;
+  top: 240px;
+  left: 280px;
+  
+}
+
+primary-weapon-box {
+  position: absolute;
+  top: 110px;
+  left: 15px;
+}
+
+secondary-weapon-box {
+  position: absolute;
+  top: 110px;
+  left: 85px;
+}
+
+

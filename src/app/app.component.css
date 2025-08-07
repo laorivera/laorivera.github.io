@@ -1,0 +1,55 @@
+ .app-container {
+  display: flex;
+   min-height: calc(100vh - 25px);
+  overflow: hidden;
+  
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 1px;
+  transform: scale(0.9); /* Shrinks everything inside by 10% */
+  transform-origin: top center; /* Adjust scaling origin if needed */
+  width: 100%; /* Prevents layout shift from scaling */
+  }
+    .top-container {
+      overflow: visible;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start; /* Aligns items to the top */
+      justify-content: flex-start; /* Aligns items to the left */
+      gap: 5px;
+      padding: 5px;
+      width: 100%; /* Ensures full width */
+    }
+ 
+    .bottom-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 5rem;
+      padding: 1rem;
+       /* Dark background for bottom container */
+    }
+  
+.disclaimer {
+  text-align: center;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 0.5rem;
+  border-top: 0.5px solid #515153f2;
+  position: fixed;
+  bottom: 0;
+  height: 25px;
+  left: 130px;
+  width: calc(100% - 130px);
+  background: #000000
+}
+
+.version {
+  float: right;
+}
