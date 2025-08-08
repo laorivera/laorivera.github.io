@@ -1,4 +1,5 @@
 export const environment = {
-  production: false,
-  apiBaseUrl: 'https://52.67.71.173:443'
+  production: true,
+  apiBaseUrl: 'https://52.67.71.173:443',
+  bypassSslCertificate: true,
 }; 
