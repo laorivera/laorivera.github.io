@@ -1,0 +1,492 @@
+
+/* General styles for the equipment box */
+/* hover display 
+.equipment-box:hover .item-tooltip {
+  display: grid;
+}
+
+.item-tooltip {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 10px;
+  width: 200px;
+  z-index: 1000;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.item-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%) rotate(-45deg);
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #444;
+}
+
+.item-tooltip .item-name {
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #444;
+}
+
+.item-tooltip .item-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.item-tooltip .stat-label {
+  color: #aaa;
+  text-align: right;
+}
+
+.item-tooltip .stat-value {
+  color: white;
+  text-align: left;
+}
+
+.item-tooltip .item-description {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid #444;
+  font-style: italic;
+  color: #ddd;
+}
+*/
+
+  .modal-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(19, 18, 19);
+    border: 1px solid #7e7d7d;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    padding: 20px;
+  }
+  
+  .item-data {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+  }
+  
+  .item-data p {
+    margin: 8px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+  
+  .item-data p:last-child {
+    border-bottom: none;
+  }
+  
+  .rarity-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-bottom: 1px solid #7e7d7d;
+  }
+  
+  .rarity-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 20%;
+    border: 2px solid #7e7d7d;
+    background: rgb(19, 18, 19);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+  
+  .rarity-button:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Rarity 0 - Unselected */
+  .rarity-button:nth-child(1) {
+    border-color: #473737;
+    color: #473737;
+  }
+  
+  .rarity-button:nth-child(1):hover,
+  .rarity-button:nth-child(1).active {
+    background-color: #473737;
+    color: white;
+  }
+  
+  /* Rarity 1 - Poor */
+  .rarity-button:nth-child(2) {
+    border-color: #f3eeee;
+    color: #666;
+  }
+  
+  .rarity-button:nth-child(2):hover,
+  .rarity-button:nth-child(2).active {
+    background-color: #f3eeee;
+    color: #333;
+  }
+  
+  /* Rarity 2 - Common */
+  .rarity-button:nth-child(3) {
+    border-color: #90ee90;
+    color: #2e7d32;
+  }
+  
+  .rarity-button:nth-child(3):hover,
+  .rarity-button:nth-child(3).active {
+    background-color: #90ee90;
+    color: #1b5e20;
+  }
+  
+  /* Rarity 3 - Uncommon */
+  .rarity-button:nth-child(4) {
+    border-color: #87ceeb;
+    color: #0277bd;
+  }
+  
+  .rarity-button:nth-child(4):hover,
+  .rarity-button:nth-child(4).active {
+    background-color: #87ceeb;
+    color: #01579b;
+  }
+  
+  /* Rarity 4 - Rare */
+  .rarity-button:nth-child(5) {
+    border-color: #9370db;
+    color: #6a1b9a;
+  }
+  
+  .rarity-button:nth-child(5):hover,
+  .rarity-button:nth-child(5).active {
+    background-color: #9370db;
+    color: #4a148c;
+  }
+  
+  /* Rarity 5 - Epic */
+  .rarity-button:nth-child(6) {
+    border-color: #ffa500;
+    color: #e0921df2;
+  }
+  
+  .rarity-button:nth-child(6):hover,
+  .rarity-button:nth-child(6).active {
+    background-color: #ffa500;
+    color: #bf360c;
+  }
+  
+  /* Rarity 6 - Legendary */
+  .rarity-button:nth-child(7) {
+    border-color: #e3b144;
+    color: #e4d693;
+  }
+  
+  .rarity-button:nth-child(7):hover,
+  .rarity-button:nth-child(7).active {
+    background-color: #e3b144;
+    color: #e4d693;
+  }
+  
+  /* Rarity 7 - Unique */
+  .rarity-button:nth-child(8) {
+    border-color: #ece7b4ec;
+    color: #b8860b;
+  }
+  
+  .rarity-button:nth-child(8):hover,
+  .rarity-button:nth-child(8).active {
+    background-color: #ece7b4ec;
+    color: #795548;
+  }
+  
+  .modal-content {
+    text-align: center;
+    
+  }
+  
+  .modal-image {
+    width: 120px;
+    height: 120px;
+    margin: 10px 0;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+  }
+  
+  .rarity-poor {
+    border: 2px solid #473737; /* grey */
+  }
+  
+  .rarity-common {
+    border: 2px solid #f3eeee; /* white */
+  }
+  
+  .rarity-uncommon {
+    border: 2px solid #90ee90; /* Light green */
+  }
+  
+  .rarity-rare {
+    border: 2px solid #87ceeb; /* Sky blue */
+  }
+  
+  .rarity-epic {
+    border: 2px solid #9370db; /* Medium purple */
+  }
+  
+  .rarity-legendary {
+    border: 2px solid #ffa500; /* Orange */
+  }
+  
+  .rarity-unique {
+    border: 2px solid #e4e0b5cb;
+  }
+  
+  
+  .modal-content h3 {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  /* Rarity 0 - Unselected */
+  .modal-content h3.rarity-0 {
+    border: 2px solid #ccc;
+    color: #666;
+  }
+  
+  /* Rarity 1 - Poor */
+  .modal-content h3.rarity-1 {
+    border: 2px solid #473737;
+    color: #473737;
+  }
+  
+  /* Rarity 2 - Common */
+  .modal-content h3.rarity-2 {
+    border: 2px solid #f3eeee;
+    color: #666;
+  }
+  
+  /* Rarity 3 - Uncommon */
+  .modal-content h3.rarity-3 {
+    border: 2px solid #90ee90;
+    color: #2e7d32;
+  }
+  
+  /* Rarity 4 - Rare */
+  .modal-content h3.rarity-4 {
+    border: 2px solid #87ceeb;
+    color: #0277bd;
+  }
+  
+  /* Rarity 5 - Epic */
+  .modal-content h3.rarity-5 {
+    border: 2px solid #9370db;
+    color: #6a1b9a;
+  }
+  
+  /* Rarity 6 - Legendary */
+  .modal-content h3.rarity-6 {
+    border: 2px solid #ffa500;
+    color: #e65100;
+  }
+  
+  /* Rarity 7 - Unique */
+  .modal-content h3.rarity-7 {
+    border: 2px solid #ece7b4ec;
+    color: #b8860b;
+  }
+  
+  /* Enchantment container styles */
+  .enchantment-Uncommon-select,
+  .enchantment-Rare-select,
+  .enchantment-Epic-select,
+  .enchantment-Legendary-select,
+  .enchantment-Unique-select {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    margin: 5px 0;
+  }
+  
+  .enchantmentvalue-Uncommmon-select,
+  .enchantmentvalue-Rare-select,
+  .enchantmentvalue-Epic-select,
+  .enchantmentvalue-Legendary-select,
+  .enchantmentvalue-Unique-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+  }
+  
+  /* Combine type and value selectors */
+  .enchantment-Uncommon-select,
+  .enchantment-Rare-select,
+  .enchantment-Epic-select,
+  .enchantment-Legendary-select,
+  .enchantment-Unique-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+  }
+  
+  .enchantment-Uncommon-select select,
+  .enchantment-Rare-select select,
+  .enchantment-Epic-select select,
+  .enchantment-Legendary-select select,
+  .enchantment-Unique-select select,
+  .enchantmentvalue-Uncommmon-select select,
+  .enchantmentvalue-Rare-select select,
+  .enchantmentvalue-Epic-select select,
+  .enchantmentvalue-Legendary-select select,
+  .enchantmentvalue-Unique-select select {
+    flex: 1;
+    padding: 5px;
+    border: solid #7e7d7d;;
+    border-radius: 3px;
+  }
+  
+  .enchantment-Uncommon-select label,
+  .enchantment-Rare-select label,
+  .enchantment-Epic-select label,
+  .enchantment-Legendary-select label,
+  .enchantment-Unique-select label,
+  .enchantmentvalue-Uncommmon-select label,
+  .enchantmentvalue-Rare-select label,
+  .enchantmentvalue-Epic-select label,
+  .enchantmentvalue-Legendary-select label,
+  .enchantmentvalue-Unique-select label {
+    min-width: 80px;
+    text-align: right;
+  }
+  
+  /* Rating section styles */
+  .rating-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #7e7d7d;;
+  }
+  
+  .rating-select label {
+    min-width: 80px;
+    text-align: right;
+  }
+  
+  .rating-select select {
+    width: 60px;
+    padding: 5px;
+    border: 1px  solid #7e7d7d;;
+    border-radius: 3px;
+    text-align: right;
+  }
+  
+  /* Add spacing between sections */
+  .modal-content > div:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  
+  /* Enchantment section spacing */
+  .enchantment-Uncommon-select,
+  .enchantment-Rare-select,
+  .enchantment-Epic-select,
+  .enchantment-Legendary-select,
+  .enchantment-Unique-select {
+    margin: 10px 0;
+    padding: 5px 0;
+  }
+  
+  /* Make all select elements in the modal have consistent styling */
+  .modal-content select {
+    padding: 5px;
+    border: 1px solid #7e7d7d;;
+    border-radius: 3px;
+  }
+  
+  /* Make all labels in the modal have consistent styling */
+  .modal-content label {
+    min-width: 80px;
+    text-align: right;
+  }
+  
+  .uncommon-border {
+    border: 2px solid #1a8f1a41;  
+  }
+  
+  .rare-border {
+    border: 2px solid #1a1a8f41;  
+  }
+  
+  .epic-border {
+    border: 2px solid #8f1a8f41; 
+  }
+  
+  .legendary-border {
+    border: 2px solid #ff8c0041;  
+  }
+  
+  .unique-border {
+    border: 2px solid #ffd90041;  
+  }
+  
+  .enchantment-Uncommon-select select,
+  .enchantment-Rare-select select,
+  .enchantment-Epic-select select,
+  .enchantment-Legendary-select select,
+  .enchantment-Unique-select select {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px  solid #7e7d7d;
+    background-color: rgba(108, 103, 103, 0);
+    color: white;
+  }
+
+.button-close button {
+  background-color: #2d2d2d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.modal-box #rating-select {
+  background-color: #2d2d2d;
+  color: white;
+  border: 1px solid #444;
+}

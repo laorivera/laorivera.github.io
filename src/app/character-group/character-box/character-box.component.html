@@ -1,5 +1,4 @@
 <div class="top-group">
-  <div class="character-box">
      <div class="character-selection">
       <label for="character-select">Choose a classr:</label>
         <select id="character-select" (change)="onChange($event)">
@@ -7,11 +6,13 @@
            <option [value]="$index">{{ list }}</option>
           }
         </select>
+        </div>
+  <div class="character-box">
         <div class="character-image">
           <img [src]="selectedCharacterImage" alt="Select a Class" class="character-image"/>
         </div>
      </div>
-  </div>
+  
   <div class="race-box">
     <div class="race-selection">
       <label for="race-select">Choose a race:</label>

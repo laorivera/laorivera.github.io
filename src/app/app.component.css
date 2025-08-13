@@ -11,15 +11,15 @@
   justify-content: center;
   gap: 1px;
   padding: 1px;
-  transform: scale(0.9); /* Shrinks everything inside by 10% */
-  transform-origin: top center; /* Adjust scaling origin if needed */
-  width: 100%; /* Prevents layout shift from scaling */
+  transform: scale(0.9); 
+  transform-origin: top center; 
+  width: 100%; 
   }
     .top-container {
       overflow: visible;
       display: flex;
       flex-direction: row;
-      align-items: flex-start; /* Aligns items to the top */
+      align-items: flex-start; 
       justify-content: flex-start; /* Aligns items to the left */
       gap: 5px;
       padding: 5px;
@@ -53,3 +53,59 @@
 .version {
   float: right;
 }
+
+.beta-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff5733; 
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 15px;
+  z-index: 1000; 
+}
+ 
+  .instructions {
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    z-index: 1000;
+    align-items: center;
+
+
+  }
+
+  .instructions h2 {
+    margin-bottom: 10px; 
+  }
+  
+
+ /*
+  .instructions p {
+    margin: 0;
+    line-height: 1.5; /
+  }
+  .instructions p:first-child {
+    font-weight: bold; 
+  }
+  .instructions p:last-child {
+    font-weight: bold; 
+  }
+  .instructions h2 {
+    margin-bottom: 10px; 
+  }
+
+  .instructions {
+    position: top;
+    width: 300px; 
+    max-height: 400px; 
+    overflow-y: auto; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: opacity 0.3s ease; 
+    opacity: 0.9; /
+  }
+  */
