@@ -10,6 +10,8 @@
   flex-direction: column;
 }
 
+
+
 .sidebar-header {
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #3a3645;
@@ -28,15 +30,15 @@
 
 .sidebar-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: horizontal;
   align-items: center;
-  padding: 0.8rem 0;
-  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  margin: 0.2rem 0;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
   color: #a5a1b2;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .sidebar-icon {
@@ -44,6 +46,7 @@
   height: 24px;
   margin-bottom: 0.3rem;
   filter: brightness(0.8);
+  margin-right: 0.5rem;
 }
 
 .sidebar-item:hover {

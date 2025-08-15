@@ -5,7 +5,7 @@
 
 .equipment-box {
     position: relative;
-    border: 2px solid #7e7d7d;
+    border: 2px solid #ccc;
     cursor: pointer;
     width: 100px;
     height: 130px;

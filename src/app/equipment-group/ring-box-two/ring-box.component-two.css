@@ -75,3 +75,74 @@
     border: 2px solid #e4e0b5cb;
   }
   
+   /* Rarity 2 - Common */
+  .rarity-button:nth-child(1) {
+    border-color: #90ee90;
+    color: #2e7d32;
+  }
+  
+  .rarity-button:nth-child(1):hover,
+  .rarity-button:nth-child(1).active {
+    background-color: #90ee90;
+    color: #1b5e20;
+  }
+  
+  /* Rarity 3 - Uncommon */
+  .rarity-button:nth-child(2) {
+    border-color: #87ceeb;
+    color: #0277bd;
+  }
+  
+  .rarity-button:nth-child(2):hover,
+  .rarity-button:nth-child(2).active {
+    background-color: #87ceeb;
+    color: #01579b;
+  }
+  
+  /* Rarity 4 - Rare */
+  .rarity-button:nth-child(3) {
+    border-color: #9370db;
+    color: #6a1b9a;
+  }
+  
+  .rarity-button:nth-child(3):hover,
+  .rarity-button:nth-child(3).active {
+    background-color: #9370db;
+    color: #4a148c;
+  }
+  
+  /* Rarity 5 - Epic */
+  .rarity-button:nth-child(4) {
+    border-color: #ffa500;
+    color: #e0921df2;
+  }
+  
+  .rarity-button:nth-child(4):hover,
+  .rarity-button:nth-child(4).active {
+    background-color: #ffa500;
+    color: #bf360c;
+  }
+  
+  /* Rarity 6 - Legendary */
+  .rarity-button:nth-child(5) {
+    border-color: #e3b144;
+    color: #e4d693;
+  }
+  
+  .rarity-button:nth-child(5):hover,
+  .rarity-button:nth-child(5).active {
+    background-color: #e3b144;
+    color: #e4d693;
+  }
+  
+  /* Rarity 7 - Unique */
+  .rarity-button:nth-child(6) {
+    border-color: #ece7b4ec;
+    color: #b8860b;
+  }
+  
+  .rarity-button:nth-child(6):hover,
+  .rarity-button:nth-child(6).active {
+    background-color: #ece7b4ec;
+    color: #795548;
+  }

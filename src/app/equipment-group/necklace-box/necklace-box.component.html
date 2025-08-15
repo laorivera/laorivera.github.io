@@ -33,44 +33,45 @@
       </div>
       <!-- additional item data -->
       <div class="item-data">
-        @if(selectedItemData?.itemdata?.headshotReduction){
-        <p>Headshot Reduction: {{selectedItemData?.itemdata?.headshotReduction}} % </p>
+
+
+        @if (selectedItemData?.itemdataacc?.truePhysicalDamage && selectedItemData?.itemdataacc?.truePhysicalDamage[selectedRarity]){
+          <p>True Physical Damage: {{selectedItemData?.itemdataacc?.truePhysicalDamage[selectedRarity]}} </p>
         }
-        @if(selectedItemData?.itemdata?.magicalResistance && selectedItemData?.itemdata?.magicalResistance[selectedRarity]){
-          <p>Magical Resistance: {{selectedItemData?.itemdata?.magicalResistance[selectedRarity][0]}} </p>
+       
+        @if(selectedItemData?.itemdataacc?.magicalResistance && selectedItemData?.itemdataacc?.magicalResistance[selectedRarity]){
+          <p>Magical Resistance: {{selectedItemData?.itemdataacc?.magicalResistance[selectedRarity][0]}} </p>
         }
-        @if(selectedItemData?.itemdata?.projectileReduction){
-          <p>Projectile Reduction: {{selectedItemData?.itemdata?.projectileReduction}} % </p>
-        }
-        @if(selectedItemData?.itemdata?.moveSpeed){
-          <p>Move Speed: {{selectedItemData?.itemdata?.moveSpeed["1"] }} % </p>
-        }
-        @if(selectedItemData?.itemdata?.armorRatings && selectedItemData?.itemdata?.armorRatings[selectedRarity]){
-          <p>Armor Rating: {{selectedItemData?.itemdata?.armorRatings[selectedRarity]}} </p>
+        <!--
+        @if(selectedItemData?.itemdataacc?.moveSpeed){
+          <p>Move Speed: {{selectedItemData?.itemdataacc?.moveSpeed["1"] }} % </p>
+        }-->
+        @if(selectedItemData?.itemdataacc?.armorRatings && selectedItemData?.itemdataacc?.armorRatings[selectedRarity]){
+          <p>Armor Rating: {{selectedItemData?.itemdataacc?.armorRatings[selectedRarity]}} </p>
         }
 
-        @if(selectedItemData?.itemdata?.BaseAttribute?.strength && selectedItemData?.itemdata?.BaseAttribute?.strength[selectedRarity] == selectedRarity){
-          <p>Strength: {{selectedItemData?.itemdata?.BaseAttribute?.strength[selectedRarity] }} </p>
-        }
-        @if(selectedItemData?.itemdata?.BaseAttribute?.vigor && selectedItemData?.itemdata?.BaseAttribute?.vigor[selectedRarity] == selectedRarity){
-          <p>Vigor: {{selectedItemData?.itemdata?.BaseAttribute?.vigor[selectedRarity] }} </p>
-        }
-        
-        @if(selectedItemData?.itemdata?.BaseAttribute?.dexterity && selectedItemData?.itemdata?.BaseAttribute?.dexterity[selectedRarity] == selectedRarity){
-          <p>Dexterity: {{selectedItemData?.itemdata?.BaseAttribute?.dexterity[selectedRarity] }} </p>
-        }
-        @if(selectedItemData?.itemdata?.BaseAttribute?.agility && selectedItemData?.itemdata?.BaseAttribute?.agility[selectedRarity] == selectedRarity){
-          <p>Agility: {{selectedItemData?.itemdata?.BaseAttribute?.agility[selectedRarity]}} </p>
-        }
-        @if(selectedItemData?.itemdata?.BaseAttribute?.will && selectedItemData?.itemdata?.BaseAttribute?.will[selectedRarity] == selectedRarity){
-          <p>Will: {{selectedItemData?.itemdata?.BaseAttribute?.will[selectedRarity]}} </p>
-        }
-        @if(selectedItemData?.itemdata?.BaseAttribute?.knowledge && selectedItemData?.itemdata?.BaseAttribute?.knowledge[selectedRarity] == selectedRarity){
-          <p>Knowledge: {{selectedItemData?.itemdata?.BaseAttribute?.knowledge[selectedRarity] }} </p>
-        }
-        @if(selectedItemData?.itemdata?.BaseAttribute?.resourcefulness && selectedItemData?.itemdata?.BaseAttribute?.resourcefulness[selectedRarity] == selectedRarity){
-          <p>Resourcefulness: {{selectedItemData?.itemdata?.BaseAttribute?.resourcefulness[selectedRarity] }} </p>
-        }
+         @if(selectedItemData?.itemdataacc?.BaseAttribute?.strength && selectedItemData?.itemdataacc?.BaseAttribute?.strength[selectedRarity] ){
+            <p>Strength: {{selectedItemData?.itemdataacc?.BaseAttribute?.strength[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.vigor && selectedItemData?.itemdataacc?.BaseAttribute?.vigor[selectedRarity] ){
+            <p>Vigor: {{selectedItemData?.itemdataacc?.BaseAttribute?.vigor[selectedRarity] }} </p>
+          }
+          
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.dexterity && selectedItemData?.itemdataacc?.BaseAttribute?.dexterity[selectedRarity] ){
+            <p>Dexterity: {{selectedItemData?.itemdataacc?.BaseAttribute?.dexterity[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.agility && selectedItemData?.itemdataacc?.BaseAttribute?.agility[selectedRarity] ){
+            <p>Agility: {{selectedItemData?.itemdataacc?.BaseAttribute?.agility[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.will && selectedItemData?.itemdataacc?.BaseAttribute?.will[selectedRarity] ){
+            <p>Will: {{selectedItemData?.itemdataacc?.BaseAttribute?.will[selectedRarity]}} </p>
+          }
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.knowledge && selectedItemData?.itemdataacc?.BaseAttribute?.knowledge[selectedRarity] ){
+            <p>Knowledge: {{selectedItemData?.itemdataacc?.BaseAttribute?.knowledge[selectedRarity] }} </p>
+          }
+          @if(selectedItemData?.itemdataacc?.BaseAttribute?.resourcefulness && selectedItemData?.itemdataacc?.BaseAttribute?.resourcefulness[selectedRarity] ){
+            <p>Resourcefulness: {{selectedItemData?.itemdataacc?.BaseAttribute?.resourcefulness[selectedRarity] }} </p>
+          }
        <!-- <p>Flavor Text: {{selectedItemData?.itemdata?.flavorText}} </p> -->
       </div>
 

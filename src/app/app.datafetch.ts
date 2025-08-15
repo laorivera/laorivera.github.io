@@ -40,6 +40,8 @@ export interface ComputedStats {
     BonusMagicalDamageReduction: number;
     BonusPhysicalPower: number;
     BonusMagicalPower: number;
+    TruePhysicalDamage: number;
+    TrueMagicalDamage: number;
   }
   
   export interface Stats {

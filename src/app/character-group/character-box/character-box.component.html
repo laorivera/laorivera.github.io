@@ -7,23 +7,41 @@
           }
         </select>
         </div>
-  <div class="character-box">
+      @if(selectedCharacterImage !== 'assets/0.png' && selectedCharacterImage !== '') { 
+      <div class="character-box">
         <div class="character-image">
           <img [src]="selectedCharacterImage" alt="Select a Class" class="character-image"/>
         </div>
-     </div>
+     </div>}
   
-  <div class="race-box">
     <div class="race-selection">
       <label for="race-select">Choose a race:</label>
       <select id="race-select" (change)="onChangeRace($event)">
         @for (list of characterRaces; track $index) {
         <option [value]="$index">{{ list }}</option>
         }
-      </select> 
+      </select>
+    </div>
+      @if(selectedRaceImage !== 'No selection' && selectedRaceImage !== '') {
       <div class="race-image">
         <img [src]="selectedRaceImage" alt="Select a Race" class="race-image" />
       </div>
+      }
+
+      <div class="perk-selection">
+      <label for="perk-select">Choose a perk:</label>
+      <!-- 
+      <select id="perk-select" (change)="onChangeRace($event)">
+        @for (list of characterRaces; track $index) {
+        <option [value]="$index">{{ list }}</option>
+        }
+      </select>
     </div>
-  </div>
+ 
+      @if(selectedRaceImage !== 'No selection' && selectedRaceImage !== '') {
+      <div class="race-image">
+        <img [src]="selectedRaceImage" alt="Select a Race" class="race-image" />
+      </div>
+      }
+      -->
 </div>
