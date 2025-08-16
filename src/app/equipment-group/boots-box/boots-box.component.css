@@ -46,3 +46,31 @@
     margin-right: 10px;
   }
   
+   .rarity-poor {
+    border: 2px solid #473737; /* grey */
+  }
+  
+  .rarity-common {
+    border: 2px solid #f3eeee; /* white */
+  }
+  
+  .rarity-uncommon {
+    border: 2px solid #90ee90; /* Light green */
+  }
+  
+  .rarity-rare {
+    border: 2px solid #87ceeb; /* Sky blue */
+  }
+  
+  .rarity-epic {
+    border: 2px solid #9370db; /* Medium purple */
+  }
+  
+  .rarity-legendary {
+    border: 2px solid #ffa500; /* Orange */
+  }
+  
+  .rarity-unique {
+    border: 2px solid #e4e0b5cb;
+  }
+  

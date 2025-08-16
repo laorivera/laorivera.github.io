@@ -1,22 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  // Simple navigation handler
-  navigateTo(destination: string) {
-    console.log(`Navigating to ${destination}`);
-    // Add your navigation logic here
-    // window.location.href = `/${destination}`;
-    // or use a service to handle navigation
+  isCollapsed = signal(false);
+  collapsedWidth = '64px';
+  expandedWidth = '200px';
+
+  navItems = [
+    { icon: 'assets/calculator.svg', label: 'Dashboard', route: 'calculator' },
+    { icon: 'assets/changelog.png', label: 'Change Log', route: 'about'},
+    { icon: 'assets/info.svg', label: 'Info', route: 'info' },
+     
+  ];
+
+  toggleSidebar() {
+    this.isCollapsed.update(current => !current);
   }
 
-  // Support button handler
-  openSupport() {
-    window.open('https://support.yoursite.com', '_blank');
+  navigateTo(route: string) {
+    console.log('Navigating to:', route);
+    // Add your navigation logic here
   }
+
+  openSupport() {
+    window.open('https://support.example.com', '_blank');
+  }
+
 }

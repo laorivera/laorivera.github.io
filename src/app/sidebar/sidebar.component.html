@@ -1,28 +1,48 @@
-<div class="sidebar">
-  <div class="sidebar-header">
-    <h1>Dark and Data</h1>
-  </div>
+<div class="sidebar" [class.collapsed]="isCollapsed()" [style.width]="isCollapsed() ? collapsedWidth : expandedWidth">
   
-  <div class="sidebar-content">
-    <!-- Calculator Button -->
-     
-    <div class="sidebar-item" (click)="navigateTo('calculator')">
-      <img src="assets/calculator.svg" alt="Calculator" class="sidebar-icon">
-          <span>Calculator</span>
+    <div class="sidebar-header">
+      @if (!isCollapsed()) {
+        <h1>Dark & Data</h1>
+      }
+      @else {
+        <h1>D&D</h1>
+     }
+    </div>
+  
+    <div class="sidebar-content">
+      @for (item of navItems; track item.route) {
+        <div class="sidebar-item" (click)="navigateTo(item.route)">
+          <img [src]="item.icon" [alt]="item.label" class="sidebar-icon">
+          @if (!isCollapsed()) {
+            <span>{{ item.label }}</span>     
+          }
+        </div>
+      }
+    @if (!isCollapsed()) {
+       <div class="sidebar-instructions">
+          <h2>Instructions</h2>
+
+          <h4>Select Item -</h4>
+          <p>Left click on the equipment boxes to select items.<br><br></p>
+          <h4>Modify Item -</h4>
+          <p>Right click on the equipment boxes to modify items attributes.</p>
+        </div>
+      }
     </div>
     
-    <!-- About Button -->
-    <div class="sidebar-item" (click)="navigateTo('about')">
-      <img src="assets/changelog.png" alt="Change Log" class="sidebar-icon" >
-      <span>About</span>
-    </div>
-  </div>
 
-  <!-- Support Button at Bottom -->
-  <div class="sidebar-footer">
-    <div class="sidebar-item support-button" (click)="openSupport()">
-      <img src="assets/support.svg" alt="Support" class="sidebar-icon">
-      <span>Support</span>
+    <div class="sidebar-footer">
+      <div class="sidebar-item support-button" (click)="openSupport()">
+        <img src="assets/support.svg" alt="Support" class="sidebar-icon">
+        @if (!isCollapsed()) {
+         <span>Support</span>
+        }
+      </div>
     </div>
-  </div>
+  
+  <button class="sidebar-toggle" (click)="toggleSidebar()" [attr.aria-label]="isCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'">
+    {{ isCollapsed() ? '→' : '←' }}
+  </button>
+
+  
 </div>
