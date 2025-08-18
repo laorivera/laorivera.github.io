@@ -86,7 +86,6 @@ export class BootsBoxComponent {
     return this._classSelection;
   }
 
-
   //
   fetchList_Character(url: string) {
     this.http.get<{ list: ListItem[] }>(url).subscribe({

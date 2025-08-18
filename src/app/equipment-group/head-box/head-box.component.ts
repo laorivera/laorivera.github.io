@@ -47,7 +47,13 @@ export class HeadBoxComponent {
     legendary: { types: [], values: [] },
     unique: { types: [], values: [] }
   };
+    //array rarity 
+  rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
 
+  buttonsBox: string[] = [ "I", "II", "III", "IV", "V", "VI", "VII" ];
+
+
+  
 
   // send data to parents
   @Output() itemSelected = new EventEmitter<string>();
@@ -227,7 +233,7 @@ export class HeadBoxComponent {
         // Check if the response has the expected structure
         if (response && response.itemdata) {
           this.selectedItemData = response;
-          console.log('Selected item data:', this.selectedItemData);
+          //console.log('Selected item data:', this.selectedItemData);
         } else {
           console.error('Unexpected response structure:', response);
           this.selectedItemData = null;
@@ -239,7 +245,6 @@ export class HeadBoxComponent {
       },
     });
   }
-
 
   @HostListener('click', ['$event'])
   onLeftClick(event: MouseEvent) {
@@ -271,7 +276,7 @@ export class HeadBoxComponent {
     }
   }
 
-  onChangeRarity(event: number) {
+  onChangeRarity(event: number) { // Reset enchantment values and types // send quety to API // send event to parent // send event to css color box
     this.selectedEnchantments['uncommon'].value = 0
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['epic'].value = 0;
@@ -288,7 +293,7 @@ export class HeadBoxComponent {
 
     this.rarityBoxColor();
 
-    if (this.selectedItem?.name) {
+    if (this.selectedItem && this.selectedItem.name) {
       this.fetchList_Rating(this.apiConfig.getApiUrl(`/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`));
       this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem.name}`));
     }
@@ -454,10 +459,6 @@ export class HeadBoxComponent {
     // Emit the event
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);
   }
-
-  
-  //array rarity 
-  rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
 
 
   // Format values for display

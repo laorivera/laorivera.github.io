@@ -20,12 +20,8 @@
         <div class="rarity-buttons">
           @for (rarity of rarityHead; track $index) {
             @if ($index > 0) {
-              <button 
-                [class.active]="selectedRarity === $index"
-                (click)="onChangeRarity($index)"
-                class="rarity-button"
-              >
-                {{ $index === 1 ? 'I' : $index === 2 ? 'II' : $index === 3 ? 'III' : $index === 4 ? 'IV' : $index === 5 ? 'V' : $index === 6 ? 'VI' : 'VII' }}
+              <button class="rarity-button" [class.active]="selectedRarity === $index" (click)="onChangeRarity($index)">
+                  <span>{{ buttonsBox[$index - 1]}}</span>
               </button>
             }
           }
