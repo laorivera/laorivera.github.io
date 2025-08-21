@@ -1,2 +1,3 @@
 # Dark&Data
-test
+npm install 
+ng serve
