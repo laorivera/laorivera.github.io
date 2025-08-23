@@ -1,3 +1,1 @@
-# Dark&Data
-npm install 
-ng serve
+https://laorivera.github.io/
