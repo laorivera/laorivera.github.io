@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-character-box',
-  standalone: true, 
-  imports: [CommonModule],
+  //standalone: true, 
+  imports: [],
   templateUrl: './character-box.component.html',
   styleUrl: './character-box.component.css'
 })
 
 export class CharacterBoxComponent {
     //selected character's image
-    selectedCharacterImage: string = '';
-    selectedRaceImage: string = '';
+  selectedCharacterImage: string = '';
+  selectedRaceImage: string = '';
 
-  @Output() characterSelected = new EventEmitter<number>(); 
+  @Output() characterSelected = new EventEmitter<string>(); 
   @Output() raceSelected = new EventEmitter<string>();
 
   // List of character classes
@@ -32,18 +30,17 @@ export class CharacterBoxComponent {
   onChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.selectRace(0); // Reset
-    this.selectCharacter(+target.value); // Convert string to number
-
+    this.selectCharacter(+target.value); 
   }
   onChangeRace(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectRace(+target.value); // Convert string to number
+    this.selectRace(+target.value); 
   }
-  // Method to toggle or change the selected character
+
   selectCharacter(index: number) {
-    console.log('Character selected:', index); // debug
-    this.selectedCharacterImage = `assets/${index}.png`;
-    this.characterSelected.emit(index);
+    //console.log('Character selected:', index); // debug
+    this.selectedCharacterImage = `assets/${this.characterClasses[index]}.png`;
+    this.characterSelected.emit(this.characterClasses[index]); // emit just the number (will change later)
   }
 
   selectRace(index: number) {

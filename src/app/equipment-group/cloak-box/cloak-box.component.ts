@@ -20,7 +20,7 @@ interface ListItem {
 })
 export class CloakBoxComponent{
   //store values
-  private _classSelection: number = 0;
+  private _classSelection: string = "";
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -75,14 +75,14 @@ export class CloakBoxComponent{
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
     this.fetchList_Character(this.apiConfig.getApiUrl(`/cloaklist/${this._classSelection}`));
     
   }
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 

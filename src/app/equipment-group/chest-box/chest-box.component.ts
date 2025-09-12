@@ -20,9 +20,12 @@ interface ListItem {
 })
 
 export class ChestBoxComponent {
+
+  
   //store values
-  private _classSelection: number = 0;
+  private _classSelection: string ="";
   showList = false;
+
 
   selectedItem: ListItem | null = null;
   selectedRarity: number = 0;
@@ -75,7 +78,7 @@ export class ChestBoxComponent {
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
@@ -83,7 +86,7 @@ export class ChestBoxComponent {
     
   }
 
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 
@@ -120,7 +123,8 @@ export class ChestBoxComponent {
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
-    this.fetchItemData_Armor(this.apiConfig.getApiUrl(`/itemdisplay/${item.name}`));
+    
+    this.fetchItemData_Armor(this.apiConfig.getApiUrl(`/itemdisplay/`));
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
@@ -227,6 +231,7 @@ export class ChestBoxComponent {
   fetchItemData_Armor(url: string) {
     console.log('Fetching item data from URL:', url);
     this.http.get<any>(url).subscribe({
+
       next: (response) => {
         console.log('Item data response:', response);
         // Check if the response has the expected structure

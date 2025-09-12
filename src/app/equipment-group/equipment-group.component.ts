@@ -36,6 +36,7 @@ import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-we
   styleUrl: './equipment-group.component.css'
 })
 
+
 export class BoxesGroupComponent {
    private doubleHandlist: string[] = [
       "Lute",
@@ -60,17 +61,17 @@ export class BoxesGroupComponent {
       "Spellbook",
       "Pavise",
     ]
-  private _classSelection: number = 0;
+  private _classSelection: string = "";
   private _raceSelection: string = '';
  //private doubleHanded: boolean = false;
-  
+  allclass: string[]= ["", "Fighter", "Barbarian", "Rogue", "Wizard", "Cleric", "Warlock", "Bard", "Ranger", "Soccerer"]
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     this.onCharacterSelected();
   }
   
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 
@@ -176,6 +177,8 @@ export class BoxesGroupComponent {
 
   onItemSelected_Helmet(slot: string, itemName: string) {
     console.log(slot)
+    console.log(itemName)
+    
     const slotType = slot.split('item')[1]; 
    
     if (this.selectedRarites[`rarityselect_${slotType}`]){
@@ -432,52 +435,123 @@ export class BoxesGroupComponent {
     this.calculateEquipment();
   }
 
+  private buildEquipmentPayload(): any {
+  const buildEnchant = (slotPrefix: string): any => ({
+    TypeU: this.selectedEnchant[`enchantment_${slotPrefix}type`] || '',
+    ValueU: this.selectedEnchantValue[`enchantment_${slotPrefix}value`]?.toString() || '0',
+    TypeR: this.selectedEnchant[`enchantment_${slotPrefix}type2`] || '',
+    ValueR: this.selectedEnchantValue[`enchantment_${slotPrefix}value2`]?.toString() || '0',
+    TypeE: this.selectedEnchant[`enchantment_${slotPrefix}type3`] || '',
+    ValueE: this.selectedEnchantValue[`enchantment_${slotPrefix}value3`]?.toString() || '0',
+    TypeL: this.selectedEnchant[`enchantment_${slotPrefix}type4`] || '',
+    ValueL: this.selectedEnchantValue[`enchantment_${slotPrefix}value4`]?.toString() || '0',
+    TypeQ: this.selectedEnchant[`enchantment_${slotPrefix}type5`] || '',
+    ValueQ: this.selectedEnchantValue[`enchantment_${slotPrefix}value5`]?.toString() || '0',
+    TypeA: '',
+    ValueA: '0'
+  });
+
+  return {
+    class: this._classSelection,
+    race: this._raceSelection,
+    itemSlot: {
+      head: {
+        name: this.selectedItems['itemhead'] || '',
+        rarity: this.selectedRarites['rarityselect_head'] || '0',
+        rating: this.selectedRatings['armorrating_head'] || '0',
+        enchant: buildEnchant('head')
+      },
+      chest: {
+        name: this.selectedItems['itemchest'] || '',
+        rarity: this.selectedRarites['rarityselect_chest'] || '0',
+        rating: this.selectedRatings['armorrating_chest'] || '0',
+        enchant: buildEnchant('chest')
+      },
+      hands: {
+        name: this.selectedItems['itemgloves'] || '',
+        rarity: this.selectedRarites['rarityselect_gloves'] || '0',
+        rating: this.selectedRatings['armorrating_gloves'] || '0',
+        enchant: buildEnchant('gloves')
+      },
+      pants: {
+        name: this.selectedItems['itempants'] || '',
+        rarity: this.selectedRarites['rarityselect_pants'] || '0',
+        rating: this.selectedRatings['armorrating_pants'] || '0',
+        enchant: buildEnchant('pants')
+      },
+      foot: {
+        name: this.selectedItems['itemboots'] || '',
+        rarity: this.selectedRarites['rarityselect_boots'] || '0',
+        rating: this.selectedRatings['armorrating_boots'] || '0',
+        enchant: buildEnchant('boots')
+      },
+      back: {
+        name: this.selectedItems['itemcloak'] || '',
+        rarity: this.selectedRarites['rarityselect_cloak'] || '0',
+        rating: this.selectedRatings['armorrating_cloak'] || '0',
+        enchant: buildEnchant('cloak')
+      },
+      necklace: {
+        name: this.selectedItems['itemnecklace'] || '',
+        rarity: this.selectedRarites['rarityselect_necklace'] || '0',
+        rating: '0', // Necklaces might not have ratings
+        enchant: buildEnchant('necklace')
+      },
+      ringOne: {
+        name: this.selectedItems['itemring'] || '',
+        rarity: this.selectedRarites['rarityselect_ring'] || '0',
+        rating: '0', // Rings might not have ratings
+        enchant: buildEnchant('ring')
+      },
+      ringTwo: {
+        name: this.selectedItems['itemringtwo'] || '',
+        rarity: this.selectedRarites['rarityselect_ringtwo'] || '0',
+        rating: '0', // Rings might not have ratings
+        enchant: buildEnchant('ringtwo')
+      },
+      weaponOne: {
+        name: this.selectedItems['itemprimaryweapon'] || '',
+        rarity: this.selectedRarites['rarityselect_primaryweapon'] || '0',
+        rating: this.selectedRatings['armorrating_primaryweapon'] || '0',
+        enchant: buildEnchant('primaryweapon')
+      },
+      weaponTwo: {
+        name: this.selectedItems['itemsecondaryweapon'] || '',
+        rarity: this.selectedRarites['rarityselect_secondaryweapon'] || '0',
+        rating: this.selectedRatings['armorrating_secondaryweapon'] || '0',
+        enchant: buildEnchant('secondaryweapon')
+      }
+    }
+  };
+}
+
 
   // API CALL TO CALCULATE EQUIPMENT
-  calculateEquipment() {
-    // Construct query string from selected items
-    const params = new URLSearchParams();
-  
-      for (const [slot, name] of Object.entries(this.selectedItems)) {
-        if (name) params.append( slot, name);
-        }
-      for (const [slot, rarity] of Object.entries(this.selectedRarites)) {
-        if (rarity) params.append(slot, rarity);
-      }
-      for (const [slot, rating] of Object.entries(this.selectedRatings)) {
-        if (rating) params.append( slot, rating);
-      }
-      for (const [slot, enchantment] of Object.entries(this.selectedEnchant)) {
-        if (enchantment) params.append( slot, enchantment);
-      }
-      for (const [slot, enchantmentValue] of Object.entries(this.selectedEnchantValue)) {
-        if (enchantmentValue) params.append( slot, String(enchantmentValue));
-      } 
-
-      
-    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?race=${this._raceSelection}&${params.toString()}`);
-   
-    this.http.get<any>(url).subscribe({
+   calculateEquipment() {
+    const payload = this.buildEquipmentPayload();
+    
+    this.apiConfig.postData('/api/', payload).subscribe({
       next: (response) => {
-        this.calculationResultChanged.emit(response); // Emit the result to the parent
+        this.calculationResultChanged.emit(response);
       },
       error: (err) => {
         console.error('Error calculating equipment:', err);
-        this.calculationResultChanged.emit(null); // Emit null in case of error
+        this.calculationResultChanged.emit(null);
       },
     });
   }
+
   // API call to calculate character
   calculateCharacter() {
-    const url = this.apiConfig.getApiUrl(`/charbuilder/${this._classSelection}`);
+     const payload = this.buildEquipmentPayload();
     
-    this.http.get<any>(url).subscribe({
+    this.apiConfig.postData('/api/', payload).subscribe({
       next: (response) => {
-        this.calculationResultChanged.emit(response); // Emit the result to the parent
+        this.calculationResultChanged.emit(response);
       },
       error: (err) => {
         console.error('Error calculating equipment:', err);
-        this.calculationResultChanged.emit(null); // Emit null in case of error
+        this.calculationResultChanged.emit(null);
       },
     });
   }

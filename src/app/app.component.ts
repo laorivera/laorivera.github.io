@@ -7,6 +7,7 @@ import { GraphComponent } from "./graph/graph.component"
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -18,12 +19,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 export class AppComponent {
   calculationResult: any = null; // Store the calculation result
   calculationResultWeapon: any = null; // Store the weapon calculation result
-  classSelection: number = 0; // Store the selected class
-  raceSelection: string = ""; // Store
+  classSelection: string = ""; // Store the selected class
+  raceSelection: string = ""; // Store race
 
   
-
-  onClassSelected(classId: number) {
+  onClassSelected(classId: string) {
     this.classSelection = classId;
   }
 

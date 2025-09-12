@@ -20,7 +20,7 @@ interface ListItem {
 })
 export class NecklaceBoxComponent {
   //store values
-  private _classSelection: number = 0;
+  private _classSelection: string = "";
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -74,7 +74,7 @@ export class NecklaceBoxComponent {
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
@@ -82,7 +82,7 @@ export class NecklaceBoxComponent {
     
   }
 
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 

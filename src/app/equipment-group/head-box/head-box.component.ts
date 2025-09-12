@@ -20,7 +20,7 @@ interface ListItem {
 })
 export class HeadBoxComponent {
   //store values
-  private _classSelection: number = 0; //inizializado a 0 (no selection)
+  private _classSelection: string = ""; //inizializado a 0 (no selection)
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -52,7 +52,7 @@ export class HeadBoxComponent {
 
   buttonsBox: string[] = [ "I", "II", "III", "IV", "V", "VI", "VII" ];
 
-
+  allclass: string[]= ["", "Fighter", "Barbarian", "Rogue", "Wizard", "Cleric", "Warlock", "Bard", "Ranger", "Soccerer"]
   
 
   // send data to parents
@@ -81,19 +81,24 @@ export class HeadBoxComponent {
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Items(this.apiConfig.getApiUrl(`/helmetlist/${this._classSelection}`));
+    this.fetchList_Items(this._classSelection);
   }
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 
   //
-  fetchList_Items(url: string) {
-    this.http.get<{ list: ListItem[] }>(url).subscribe({
+  fetchList_Items(selclass: string) {
+
+    const payload = {
+    class: selclass, // Get class from parent
+    };
+
+    this.apiConfig.postData('/helmetlist/', payload).subscribe({
       next: (response) => {
         this.listItems = response.list;
         this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' }); // Add "No selection" option at the beginning for reset
@@ -121,7 +126,8 @@ export class HeadBoxComponent {
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
-    this.fetchItemData_Armor(this.apiConfig.getApiUrl(`/itemdisplay/${item.name}`));
+    this.fetchItemData_Armor();
+    console.log(item.name)
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
@@ -163,87 +169,29 @@ export class HeadBoxComponent {
     });
   }
 
-  fetchEnchantment_Value(url: string){
-    // Store current values before fetching
-    const currentUncommonValue = this.selectedEnchantments['uncommon'].value;
-    const currentRareValue = this.selectedEnchantments['rare'].value;
-    const currentEpicValue = this.selectedEnchantments['epic'].value;
-    const currentLegendaryValue = this.selectedEnchantments['legendary'].value;
-    const currentUniqueValue = this.selectedEnchantments['unique'].value;
-    
-    this.http.get<{[key: string]: number[]}>(url).subscribe({
-      next: (response) => {
-        // Update uncommon values
-        if (response['listvalue_uncommon']) {
-          this.enchantmentLists['uncommon'].values = response['listvalue_uncommon'];
-        }
-        
-        // Update rare values
-        if (response['listvalue_rare']) {
-          this.enchantmentLists['rare'].values = response['listvalue_rare'];
-        }
-        
-        // Update epic values
-        if (response['listvalue_epic']) {
-          this.enchantmentLists['epic'].values = response['listvalue_epic'];
-        }
-        
-        // Update legendary values
-        if (response['listvalue_legend']) {
-          this.enchantmentLists['legendary'].values = response['listvalue_legend'];
-        }
-        
-        // Update unique values
-        if (response['listvalue_unique']) {
-          this.enchantmentLists['unique'].values = response['listvalue_unique'];
-        }
-        
-        // Restore selected values if they exist in the new lists
-        if (currentUncommonValue && this.enchantmentLists['uncommon'].values.includes(currentUncommonValue)) {
-          this.selectedEnchantments['uncommon'].value = currentUncommonValue;
-        }
-        
-        if (currentRareValue && this.enchantmentLists['rare'].values.includes(currentRareValue)) {
-          this.selectedEnchantments['rare'].value = currentRareValue;
-        }
-        
-        if (currentEpicValue && this.enchantmentLists['epic'].values.includes(currentEpicValue)) {
-          this.selectedEnchantments['epic'].value = currentEpicValue;
-        }
-        
-        if (currentLegendaryValue && this.enchantmentLists['legendary'].values.includes(currentLegendaryValue)) {
-          this.selectedEnchantments['legendary'].value = currentLegendaryValue;
-        }
-        
-        if (currentUniqueValue && this.enchantmentLists['unique'].values.includes(currentUniqueValue)) {
-          this.selectedEnchantments['unique'].value = currentUniqueValue;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching enchantment list:', err);
-      },
-    });
-  }
 
-  fetchItemData_Armor(url: string) {
-    console.log('Fetching item data from URL:', url);
-    this.http.get<any>(url).subscribe({
-      next: (response) => {
-        console.log('Item data response:', response);
-        // Check if the response has the expected structure
-        if (response && response.itemdata) {
-          this.selectedItemData = response;
-          //console.log('Selected item data:', this.selectedItemData);
-        } else {
-          console.error('Unexpected response structure:', response);
-          this.selectedItemData = null;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching item display:', err);
-        this.selectedItemData = null;
-      },
-    });
+fetchItemData_Armor() {
+
+  const payload = {
+    class: "", // Get class from parent
+    itemSlot: {
+      head: { // Note: your Go struct uses "hands" not "gloves"
+        name: ""
+      }
+    }
+  };
+
+  console.log('Fetching rating with payload:', payload);
+  // 2. Use POST with the complete JSON structure
+  this.apiConfig.postData('/itemdisplay/', payload).subscribe({
+    next: (response: { list: number[] }) => {
+      this.selectedItemData = response;
+      console.log(response)
+    },
+    error: (err) => {
+      console.error('Error fetching rating list:', err);
+    },
+  });
   }
 
   @HostListener('click', ['$event'])
@@ -308,6 +256,71 @@ export class HeadBoxComponent {
 
     this.ratingSelected.emit(this.selectedRating);
   }
+
+    fetchEnchantment_Value(url: string){
+    // Store current values before fetching
+    const currentUncommonValue = this.selectedEnchantments['uncommon'].value;
+    const currentRareValue = this.selectedEnchantments['rare'].value;
+    const currentEpicValue = this.selectedEnchantments['epic'].value;
+    const currentLegendaryValue = this.selectedEnchantments['legendary'].value;
+    const currentUniqueValue = this.selectedEnchantments['unique'].value;
+    
+    this.http.get<{[key: string]: number[]}>(url).subscribe({
+      next: (response) => {
+        // Update uncommon values
+        if (response['listvalue_uncommon']) {
+          this.enchantmentLists['uncommon'].values = response['listvalue_uncommon'];
+        }
+        
+        // Update rare values
+        if (response['listvalue_rare']) {
+          this.enchantmentLists['rare'].values = response['listvalue_rare'];
+        }
+        
+        // Update epic values
+        if (response['listvalue_epic']) {
+          this.enchantmentLists['epic'].values = response['listvalue_epic'];
+        }
+        
+        // Update legendary values
+        if (response['listvalue_legend']) {
+          this.enchantmentLists['legendary'].values = response['listvalue_legend'];
+        }
+        
+        // Update unique values
+        if (response['listvalue_unique']) {
+          this.enchantmentLists['unique'].values = response['listvalue_unique'];
+        }
+        
+        // Restore selected values if they exist in the new lists
+        if (currentUncommonValue && this.enchantmentLists['uncommon'].values.includes(currentUncommonValue)) {
+          this.selectedEnchantments['uncommon'].value = currentUncommonValue;
+        }
+        
+        if (currentRareValue && this.enchantmentLists['rare'].values.includes(currentRareValue)) {
+          this.selectedEnchantments['rare'].value = currentRareValue;
+        }
+        
+        if (currentEpicValue && this.enchantmentLists['epic'].values.includes(currentEpicValue)) {
+          this.selectedEnchantments['epic'].value = currentEpicValue;
+        }
+        
+        if (currentLegendaryValue && this.enchantmentLists['legendary'].values.includes(currentLegendaryValue)) {
+          this.selectedEnchantments['legendary'].value = currentLegendaryValue;
+        }
+        
+        if (currentUniqueValue && this.enchantmentLists['unique'].values.includes(currentUniqueValue)) {
+          this.selectedEnchantments['unique'].value = currentUniqueValue;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching enchantment list:', err);
+      },
+    });
+  }
+
+
+
 
   onChangeEnchantment_TypeUncommon(event: string){
     const currentEnchantmentUncommon = this.selectedEnchantments['uncommon'].type;

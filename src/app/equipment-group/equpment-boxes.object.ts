@@ -1,11 +1,11 @@
 
-import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
+//import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+//import { CommonModule } from '@angular/common';
+//import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from './../services/api-config.service';
-import { BoxesGroupComponent } from "./equipment-group.component";
-import { inject } from '@angular/core';
+//import { BoxesGroupComponent } from "./equipment-group.component";
+//import { inject } from '@angular/core';
 
 interface ListItem {
   name: string;

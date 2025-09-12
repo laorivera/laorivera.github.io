@@ -20,7 +20,7 @@ interface ListItem {
 })
 export class RingBoxComponent {
   //store values
-  private _classSelection: number = 0;
+  private _classSelection: string = "";
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -75,7 +75,7 @@ export class RingBoxComponent {
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
@@ -83,7 +83,7 @@ export class RingBoxComponent {
   
   }
 
-  get classSelection(): number {
+  get classSelection(): string{
     return this._classSelection;
   }
 

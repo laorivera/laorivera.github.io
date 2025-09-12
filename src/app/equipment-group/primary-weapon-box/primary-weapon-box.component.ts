@@ -19,7 +19,7 @@ interface ListItem {
 })
 export class PrimaryWeaponBoxComponent {
 
-  private _classSelection: number = 0;
+  private _classSelection: string = "";
   showList = false;
 
   selectedItem: ListItem | null = null;
@@ -73,14 +73,14 @@ export class PrimaryWeaponBoxComponent {
  
   // toma characters
   @Input()
-  set classSelection(value: number) {
+  set classSelection(value: string) {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
     this.fetchList_Items(this.apiConfig.getApiUrl(`/pwolist/${this._classSelection}`));
     
   }
-  get classSelection(): number {
+  get classSelection(): string {
     return this._classSelection;
   }
 
