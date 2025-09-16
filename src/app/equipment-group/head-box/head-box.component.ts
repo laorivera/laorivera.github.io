@@ -147,7 +147,7 @@ export class HeadBoxComponent {
   this.apiConfig.postData('/helmetratinglist/', playload).subscribe({
     next: (response) => {
         this.listRating = response.list;
-        console.log(this.listRating);
+        //console.log(this.listRating);
         
         // If there's only one rating option, automatically select it
         if (this.listRating.length >= 1) {
@@ -173,11 +173,11 @@ fetchItemData_Armor(item: ListItem) {
     }
   };
 
-  console.log('Fetching rating with payload:', payload);
+  //console.log('Fetching rating with payload:', payload);
   // 2. Use POST with the complete JSON structure
   this.apiConfig.postData('/itemdisplay/', payload).subscribe({
     next: (response: any) => {
-      console.log(response)
+      //console.log(response)
       this.selectedItemData = response
       //his.outputItemData = response.itemdata
     },
@@ -292,20 +292,23 @@ fetchEnchantment_List(item: ListItem ) {
         rarity: this.selectedRarity.toString(),
         rating: "",
           enchant: {
-            typeu: "",
-            valueu: this.selectedEnchantments['uncommon'].value,
-            typer: "",
-            valuer: this.selectedEnchantments['rare'].value,
-            typee: "",
-            valuee: this.selectedEnchantments['epic'].value,
-            typel: "",
-            valuel: this.selectedEnchantments['legendary'].value,
-            typeq: "",
-            valueq: this.selectedEnchantments['unique'].value
+            typeu:  this.selectedEnchantments['uncommon'].type,
+            valueu: this.selectedEnchantments['uncommon'].value.toString(),
+            typer: this.selectedEnchantments['rare'].type,
+            valuer: this.selectedEnchantments['rare'].value.toString(),
+            typee: this.selectedEnchantments['epic'].type,
+            valuee: this.selectedEnchantments['epic'].value.toString(),
+            typel: this.selectedEnchantments['legendary'].type,
+            valuel: this.selectedEnchantments['legendary'].value.toString(),
+            typeq: this.selectedEnchantments['unique'].type,
+            valueq: this.selectedEnchantments['unique'].value.toString(),
           }
       }
     }
     };
+
+    //console.log(payload)
+
     // Store current values before fetching
     const currentUncommonValue = this.selectedEnchantments['uncommon'].value;
     const currentRareValue = this.selectedEnchantments['rare'].value;
@@ -315,11 +318,14 @@ fetchEnchantment_List(item: ListItem ) {
     
     this.apiConfig.postData('/enchantmentlisthelmet/', payload).subscribe({
       next: (response) => {
+
+          console.log(response)
+          //console.log(response['listvalue_uncommon'])
         // Update uncommon values
         if (response['listvalue_uncommon']) {
           this.enchantmentLists['uncommon'].values = response['listvalue_uncommon'];
         }
-        
+      
         // Update rare values
         if (response['listvalue_rare']) {
           this.enchantmentLists['rare'].values = response['listvalue_rare'];
