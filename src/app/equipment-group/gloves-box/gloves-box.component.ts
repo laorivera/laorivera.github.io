@@ -79,7 +79,7 @@ export class GlovesBoxComponent {
     this._classSelection = value;
     // Reset all selections when class changes
     this.resetSelection();
-    this.fetchList_Character(this.apiConfig.getApiUrl(`/gloveslist/${this._classSelection}`));
+    this.fetchList_Items(this._classSelection);
     
   }
 
@@ -87,17 +87,19 @@ export class GlovesBoxComponent {
     return this._classSelection;
   }
 
+ fetchList_Items(selclass: string) {
 
-  //
-  fetchList_Character(url: string) {
-    this.http.get<{ list: ListItem[] }>(url).subscribe({
+    const payload = {
+    class: selclass, // Get class from parent
+    };
+
+    this.apiConfig.postData('/gloveslist/', payload).subscribe({
       next: (response) => {
         this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' });
+        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' }); // Add "No selection" option at the beginning for reset
       },
-
       error: (err) => {
-        console.error('Error fetching gloves list:', err);
+        console.error('Error fetching head list:', err);
       },
 
     });

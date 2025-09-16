@@ -29,6 +29,7 @@ export class HeadBoxComponent {
   selectedItemData: any = null;
   listItems: ListItem[] = [];
   listRating: number[] = [];
+  outputItemData: any = null;
   showContextMenu = false;
   selectedRatingIndex: number = 0;
 
@@ -98,12 +99,12 @@ export class HeadBoxComponent {
     class: selclass, // Get class from parent
     };
 
-    this.apiConfig.postData('/helmetlist/', payload).subscribe({
-      next: (response) => {
-        this.listItems = response.list;
-        this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' }); // Add "No selection" option at the beginning for reset
+  this.apiConfig.postData('/helmetlist/', payload).subscribe({
+    next: (response) => {
+      this.listItems = response.list;
+      this.listItems.unshift({ image: 'assets/placeholderx.png', name: '' }); // Add "No selection" option at the beginning for reset
       },
-      error: (err) => {
+    error: (err) => {
         console.error('Error fetching head list:', err);
       },
 
@@ -126,15 +127,25 @@ export class HeadBoxComponent {
   selectItem(item: ListItem) {
     this.resetSelection();
     this.selectedItem = item;
-    this.fetchItemData_Armor();
+    this.fetchItemData_Armor(this.selectedItem);
     console.log(item.name)
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
 
-  fetchList_Rating(url: string) {
-    this.http.get<{ list: number[] }>(url).subscribe({
-      next: (response) => {
+  fetchList_Rating(item: ListItem) {
+
+  const playload = {
+    class: this._classSelection,
+      itemSlot: {
+        head: {
+          name: item.name,
+          rarity: this.selectedRarity.toString()
+        }
+    }
+  };
+  this.apiConfig.postData('/helmetratinglist/', playload).subscribe({
+    next: (response) => {
         this.listRating = response.list;
         console.log(this.listRating);
         
@@ -144,14 +155,53 @@ export class HeadBoxComponent {
           this.ratingSelected.emit(this.selectedRating);
         }
       },
-      error: (err) => {
+    error: (err) => {
         console.error('Error fetching head list:', err);
       },
-    });
+  });
+}
+
+
+fetchItemData_Armor(item: ListItem) {
+
+  const payload = {
+    class: this._classSelection,
+    itemSlot: {
+      head: { 
+        name: item.name
+      }
+    }
+  };
+
+  console.log('Fetching rating with payload:', payload);
+  // 2. Use POST with the complete JSON structure
+  this.apiConfig.postData('/itemdisplay/', payload).subscribe({
+    next: (response: any) => {
+      console.log(response)
+      this.selectedItemData = response
+      //his.outputItemData = response.itemdata
+    },
+    error: (err) => {
+      console.error('Error fetching rating list:', err);
+    },
+  });
   }
 
-  fetchEnchantment_List(url: string) {
-    this.http.get<{ [key: string]: string[] }>(url).subscribe({  // Remove `list` from type
+fetchEnchantment_List(item: ListItem ) {
+  const payload = {
+    class: this._classSelection,
+      itemSlot: {
+        head: {
+          name: item.name,
+          rarity: this.selectedRarity.toString()
+        }
+      }
+    }
+    //console.log(this._classSelection)
+    //console.log(item.name)
+    //console.log(this.selectedRarity.toString())
+    console.log(payload)
+    this.apiConfig.postData('/enchantmentlisthelmet/', payload).subscribe({
       next: (response) => { 
         
         // Add "No selection" option at the beginning of each list
@@ -161,7 +211,6 @@ export class HeadBoxComponent {
         this.enchantmentLists['legendary'].types = ['No selection', ...response['listname_legend']];
         this.enchantmentLists['unique'].types = ['No selection', ...response['listname_unique']];
         
-        
       },
       error: (err) => {
         console.error('Error fetching enchantment list:', err);
@@ -169,30 +218,6 @@ export class HeadBoxComponent {
     });
   }
 
-
-fetchItemData_Armor() {
-
-  const payload = {
-    class: "", // Get class from parent
-    itemSlot: {
-      head: { // Note: your Go struct uses "hands" not "gloves"
-        name: ""
-      }
-    }
-  };
-
-  console.log('Fetching rating with payload:', payload);
-  // 2. Use POST with the complete JSON structure
-  this.apiConfig.postData('/itemdisplay/', payload).subscribe({
-    next: (response: { list: number[] }) => {
-      this.selectedItemData = response;
-      console.log(response)
-    },
-    error: (err) => {
-      console.error('Error fetching rating list:', err);
-    },
-  });
-  }
 
   @HostListener('click', ['$event'])
   onLeftClick(event: MouseEvent) {
@@ -242,8 +267,8 @@ fetchItemData_Armor() {
     this.rarityBoxColor();
 
     if (this.selectedItem && this.selectedItem.name) {
-      this.fetchList_Rating(this.apiConfig.getApiUrl(`/helmetratinglist/?itemhelmet=${this.selectedItem.name}&rarityselect_helmet=${this.selectedRarity}`));
-      this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem.name}`));
+      this.fetchList_Rating(this.selectedItem);
+      this.fetchEnchantment_List(this.selectedItem);
     }
     this.raritySelected.emit(this.selectedRarity);
     //console.log(this.selectedRarity);
@@ -253,11 +278,34 @@ fetchItemData_Armor() {
     const index = +event;
     this.selectedRating = this.listRating[index];
     //console.log(this.selectedRating);
-
     this.ratingSelected.emit(this.selectedRating);
   }
 
-    fetchEnchantment_Value(url: string){
+  fetchEnchantment_Value(item: ListItem){
+  const payload = {
+    class: this._classSelection,
+    race: "",
+    itemSlot: {
+      head: {
+        id: "",
+        name: item.name,
+        rarity: this.selectedRarity.toString(),
+        rating: "",
+          enchant: {
+            typeu: "",
+            valueu: this.selectedEnchantments['uncommon'].value,
+            typer: "",
+            valuer: this.selectedEnchantments['rare'].value,
+            typee: "",
+            valuee: this.selectedEnchantments['epic'].value,
+            typel: "",
+            valuel: this.selectedEnchantments['legendary'].value,
+            typeq: "",
+            valueq: this.selectedEnchantments['unique'].value
+          }
+      }
+    }
+    };
     // Store current values before fetching
     const currentUncommonValue = this.selectedEnchantments['uncommon'].value;
     const currentRareValue = this.selectedEnchantments['rare'].value;
@@ -265,7 +313,7 @@ fetchItemData_Armor() {
     const currentLegendaryValue = this.selectedEnchantments['legendary'].value;
     const currentUniqueValue = this.selectedEnchantments['unique'].value;
     
-    this.http.get<{[key: string]: number[]}>(url).subscribe({
+    this.apiConfig.postData('/enchantmentlisthelmet/', payload).subscribe({
       next: (response) => {
         // Update uncommon values
         if (response['listvalue_uncommon']) {
@@ -319,9 +367,6 @@ fetchItemData_Armor() {
     });
   }
 
-
-
-
   onChangeEnchantment_TypeUncommon(event: string){
     const currentEnchantmentUncommon = this.selectedEnchantments['uncommon'].type;
     const currentEnchantmentRare = this.selectedEnchantments['rare'].type;
@@ -332,8 +377,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['uncommon'].value = 0;
     this.selectedEnchantments['uncommon'].type = event;
   
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentEnchantmentUncommon}&enchantment_helmettype2=${currentEnchantmentRare}&enchantment_helmettype3=${currentEnchantmentEpic}&enchantment_helmettype4=${currentEnchantmentLegendary}&enchantment_helmettype5=${currentEnchantmentUnique}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${currentEnchantmentUncommon}`));
+    this.fetchEnchantment_List(this.selectedItemData)
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     this.enchantmentSelected_TypeUncommon.emit(this.selectedEnchantments['uncommon'].type);
   }
 
@@ -348,7 +393,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['uncommon'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    this.selectedItem
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
     
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.selectedEnchantments['uncommon'].value);
@@ -365,8 +411,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['rare'].value = 0;
     this.selectedEnchantments['rare'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype2=${this.selectedEnchantments['rare'].type}`));
+   // this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
 
     this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
    
@@ -382,7 +428,7 @@ fetchItemData_Armor() {
     this.selectedEnchantments['rare'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     
     // Emit the event
     this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
@@ -398,8 +444,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['epic'].value = 0;
     this.selectedEnchantments['epic'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}`));
+   // this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
   }
   
@@ -412,8 +458,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['epic'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
-    
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
+  
     // Emit the event
     this.enchantmentSelected_ValueEpic.emit(this.selectedEnchantments['epic'].value);
   }
@@ -428,8 +474,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['legendary'].value = 0;
     this.selectedEnchantments['legendary'].type = event;
     
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}`));
+   // this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
   }
   
@@ -441,8 +487,7 @@ fetchItemData_Armor() {
     this.selectedEnchantments['legendary'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}&enchantment_helmettype5=${currentUniqueType}`));
-    
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     // Emit the event
     this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
   }
@@ -457,8 +502,8 @@ fetchItemData_Armor() {
     this.selectedEnchantments['unique'].value = 0;
     this.selectedEnchantments['unique'].type = event;
 
-    this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${this.selectedEnchantments['unique'].type}`));
+   // this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?itemhelmet=${this.selectedItem?.name}&enchantment_helmettype=${currentUncommonType}&enchantment_helmettype2=${currentRareType}&enchantment_helmettype3=${currentEpicType}&enchantment_helmettype4=${currentLegendaryType}&enchantment_helmettype5=${currentUniqueType}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
   }
   
@@ -467,7 +512,7 @@ fetchItemData_Armor() {
     this.selectedEnchantments['unique'].value = event;
     
     // Re-fetch enchantment values with all current enchantment types
-    this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlisthelmet/?enchantment_helmettype=${this.selectedEnchantments['uncommon'].type}&enchantment_helmettype2=${this.selectedEnchantments['rare'].type}&enchantment_helmettype3=${this.selectedEnchantments['epic'].type}&enchantment_helmettype4=${this.selectedEnchantments['legendary'].type}&enchantment_helmettype5=${this.selectedEnchantments['unique'].type}`));
+    if(this.selectedItem){this.fetchEnchantment_Value(this.selectedItem)}
     
     // Emit the event
     this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);
