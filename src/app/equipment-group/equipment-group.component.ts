@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Output, EventEmitter, ViewChildren, QueryList, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HeadBoxComponent } from './head-box/head-box.component';
+//import { HeadBoxObject } from './head-box/head-box.component';
 import { ChestBoxComponent } from './chest-box/chest-box.component';
 import { GlovesBoxComponent } from './gloves-box/gloves-box.component';
 import { PantsBoxComponent } from './pants-box/pants-box.component';
@@ -13,6 +13,7 @@ import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
 import { ApiConfigService } from '../services/api-config.service';
 import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
 import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
+import { HeadBoxObject } from './head-box/head-box.object';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-we
   standalone: true,
   imports: [
     CommonModule,
-    HeadBoxComponent,
+    HeadBoxObject,
     ChestBoxComponent,
     GlovesBoxComponent,
     PantsBoxComponent,
@@ -88,7 +89,7 @@ export class BoxesGroupComponent {
   @Output() calculationResultChanged = new EventEmitter<any>(); 
   
 
-  @ViewChildren(HeadBoxComponent) headBoxes!: QueryList<HeadBoxComponent>;
+  @ViewChildren(HeadBoxObject) headBoxes!: QueryList<HeadBoxObject>;
   @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
   @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
   @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
@@ -494,19 +495,19 @@ export class BoxesGroupComponent {
       necklace: {
         name: this.selectedItems['necklace'] || '',
         rarity: this.selectedRarites['rarityselect_necklace'] || '0',
-        rating: '0', // Necklaces might not have ratings
+        rating: '0', 
         enchant: buildEnchant('necklace')
       },
       ringOne: {
         name: this.selectedItems['ring'] || '',
         rarity: this.selectedRarites['rarityselect_ring'] || '0',
-        rating: '0', // Rings might not have ratings
+        rating: '0', 
         enchant: buildEnchant('ring')
       },
       ringTwo: {
         name: this.selectedItems['ringtwo'] || '',
         rarity: this.selectedRarites['rarityselect_ringtwo'] || '0',
-        rating: '0', // Rings might not have ratings
+        rating: '0', 
         enchant: buildEnchant('ringtwo')
       },
       weaponOne: {

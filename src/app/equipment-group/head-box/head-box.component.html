@@ -1,13 +1,13 @@
 <div class="equipment-box head-box" [ngClass]="rarityBoxColor()">
     <img
-      [src]="selectedItem?.image || 'assets/placeholderx.png'"
+      [src]="Sm.getselectedItem()?.image || 'assets/placeholderx.png'"
       alt="Head Item"
       class="equipment-image"
     />
     @if (showList) {
       <div class="equipment-list"  >
-        @for (item of listItems; track item.name) {
-          <div (click)="selectItem(item)" class="equipment-item">
+        @for (item of Sm.getselectedItemList(); track item.name) {
+          <div (click)="Sm.setSelectedItem(item)" class="equipment-item">
             <img [src]="item.image" [alt]="item.name" />
             <span>{{ item.name }}</span>
           </div>
@@ -15,99 +15,103 @@
       </div>
     }
 
-    @if (showContextMenu && selectedItem) {
+    @if (showContextMenu && Sm.getselectedItem()) {
       <div class="modal-box">
         <div class="rarity-buttons">
-          @for (rarity of rarityHead; track $index) {
-            @if ($index > 0) {
-              <button class="rarity-button" [class.active]="selectedRarity === $index" (click)="onChangeRarity($index)">
-                  <span>{{ buttonsBox[$index - 1]}}</span>
-              </button>
-            }
+        @for (rarity of Sm.getrarities(); track $index) {
+          @if ($index > 0) {
+            <button 
+              [class.active]="Sm.getselectedRarity() === $index"
+              (click)="onChangeRarity($index)"
+              class="rarity-button"
+            >
+              {{ $index === 1 ? 'I' : $index === 2 ? 'II' : $index === 3 ? 'III' : $index === 4 ? 'IV' : $index === 5 ? 'V' : $index === 6 ? 'VI' : 'VII' }}
+            </button>
           }
-        </div>
-        <!-- additional item data -->
+        }
+      </div>
+        
         <div class="item-data">
-          @if(selectedItemData?.itemdata[0]?.headshotReduction){
-            <p>Headshot Reduction: {{selectedItemData?.itemdata[0]?.headshotReduction}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.headshotReduction){
+            <p>Headshot Reduction: {{Sm.getselectedItemDisplay()?.itemdata[0]?.headshotReduction}} % </p>
           }
-          @if(selectedItemData?.itemdata[0]?.projectileReduction){
-            <p>Projectile Reduction: {{selectedItemData?.itemdata[0]?.projectileReduction}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.projectileReduction){
+            <p>Projectile Reduction: {{Sm.getselectedItemDisplay()?.itemdata[0]?.projectileReduction}} % </p>
           }
-          @if(selectedItemData?.itemdata[0]?.magicalResistance){
-            <p>Magical Resistance: {{selectedItemData?.itemdata[0]?.magicalResistance[selectedRarity][0]}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.magicalResistance){
+            <p>Magical Resistance: {{Sm.getselectedItemDisplay()?.itemdata[0]?.magicalResistance[Sm.getselectedRarity()][0]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.magicalHealing){
-            <p>Magical Healing: {{selectedItemData?.itemdata[0]?.magicalHealing[selectedRarity]}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.magicalHealing){
+            <p>Magical Healing: {{Sm.getselectedItemDisplay()?.itemdata[0]?.magicalHealing[Sm.getselectedRarity()]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.armorPenetration){
-            <p>Armor Penetration: {{selectedItemData?.itemdata[0]?.armorPenetration}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.armorPenetration){
+            <p>Armor Penetration: {{Sm.getselectedItemDisplay()?.itemdata[0]?.armorPenetration}} % </p>
           }
-          @if(selectedItemData?.itemdata[0]?.magicPenetration){
-            <p>Magical Armor Penetration: {{selectedItemData?.itemdata[0]?.magicPenetration}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.magicPenetration){
+            <p>Magical Armor Penetration: {{Sm.getselectedItemDisplay()?.itemdata[0]?.magicPenetration}} % </p>
           }
-          @if(selectedItemData?.itemdata[0].luck){
-            <p>Luck: {{selectedItemData?.itemdata[0].luck}}  </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0].luck){
+            <p>Luck: {{Sm.getselectedItemDisplay()?.itemdata[0].luck}}  </p>
           }
-          @if(selectedItemData?.itemdata[0].magicalDamageReduction){
-            <p>Magical Damage Reduction: {{selectedItemData?.itemdata[0].magicalDamageReduction}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0].magicalDamageReduction){
+            <p>Magical Damage Reduction: {{Sm.getselectedItemDisplay()?.itemdata[0].magicalDamageReduction}} % </p>
           }
-          @if(selectedItemData?.itemdata[0].physicalDamageReduction){
-            <p>Physical Damage Reduction: {{selectedItemData?.itemdata[0].physicalDamageReduction}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0].physicalDamageReduction){
+            <p>Physical Damage Reduction: {{Sm.getselectedItemDisplay()?.itemdata[0].physicalDamageReduction}} % </p>
           }
-          @if(selectedItemData?.itemdata[0]?.magicalPower ){
-            <p>Magical Power: {{selectedItemData?.itemdata[0]?.magicalPower[selectedRarity]}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.magicalPower ){
+            <p>Magical Power: {{Sm.getselectedItemDisplay()?.itemdata[0]?.magicalPower[Sm.getselectedRarity()]}} % </p>
           }
-          @if(selectedItemData?.itemdata[0]?.actionSpeed ){
-            <p>Action Speed: {{selectedItemData?.itemdata[0]?.actionSpeed[selectedRarity]}} % </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.actionSpeed ){
+            <p>Action Speed: {{Sm.getselectedItemDisplay()?.itemdata[0]?.actionSpeed[Sm.getselectedRarity()]}} % </p>
           }      
-          @if(selectedItemData?.itemdata[0]?.moveSpeedBonus){
-            <p>Move Speed Bonus: {{selectedItemData?.itemdata[0]?.moveSpeedBonus}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeedBonus){
+            <p>Move Speed Bonus: {{Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeedBonus}} </p>
           }
-      <!-------------------------------------------------- ------------------------------------------------------>
-          @if(selectedItemData?.itemdata[0]?.moveSpeed){
-            <p>Move Speed: {{selectedItemData?.itemdata[0]?.moveSpeed["1"]}} </p>
+      
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeed){
+            <p>Move Speed: {{Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeed["1"]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.armorRatings ){
-            <p>Armor Rating: {{selectedItemData?.itemdata[0]?.armorRatings[selectedRarity]}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.armorRatings ){
+            <p>Armor Rating: {{Sm.getselectedItemDisplay()?.itemdata[0]?.armorRatings[Sm.getselectedRarity()]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.strength ){
-            <p>Strength: {{selectedItemData?.itemdata[0]?.BaseAttribute?.strength[selectedRarity] }} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.strength ){
+            <p>Strength: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.strength[Sm.getselectedRarity()] }} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.vigor ){
-            <p>Vigor: {{selectedItemData?.itemdata[0]?.BaseAttribute?.vigor[selectedRarity] }} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.vigor ){
+            <p>Vigor: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.vigor[Sm.getselectedRarity()] }} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.dexterity){
-            <p>Dexterity: {{selectedItemData?.itemdata[0]?.BaseAttribute?.dexterity[selectedRarity] }} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.dexterity){
+            <p>Dexterity: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.dexterity[Sm.getselectedRarity()] }} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.agility){
-            <p>Agility: {{selectedItemData?.itemdata[0]?.BaseAttribute?.agility[selectedRarity]}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.agility){
+            <p>Agility: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.agility[Sm.getselectedRarity()]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.will){
-            <p>Will: {{selectedItemData?.itemdata[0]?.BaseAttribute?.will[selectedRarity]}} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.will){
+            <p>Will: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.will[Sm.getselectedRarity()]}} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.knowledge){
-            <p>Knowledge: {{selectedItemData?.itemdata[0]?.BaseAttribute?.knowledge[selectedRarity] }} </p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.knowledge){
+            <p>Knowledge: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.knowledge[Sm.getselectedRarity()] }} </p>
           }
-          @if(selectedItemData?.itemdata[0]?.BaseAttribute?.resourcefulness){
-            <p>Resourcefulness: {{selectedItemData?.itemdata[0]?.BaseAttribute?.resourcefulness[selectedRarity] }}</p>
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.resourcefulness){
+            <p>Resourcefulness: {{Sm.getselectedItemDisplay()?.itemdata[0]?.BaseAttribute?.resourcefulness[Sm.getselectedRarity()] }}</p>
           }
-         <!-- <p>Flavor Text: {{selectedItemData?.itemdata?.flavorText}} </p> -->
+         
         </div>
 
-
+        
         <div class="modal-content">
-          <h3 [class]="'rarity-' + selectedRarity">{{ selectedItem.name || 'No Item Selected' }}</h3>
-          <img [src]="selectedItem.image" [alt]="selectedItem.name" class="modal-image" />
+          <h3 [class]="'rarity-' + Sm.getselectedRarity()">{{ Sm.getselectedItem()?.name || 'No Item Selected' }}</h3>
+          <img [src]="Sm.getselectedItem()?.image" [alt]="Sm.getselectedItem()?.name" class="modal-image" />
             <div class = "rating-select">
               <label for="rating-select">Rating:</label>
               <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
-                @for (rating of listRating; track $index) {
+                @for (rating of Sm.getselectedRatingList(); track $index) {
                   <option [value]="$index">{{ rating }}</option>
                 }
               </select>
             </div>
-            
+             <!-- 
             @if(selectedRarity >= 3){
               <div class="enchantment-Uncommon-select uncommon-border">
                 <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
@@ -188,12 +192,16 @@
                 }
               </div>
             }
-   </div>
+              -->
+      </div>
         <div class="button-close">
           <button (click)="showContextMenu = false">Close</button>
         </div>
+      
+        
    </div>
-      }
 
+    }
 
+   
 </div>

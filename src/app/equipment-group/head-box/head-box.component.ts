@@ -5,10 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { ApiConfigService } from '../../services/api-config.service';
 import { BoxesGroupComponent } from "../equipment-group.component";
 import { inject } from '@angular/core';
-
+/*
 interface ListItem {
   name: string;
   image: string;
+}
+
+interface Payload{
+  
 }
 
 @Component({
@@ -21,18 +25,12 @@ interface ListItem {
 export class HeadBoxComponent {
   //store values
   private _classSelection: string = ""; //inizializado a 0 (no selection)
-  showList = false;
-
+  
   selectedItem: ListItem | null = null;
   selectedRarity: number = 0;
   selectedRating: number = 0;
   selectedItemData: any = null;
-  listItems: ListItem[] = [];
-  listRating: number[] = [];
-  outputItemData: any = null;
-  showContextMenu = false;
-  selectedRatingIndex: number = 0;
-
+  
   selectedEnchantments: { [rarity: string]: { type: string, value: number } } = {
       uncommon: { type: '', value: 0 },
       rare: { type: '', value: 0 },
@@ -48,6 +46,15 @@ export class HeadBoxComponent {
     legendary: { types: [], values: [] },
     unique: { types: [], values: [] }
   };
+
+
+  listItems: ListItem[] = [];
+  listRating: number[] = [];
+  outputItemData: any = null;
+  showContextMenu = false;
+  selectedRatingIndex: number = 0;
+  showList = false;
+  
     //array rarity 
   rarityHead: string[] = ["No selection", "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
 
@@ -319,10 +326,9 @@ fetchEnchantment_List(item: ListItem ) {
     this.apiConfig.postData('/enchantmentlisthelmet/', payload).subscribe({
       next: (response) => {
 
-          console.log(response)
-          //console.log(response['listvalue_uncommon'])
+          console.log(response['listvalue_uncommon'])
         // Update uncommon values
-        if (response['listvalue_uncommon']) {
+        if (response) {
           this.enchantmentLists['uncommon'].values = response['listvalue_uncommon'];
         }
       
@@ -558,3 +564,4 @@ fetchEnchantment_List(item: ListItem ) {
     }
   }
 }
+  */
