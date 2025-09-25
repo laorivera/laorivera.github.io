@@ -7,7 +7,7 @@
     @if (showList) {
       <div class="equipment-list"  >
         @for (item of Sm.getselectedItemList(); track item.name) {
-          <div (click)="Sm.setSelectedItem(item)" class="equipment-item">
+          <div (click)="selectItem(item)" class="equipment-item">
             <img [src]="item.image" [alt]="item.name" />
             <span>{{ item.name }}</span>
           </div>
@@ -105,30 +105,31 @@
           <img [src]="Sm.getselectedItem()?.image" [alt]="Sm.getselectedItem()?.name" class="modal-image" />
             <div class = "rating-select">
               <label for="rating-select">Rating:</label>
-              <select id="rating-select" [(ngModel)]="selectedRatingIndex" (ngModelChange)="onChangeRating($event)">
+              <select id="rating-select" [(ngModel)]="Sm.setSelectedRating" (ngModelChange)="onChangeRating($event)">
                 @for (rating of Sm.getselectedRatingList(); track $index) {
                   <option [value]="$index">{{ rating }}</option>
                 }
               </select>
             </div>
-             <!-- 
-            @if(selectedRarity >= 3){
+          
+            @if(Sm.getselectedRarity() >= 3){
               <div class="enchantment-Uncommon-select uncommon-border">
                 <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
-                  @for (list of enchantmentLists['uncommon'].types; track list + '_uncommon') {
+                  @for (list of Sm.getEnchantmentList('Uncommon').types; track list + '_uncommon') {
                     <option [value]="list">{{ list }}</option>
                   } 
                 </select>
-                @if(selectedEnchantments['uncommon'].type){
+                @if(Sm.getEnchantmentList('Uncommon').types){
                 <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="selectedEnchantments['uncommon'].value" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
-                  @for (listvalue of enchantmentLists['uncommon'].values; track listvalue + '_uncommon_value') {
+                  @for (listvalue of Sm.getEnchantmentList('Uncommon').values; track listvalue + '_uncommon_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
                 </select>
                 }
               </div>
             }
-            @if(selectedRarity >= 4){
+            <!--
+            @if(Sm.getselectedRarity() >= 4){
               <div class="enchantment-Rare-select rare-border">
                 <select id="enchantment-Rare-select" [(ngModel)]="selectedEnchantments['rare'].type" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
                   @for (list of enchantmentLists['rare'].types; track list + '_rare') {
@@ -144,7 +145,7 @@
                 }
               </div>
             }
-            @if(selectedRarity >= 5){
+            @if(Sm.getselectedRarity() >= 5){
               <div class="enchantment-Epic-select epic-border">
                 <select id="enchantment-Epic-select" [(ngModel)]="selectedEnchantments['epic'].type" (ngModelChange)="onChangeEnchantment_TypeEpic($event)">
                   @for (list of enchantmentLists['epic'].types; track list + '_epic') {
@@ -160,7 +161,7 @@
                 }
               </div>
             }
-            @if(selectedRarity >= 6){
+            @if(Sm.getselectedRarity() >= 6){
               <div class="enchantment-Legendary-select legendary-border">
                 <select id="enchantment-Legendary-select" [(ngModel)]="selectedEnchantments['legendary'].type" (ngModelChange)="onChangeEnchantment_TypeLegendary($event)">
                   @for (list of enchantmentLists['legendary'].types; track list + '_legendary') {
@@ -176,7 +177,7 @@
                 }
               </div>
             }
-            @if(selectedRarity >= 7){
+            @if(Sm.getselectedRarity() >= 7){
               <div class="enchantment-Unique-select unique-border">
                 <select id="enchantment-Unique-select" [(ngModel)]="selectedEnchantments['unique'].type" (ngModelChange)="onChangeEnchantment_TypeUnique($event)">
                   @for (list of enchantmentLists['unique'].types; track list + '_unique') {

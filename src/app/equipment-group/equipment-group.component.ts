@@ -178,7 +178,7 @@ export class BoxesGroupComponent {
 
   onItemSelected_Helmet(slot: string, itemName: string) {
     console.log(slot)
-    //console.log(itemName)
+    console.log(itemName)
     
     const slotType = slot.split('item')[1]; 
    
@@ -193,7 +193,7 @@ export class BoxesGroupComponent {
     this.resetEnchantment(slotType);
     
     // new item
-    this.selectedItems["helmet"] = itemName;
+    this.selectedItems["itemhelmet"] = itemName;
     //console.log(slot)
     //console.log(this.selectedItems)
     this.calculateEquipment(); 
@@ -457,7 +457,7 @@ export class BoxesGroupComponent {
     race: this._raceSelection,
     itemSlot: {
       head: {
-        name: this.selectedItems['helmet'] || '',
+        name: this.selectedItems['itemhelmet'] || '',
         rarity: this.selectedRarites['rarityselect_helmet'] || '0',
         rating: this.selectedRatings['armorrating_helmet'] || '0',
         enchant: buildEnchant('helmet')

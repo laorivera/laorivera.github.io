@@ -65,7 +65,8 @@ type Rarity = 'No Selection' | 'Poor'| 'Common'| 'Uncommon' | 'Rare' | 'Epic' | 
 
 class Smanager {
   private _classSelection: string = "";
-  
+  private selectedRatingIndex = 0
+
   private state: AppState = {
     selection: {
       itemList: null,
@@ -106,7 +107,7 @@ class Smanager {
 
   // ItemSelection state (read-only access to values)
   getselectedItemList(): ListItem[] | null { return this.state.selection.itemList; }
-  getselectedItem():    ListItem | null {return this.state.selection.itemSel;}
+  getselectedItem(): ListItem | null {return this.state.selection.itemSel;}
   getselectedRarity(): number { return this.state.selection.rarity; }
   getselectedRating(): number { return this.state.selection.rating; }
   getselectedItemData(): ItemData | null { return this.state.selection.itemData; }
@@ -119,28 +120,10 @@ class Smanager {
   setclassSelection(value: string) { this._classSelection = value; }
   setSelectedItemList(items: ListItem[] | null): void {this.state.selection.itemList = items}
   setSelectedRatingList(list: number[] | null): void{this.state.selection.ratingList = list}
-
-  setSelectedRarity(rarity: number): void {
-    if (this.isValidRarity(rarity)) {
-      this.state.selection.rarity = rarity;
-      //this.onSelectionChange();
-    }
-  }
-
-  setSelectedRating(rating: number): void {
-    if (rating >= 0) {
-      this.state.selection.rating = rating;
-      //this.onSelectionChange();
-    }
-  }
-
-  setSelectedItemData(data: ItemData): void {
-    this.state.selection.itemData = data;
-  }
-
-  setSelectedItemDisplay(item: any): void{
-    this.state.selection.itemDisplay = item
-  }
+  setSelectedRarity(rarity: number): void {if (this.isValidRarity(rarity)) {this.state.selection.rarity = rarity;}}
+  setSelectedRating(rating: number): void {if (rating >= 0) {this.state.selection.rating = rating}}
+  setSelectedItemData(data: ItemData): void {this.state.selection.itemData = data;}
+  setSelectedItemDisplay(item: any): void {this.state.selection.itemDisplay = item}
 
   // ===== PRIVATE METHODS FOR INTERNAL USE =====\
   
@@ -252,11 +235,11 @@ class FetchManager {
           rarity: this.Sm.getselectedRarity().toString()
         }
     }
-  };
-  this.apiConfig.postData(url, playload).subscribe({
-    next: (response) => {
-        this.Sm.setSelectedRatingList = response.list;
-        //console.log(this.listRating);
+    };
+    this.apiConfig.postData(url, playload).subscribe({
+    next: (response) => {;
+        this.Sm.setSelectedRatingList(response.list);
+        console.log(this.Sm.getselectedRatingList());
         
         // If there's only one rating option, automatically select it
         //if (this.Sm.getselectedRatingList()?.length >= 1) {
@@ -269,7 +252,40 @@ class FetchManager {
       },
     });
   }
+  fetchEnchantment_List(url: string) {
+  const payload = {
+    class: this.Sm.getclassSelection(),
+      itemSlot: {
+        head: {
+          name: this.Sm.getselectedItem()?.name,
+          rarity: this.Sm.getselectedRarity().toString()
+        }
+      }
+    }
+    //console.log(this._classSelection)
+    //console.log(item.name)
+    //console.log(this.selectedRarity.toString())
+    console.log(payload)
+    this.apiConfig.postData(url, payload).subscribe({
+      next: (response) => { 
+        
+        // Add "No selection" option at the beginning of each list
+        this.Sm.setEnchantmentList('Uncommon', ['No selection', ...response['listname_uncommon']], response['listvalue_uncommon'] ? [0, ...response['listvalue_uncommon']] : [0]);
+        //this.enchantmentLists['rare'].types = ['No selection', ...response['listname_rare']];
+        //this.enchantmentLists['epic'].types = ['No selection', ...response['listname_epic']];
+       // this.enchantmentLists['legendary'].types = ['No selection', ...response['listname_legend']];
+        //this.enchantmentLists['unique'].types = ['No selection', ...response['listname_unique']];
+        
+      },
+      error: (err) => {
+        console.error('Error fetching enchantment list:', err);
+      },
+    });
+  }
+
 }
+
+
 
 @Component({
   selector: 'head-boxy',
@@ -298,16 +314,14 @@ export class HeadBoxObject {
      }
     get classSelection(): string {
          return this.Sm.getclassSelection();
-        
     }
    
-  
     resetSelection() {
     //this.selectedItem = null;
     //this.selectedItemData = null;
     this.showList = false;
     this.showContextMenu = false;
-    //this.selectedRarity = 0;
+    this.Sm.setSelectedRarity(0);
     //this.listRating = [];
     //for (const rarity in this.selectedEnchantments) {
     //  this.selectedEnchantments[rarity] = { type: '', value: 0 };
@@ -317,22 +331,24 @@ export class HeadBoxObject {
     selectItem(item: ListItem) {
     this.resetSelection();
     this.Sm.setSelectedItem(item);
+    console.log(this.Sm.getselectedItem()?.name)
     this.Fm.fetchItemData_Armor("/itemdisplay/");
     this.itemSelected.emit(item.name);
     this.showList = !this.showList;
   }
 
-    onChangeRarity(event: number) { // Reset enchantment values and types // send quety to API // send event to parent // send event to css color box
-    this.Sm.resetSelection()
+   onChangeRarity(event: number) { // Reset enchantment values and types // send quety to API // send event to parent // send event to css color box
+    //this.Sm.resetSelection()
     
     this.Sm.setSelectedRarity(+event)
-    //console.log(this.selectedRarity);
+    
+    console.log(this.Sm.getselectedRarity());
     this.rarityBoxColor();
 
-    //if (this.selectedItem && this.selectedItem.name) {
-     // this.fetchList_Rating(this.selectedItem);
+    if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
+     this.Fm.fetchList_Rating("/helmetratinglist/");
      // this.fetchEnchantment_List(this.selectedItem);
-    //}
+    }
     this.raritySelected.emit(this.Sm.getselectedRarity());
     //console.log(this.selectedRarity);
   }
@@ -340,7 +356,7 @@ export class HeadBoxObject {
   onChangeRating(event: number) {
     const index = +event;
     this.Sm.setSelectedRating(this.Sm.getselectedRatingList()?.[index]?? 0)
-    //console.log(this.selectedRating);
+    console.log(this.Sm.getselectedRating());
 
     this.ratingSelected.emit(this.Sm.getselectedRating());
   }
