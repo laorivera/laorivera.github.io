@@ -365,7 +365,7 @@ export class BoxesGroupComponent {
 
   onRatingSelected(slot: string, rating: number){
     this.selectedRatings[slot] = String(rating);
-    //console.log(this.selectedRatings)
+    console.log(this.selectedRatings)
     this.calculateEquipment();
   }
 

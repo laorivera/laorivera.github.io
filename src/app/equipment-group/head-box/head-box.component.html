@@ -105,7 +105,7 @@
           <img [src]="Sm.getselectedItem()?.image" [alt]="Sm.getselectedItem()?.name" class="modal-image" />
             <div class = "rating-select">
               <label for="rating-select">Rating:</label>
-              <select id="rating-select" [(ngModel)]="Sm.setSelectedRating" (ngModelChange)="onChangeRating($event)">
+              <select id="rating-select" [(ngModel)]="holder3" (ngModelChange)="onChangeRating($event)">
                 @for (rating of Sm.getselectedRatingList(); track $index) {
                   <option [value]="$index">{{ rating }}</option>
                 }
@@ -114,13 +114,13 @@
           
             @if(Sm.getselectedRarity() >= 3){
               <div class="enchantment-Uncommon-select uncommon-border">
-                <select id="enchantment-select" [(ngModel)]="selectedEnchantments['uncommon'].type" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
+                <select id="enchantment-select" [(ngModel)]="holder" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
                   @for (list of Sm.getEnchantmentList('Uncommon').types; track list + '_uncommon') {
                     <option [value]="list">{{ list }}</option>
                   } 
                 </select>
                 @if(Sm.getEnchantmentList('Uncommon').types){
-                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="selectedEnchantments['uncommon'].value" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
+                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="holder2" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
                   @for (listvalue of Sm.getEnchantmentList('Uncommon').values; track listvalue + '_uncommon_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
@@ -195,11 +195,8 @@
             }
               -->
       </div>
-        <div class="button-close">
-          <button (click)="showContextMenu = false">Close</button>
-        </div>
+        <div class="button-close"> <button (click)="showContextMenu = false">Close</button> </div>
       
-        
    </div>
 
     }
