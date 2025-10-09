@@ -371,14 +371,14 @@ export class BoxesGroupComponent {
 
   onEnchantmentSelected_TypeUncommon(slot: string, enchantment: string) {
     // Reset enchantments for this slot
-    console.log(this.selectedEnchant[slot])
-    console.log(slot)
+   // console.log(this.selectedEnchant[slot])
+   // console.log(slot)
     const valueSlot = slot.replace('type', 'value');
-    console.log(valueSlot)
+   // console.log(valueSlot)
     this.selectedEnchantValue[valueSlot] = 0;
-    console.log(this.selectedEnchantValue[valueSlot])
+   // console.log(this.selectedEnchantValue[valueSlot])
     this.selectedEnchant[slot] = enchantment;
-    console.log(this.selectedEnchant[slot])
+    //console.log(this.selectedEnchant[slot])
     this.calculateEquipment();
   }
 
@@ -389,9 +389,14 @@ export class BoxesGroupComponent {
 
   onEnchantmentSelected_TypeRare(slot: string, enchantment: string) {
     // Reset enchantments for this slot
+    console.log(this.selectedEnchant[slot])
+    console.log(slot)
     const valueSlot = slot.replace('type2', 'value2');
+     console.log(valueSlot)
     this.selectedEnchantValue[valueSlot] = 0;
+    console.log(this.selectedEnchantValue[valueSlot])
     this.selectedEnchant[slot] = enchantment;
+    console.log(this.selectedEnchant[slot])
     this.calculateEquipment();
   }
 

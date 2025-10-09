@@ -1,384 +1,10 @@
-import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Input, Output, HostListener, inject } from '@angular/core';
+//import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiConfigService } from '../../services/api-config.service';
-import { BoxesGroupComponent } from "../equipment-group.component";
-import { inject } from '@angular/core';
-
-
-
-interface ItemData {
-  // Lists of enchantment types by rarity
-  listname_uncommon: string[];
-  listname_rare: string[];
-  listname_epic: string[];
-  listname_legend: string[]; 
-  listname_unique: string[];
-  
-  // Lists of enchantment values by rarity (can be numbers or null)
-  listvalue_uncommon: number[] | null;
-  listvalue_rare: number[] | null;
-  listvalue_epic: number[] | null;
-  listvalue_legend: number[] | null; 
-  listvalue_unique: number[] | null;
-}
-
-// Define comprehensive interfaces
-interface ListItem {
-  name: string;
-  image: string;
-}
-
-interface Enchantment {
-  type: string;
-  value: number;
-}
-
-interface EnchantmentList {
-  types: string[];
-  values: number[];
-}
-
-interface ItemSelection {
-  itemList: ListItem[] | null;
-  itemSel: ListItem | null;
-  rarity: number;
-  rating: number;
-  ratingList: number[] | null;
-  itemData: ItemData | null;
-  itemDisplay: any | null;
-}
-
-interface EnchantmentState {
-  selected: { [rarity: string]: Enchantment };
-  lists: { [rarity: string]: EnchantmentList };
-}
-
-interface AppState {
-  selection: ItemSelection;
-  enchantments: EnchantmentState;
-}
-
-// Rarity type for type safety
-type Rarity = 'No Selection' | 'Poor'| 'Common'| 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Unique';
-
-class Smanager {
-  private _classSelection: string = "";
-  private selectedRatingIndex = 0
-
-  private state: AppState = {
-    selection: {
-      itemList: null,
-      itemSel: null,
-      rarity: 0,
-      rating: 0,
-      ratingList: null,
-      itemData: null,
-      itemDisplay:  null,
-    },
-    
-    enchantments: {
-      selected: {
-        uncommon: { type: '', value: 0 },
-        rare: { type: '', value: 0 },
-        epic: { type: '', value: 0 },
-        legendary: { type: '', value: 0 },
-        unique: { type: '', value: 0 }
-      },
-      
-      lists: {
-        uncommon: { types: [], values: [] },
-        rare: { types: [], values: [] },
-        epic: { types: [], values: [] },
-        legendary: { types: [], values: [] },
-        unique: { types: [], values: [] }
-      }
-    }
-  };
-
-  private rarities: Rarity[] = ['No Selection', "Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Unique"];
-
-  // ===== ENCAPSULATION =====
-
-  // (read-only)
-  // Class selection 
-  getclassSelection(): string { return this._classSelection; }
-  getselectedItemList(): ListItem[] | null { return this.state.selection.itemList; }
-  getselectedItem(): ListItem | null {return this.state.selection.itemSel;}
-  getselectedRarity(): number { return this.state.selection.rarity; }
-  getselectedRating(): number { return this.state.selection.rating; }
-  getselectedItemData(): ItemData | null { return this.state.selection.itemData; }
-  getrarities(): Rarity[] | null {return this.rarities}
-  getselectedItemDisplay(): any | null {return this.state.selection.itemDisplay}
-  getselectedRatingList(): number[] | null{return this.state.selection.ratingList}
-
-  // ===== MUTATION =====
-  setSelectedItem(items: ListItem | null): void {this.state.selection.itemSel = items;}
-  setclassSelection(value: string) { this._classSelection = value; }
-  setSelectedItemList(items: ListItem[] | null): void {this.state.selection.itemList = items}
-  setSelectedRatingList(list: number[] | null): void{this.state.selection.ratingList = list}
-  setSelectedRarity(rarity: number): void {if (this.isValidRarity(rarity)) {this.state.selection.rarity = rarity;}}
-  setSelectedRating(rating: number): void {if (rating >= 0) {this.state.selection.rating = rating}}
-  setSelectedItemData(data: ItemData): void {this.state.selection.itemData = data;}
-  setSelectedItemDisplay(item: any): void {this.state.selection.itemDisplay = item}
-
-  // ===== PRIVATE =====\
-  
-  private onSelectionChange(): void {
-    // Handle ItemData side effects when selection changes
-    console.log('ItemSelection updated:', this.state.selection);
-  }
-
-  private isValidRarity(rarity: number): boolean {
-    return rarity >= 0 && rarity < this.rarities.length;
-  }
-
-  // ===== ENCHANTMENT =====
-  getEnchantment(rarity: Rarity): Readonly<Enchantment> {
-    return { ...this.state.enchantments.selected[rarity] }; // Return copy to prevent mutation
-  }
-
-  setEnchantment(rarity: Rarity, type: string, value: number): void {
-    if (this.isValidEnchantmentType(type) && value >= 0) {
-      this.state.enchantments.selected[rarity] = { type, value };
-    }
-  }
-
-  getEnchantmentList(rarity: Rarity): Readonly<EnchantmentList> {
-    return { 
-      types: [...this.state.enchantments.lists[rarity].types],
-      values: [...this.state.enchantments.lists[rarity].values]
-    };
-  }
-
-  setEnchantmentList(rarity: Rarity, types: string[], values: number[]): void {
-    this.state.enchantments.lists[rarity] = { types: [...(types || [])], values: [...(values || [])]  };
-  }
-
-  private isValidEnchantmentType(type: string): boolean {
-    // Add your validation logic here
-    return type.length > 0;
-  }
-
-  // ===== STATE =====
-  resetSelection(): void {
-   // this.state.selection.itemList = null;
-    this.state.selection.itemSel = null; 
-    this.state.selection.rarity = 0;
-    this.state.selection.rating = 0;
-    this.state.selection.itemData = null;
-    this.state.selection.itemDisplay = null;
-  }
-
-  resetEnchant(): void{
-    this.state.enchantments.selected = {};
-  }
-
-  // Get readonly state snapshot for debugging/display
-  getStateSnapshot(): Readonly<AppState> {
-    return JSON.parse(JSON.stringify(this.state)); // Deep copy for safety
-  }
-}
-
-class FetchManager {
-    // Accept Smanager instance through constructor
-    constructor(private Sm: Smanager) {}
-    
-    private apiConfig = inject(ApiConfigService);
-   
-    fetchList_Items(url: string): void {
-      const payload = {
-          class: this.Sm.getclassSelection(), 
-        };
-        
-        this.apiConfig.postData(url, payload).subscribe({
-          next: (response) => {
-              this.Sm.setSelectedItemList(response.list); 
-              console.log(this.Sm.getselectedItemList())
-          },
-          error: (err) => {
-              console.error('Error fetching head list:', err);
-          },
-    });
-    }
-
- fetchItemData_Armor(url: string) {
-
-  const payload = {
-    class: this.Sm.getclassSelection(),
-    itemSlot: {
-      head: { 
-        name: this.Sm.getselectedItem()?.name,
-      }
-    }
-  };
-  //console.log('Fetching rating with payload:', payload);
-  // 2. Use POST with the complete JSON structure
-  this.apiConfig.postData(url, payload).subscribe({
-    next: (response: any) => {
-      console.log(response);
-      this.Sm.setSelectedItemDisplay(response);
-      //his.outputItemData = response.itemdata
-    },
-    error: (err) => {
-      console.error('Error fetching rating list:', err);
-    },
-    });
-  }
-
-  fetchList_Rating(url: string) {
-
-  const playload = {
-    class: this.Sm.getclassSelection(),
-      itemSlot: {
-        head: {
-          name: this.Sm.getselectedItem()?.name,
-          rarity: this.Sm.getselectedRarity().toString()
-        }
-    }
-    };
-    this.apiConfig.postData(url, playload).subscribe({
-    next: (response) => {;
-        this.Sm.setSelectedRatingList(response.list);
-        console.log(this.Sm.getselectedRatingList());
-        
-        // If there's only one rating option, automatically select it
-        //if (this.Sm.getselectedRatingList()?.length >= 1) {
-         // this.Sm.setSelectedRating = this.Sm.getselectedRatingList()?[0]
-          //this.ratingSelected.emit(this.selectedRating);
-        //}
-      },
-    error: (err) => {
-        console.error('Error fetching head list:', err);
-      },
-    });
-  }
-  fetchEnchantment_List(url: string) {
-  const payload = {
-    class: this.Sm.getclassSelection(),
-      itemSlot: {
-        head: {
-          name: this.Sm.getselectedItem()?.name,
-          rarity: this.Sm.getselectedRarity().toString()
-        }
-      }
-    }
-    //console.log(this._classSelection)
-    //console.log(item.name)
-    //console.log(this.selectedRarity.toString())
-    console.log(payload)
-    this.apiConfig.postData(url, payload).subscribe({
-      next: (response) => { 
-        
-        // Add "No selection" option at the beginning of each list
-        this.Sm.setEnchantmentList('Uncommon', ['No selection', ...response['listname_uncommon']], response['listvalue_uncommon'] ? [0, ...response['listvalue_uncommon']] : [0]);
-        //this.enchantmentLists['rare'].types = ['No selection', ...response['listname_rare']];
-        //this.enchantmentLists['epic'].types = ['No selection', ...response['listname_epic']];
-       // this.enchantmentLists['legendary'].types = ['No selection', ...response['listname_legend']];
-        //this.enchantmentLists['unique'].types = ['No selection', ...response['listname_unique']];
-        
-      },
-      error: (err) => {
-        console.error('Error fetching enchantment list:', err);
-      },
-    });
-  }
-
-  fetchEnchantment_Value(url: string){
-  const payload = {
-    class: this.Sm.getclassSelection(),
-    race: "",
-    itemSlot: {
-      head: {
-        id: "",
-        name: this.Sm.getselectedItem()?.name,
-        rarity: this.Sm.getselectedRarity().toString(),
-        rating: "",
-          enchant: {
-            typeu:  this.Sm.getEnchantment('Uncommon').type,
-            valueu: this.Sm.getEnchantment('Uncommon').value.toString(),
-            //typer: this.Sm.getEnchantment('Rare').type,
-            //valuer: this.Sm.getEnchantment('Rare').value.toString(),
-            //typee: this.Sm.getEnchantment('Epic').type,
-            //valuee: this.Sm.getEnchantment('Epic').value.toString(),
-            //typel: this.Sm.getEnchantment('Legendary').type,
-            //valuel: this.Sm.getEnchantment('Legendary').value.toString(),
-            //typeq: this.Sm.getEnchantment('Unique').type,
-            //valueq: this.Sm.getEnchantment('Unique').value.toString(),
-          }
-      }
-    }
-    };
-
-    //console.log(payload)
-
-    // Store current values before fetching
-    const currentUncommonValue = this.Sm.getEnchantment('Uncommon').value;
-    const currentRareValue = this.Sm.getEnchantment('Rare').value;
-    const currentEpicValue = this.Sm.getEnchantment('Epic').value;
-    const currentLegendaryValue = this.Sm.getEnchantment('Legendary').value;
-    const currentUniqueValue = this.Sm.getEnchantment('Unique').value;
-    
-    this.apiConfig.postData(url, payload).subscribe({
-      next: (response) => {
-
-        console.log(response['listvalue_uncommon'])
-        // Update uncommon values
-        if (response) {
-          this.Sm.setEnchantmentList('Uncommon', response['listname_uncommon'] || [], response['listvalue_uncommon']);
-        }
-       /*
-        // Update rare values
-        if (response['listvalue_rare']) {
-          this.enchantmentLists['rare'].values = response['listvalue_rare'];
-        }
-        
-        // Update epic values
-        if (response['listvalue_epic']) {
-          this.enchantmentLists['epic'].values = response['listvalue_epic'];
-        }
-        
-        // Update legendary values
-        if (response['listvalue_legend']) {
-          this.enchantmentLists['legendary'].values = response['listvalue_legend'];
-        }
-        
-        // Update unique values
-        if (response['listvalue_unique']) {
-          this.enchantmentLists['unique'].values = response['listvalue_unique'];
-        }
-        
-        // Restore selected values if they exist in the new lists
-        if (currentUncommonValue && this.enchantmentLists['uncommon'].values.includes(currentUncommonValue)) {
-          this.selectedEnchantments['uncommon'].value = currentUncommonValue;
-        }
-        
-        if (currentRareValue && this.enchantmentLists['rare'].values.includes(currentRareValue)) {
-          this.selectedEnchantments['rare'].value = currentRareValue;
-        }
-        
-        if (currentEpicValue && this.enchantmentLists['epic'].values.includes(currentEpicValue)) {
-          this.selectedEnchantments['epic'].value = currentEpicValue;
-        }
-        
-        if (currentLegendaryValue && this.enchantmentLists['legendary'].values.includes(currentLegendaryValue)) {
-          this.selectedEnchantments['legendary'].value = currentLegendaryValue;
-        }
-        
-        if (currentUniqueValue && this.enchantmentLists['unique'].values.includes(currentUniqueValue)) {
-          this.selectedEnchantments['unique'].value = currentUniqueValue;
-        }
-          */
-      },
-      error: (err) => {
-        console.error('Error fetching enchantment list:', err);
-      },
-    });
-  }
-
-}
-
+//import { ApiConfigService } from '../../services/api-config.service';
+//import { BoxesGroupComponent } from "../equipment-group.component";
+import { Smanager,FetchManager, ListItem } from '../boxes-object';
 
 
 @Component({
@@ -394,9 +20,18 @@ export class HeadBoxObject {
     showList = false;
     showContextMenu = false;
 
-    holder: any;
-    holder2: any;
-    holder3: any
+    rating: any;
+    uncommont: string = "";
+    uncommonv: number = 0;
+    raret: string = "";
+    rarev: number = 0;
+    epict: string = "";
+    epicv: number = 0;
+    legendt: string = "";
+    legendv: number = 0;
+    uniquet: string = "";
+    uniquev: number = 0;
+    
 
     Sm = new Smanager();
     Fm = new FetchManager(this.Sm);
@@ -488,8 +123,8 @@ export class HeadBoxObject {
   }
  
    onChangeEnchantment_TypeUncommon(event: string){
-    const currentEnchantmentUncommon = this.Sm.getEnchantment('Uncommon').type
-    //const currentEnchantmentRare = this.selectedEnchantments['rare'].type;
+    //const currentEnchantmentUncommon = this.Sm.getEnchantment('Uncommon').type
+    // const currentEnchantmentRare = this.Sm.getEnchantment('Rare').type;
     //const currentEnchantmentEpic = this.selectedEnchantments['epic'].type;
     //const currentEnchantmentLegendary = this.selectedEnchantments['legendary'].type;
     //const currentEnchantmentUnique = this.selectedEnchantments['unique'].type;
@@ -498,13 +133,15 @@ export class HeadBoxObject {
     //this.selectedEnchantments['uncommon'].type = ;
   
     this.Fm.fetchEnchantment_List("/enchantmentlisthelmet/")
+
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
   onChangeEnchantment_ValueUncommon(event: number){
     // Store current types of higher rarity enchantments
-    const currentRareType = this.Sm.getEnchantment('Rare').type;
+    //const currentRareType = this.Sm.getEnchantment('Rare').type;
     //const currentEpicType = this.selectedEnchantments['epic'].type;
     //const currentLegendaryType = this.selectedEnchantments['legendary'].type;
     //const currentUniqueType = this.selectedEnchantments['unique'].type;
@@ -519,6 +156,179 @@ export class HeadBoxObject {
     // Emit the event
     this.enchantmentSelected_ValueUncommon.emit(this.Sm.getEnchantment('Uncommon').value);
   }
+
+   onChangeEnchantment_TypeRare(event: string){
+
+      this.Sm.setEnchantment('Rare',event, 0);
+    //this.selectedEnchantments['uncommon'].type = ;
+  
+    this.Fm.fetchEnchantment_List("/enchantmentlisthelmet/")
+
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+
+    this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
+
+    //this.selectedEnchantments['rare'].value = 0;
+    //this.selectedEnchantments['rare'].type = event;
+
+    //this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?itemgloves=${this.selectedItem?.name}&enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype2=${this.selectedEnchantments['rare'].type}`));
+
+   // this.enchantmentSelected_TypeRare.emit(this.selectedEnchantments['rare'].type);
+   
+  }
+  
+  onChangeEnchantment_ValueRare(event: number){
+
+    
+    this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
+    
+    // Re-fetch enchantment values with all current enchantment types
+   
+    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    
+    // Emit the event
+    this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
+
+    // Update the rare value
+    //this.selectedEnchantments['rare'].value = event;
+    
+    // Re-fetch enchantment values with all current enchantment types
+   // this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${this.selectedEnchantments['uncommon'].type}&enchantment_glovestype2=${this.selectedEnchantments['rare'].type}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+    
+    // Emit the event
+   // this.enchantmentSelected_ValueRare.emit(this.selectedEnchantments['rare'].value);
+  }
+
+  onChangeEnchantment_TypeEpic(event: string){
+  
+
+    this.Sm.setEnchantment('Epic',event, 0);
+    //this.selectedEnchantments['uncommon'].type = ;
+  
+    this.Fm.fetchEnchantment_List("/enchantmentlisthelmet/")
+
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+
+    this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Epic').type);
+
+
+    //this.selectedEnchantments['epic'].value = 0;
+    //this.selectedEnchantments['epic'].type = event;
+
+    //this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?itemgloves=${this.selectedItem?.name}&enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}`));
+    //this.enchantmentSelected_TypeEpic.emit(this.selectedEnchantments['epic'].type);
+  }
+  
+  onChangeEnchantment_ValueEpic(event: number){
+
+     // Update the uncommon value
+    this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
+    
+    // Re-fetch enchantment values with all current enchantment types
+   
+    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    
+    // Emit the event
+    this.enchantmentSelected_ValueUncommon.emit(this.Sm.getEnchantment('Epic').value);
+    // Store current types of higher rarity enchantments
+    //const currentLegendaryType = this.selectedEnchantments['legendary'].type;
+   // const currentUniqueType = this.selectedEnchantments['unique'].type;
+    
+    // Update the epic value
+    //this.selectedEnchantments['epic'].value = event;
+    
+    // Re-fetch enchantment values with all current enchantment types
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${this.selectedEnchantments['uncommon'].type}&enchantment_glovestype2=${this.selectedEnchantments['rare'].type}&enchantment_glovestype3=${this.selectedEnchantments['epic'].type}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+    
+    // Emit the event
+    //this.enchantmentSelected_ValueEpic.emit(this.selectedEnchantments['epic'].value);
+  }
+
+  onChangeEnchantment_TypeLegendary(event: string){
+
+    this.Sm.setEnchantment('Legendary',event, 0);
+    //this.selectedEnchantments['uncommon'].type = ;
+  
+    this.Fm.fetchEnchantment_List("/enchantmentlisthelmet/")
+
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+
+    this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Legendary').type);
+
+ 
+    ///this.selectedEnchantments['legendary'].value = 0;
+    //this.selectedEnchantments['legendary'].type = event;
+    
+    //this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?itemgloves=${this.selectedItem?.name}&enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${this.selectedEnchantments['legendary'].type}`));
+    //this.enchantmentSelected_TypeLegendary.emit(this.selectedEnchantments['legendary'].type);
+  }
+  
+  onChangeEnchantment_ValueLegendary(event: number){
+
+     // Update the uncommon value
+    this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
+    
+    // Re-fetch enchantment values with all current enchantment types
+   
+    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    
+    // Emit the event
+    this.enchantmentSelected_ValueUncommon.emit(this.Sm.getEnchantment('Legendary').value);
+
+    // Update the legendary value
+    //this.selectedEnchantments['legendary'].value = event;
+    
+    // Re-fetch enchantment values with all current enchantment types
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${this.selectedEnchantments['uncommon'].type}&enchantment_glovestype2=${this.selectedEnchantments['rare'].type}&enchantment_glovestype3=${this.selectedEnchantments['epic'].type}&enchantment_glovestype4=${this.selectedEnchantments['legendary'].type}&enchantment_glovestype5=${currentUniqueType}`));
+    
+    // Emit the event
+    //this.enchantmentSelected_ValueLegendary.emit(this.selectedEnchantments['legendary'].value);
+  }
+
+  onChangeEnchantment_TypeUnique(event: string){
+
+    this.Sm.setEnchantment('Unique',event, 0);
+    //this.selectedEnchantments['uncommon'].type = ;
+  
+    this.Fm.fetchEnchantment_List("/enchantmentlisthelmet/")
+
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+
+    this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Unique').type);
+
+
+   // this.selectedEnchantments['unique'].value = 0;
+   // this.selectedEnchantments['unique'].type = event;
+
+    //this.fetchEnchantment_List(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?itemgloves=${this.selectedItem?.name}&enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${currentUniqueType}`));
+   // this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${currentUncommonType}&enchantment_glovestype2=${currentRareType}&enchantment_glovestype3=${currentEpicType}&enchantment_glovestype4=${currentLegendaryType}&enchantment_glovestype5=${this.selectedEnchantments['unique'].type}`));
+    //this.enchantmentSelected_TypeUnique.emit(this.selectedEnchantments['unique'].type);
+  }
+  
+  onChangeEnchantment_ValueUnique(event: number){
+
+     // Update the uncommon value
+    this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
+    
+    // Re-fetch enchantment values with all current enchantment types
+   
+    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    
+    // Emit the event
+    this.enchantmentSelected_ValueUncommon.emit(this.Sm.getEnchantment('Unique').value);
+    // Update the unique value
+   // this.selectedEnchantments['unique'].value = event;
+    
+    // Re-fetch enchantment values with all current enchantment types
+    //this.fetchEnchantment_Value(this.apiConfig.getApiUrl(`/enchantmentlistgloves/?enchantment_glovestype=${this.selectedEnchantments['uncommon'].type}&enchantment_glovestype2=${this.selectedEnchantments['rare'].type}&enchantment_glovestype3=${this.selectedEnchantments['epic'].type}&enchantment_glovestype4=${this.selectedEnchantments['legendary'].type}&enchantment_glovestype5=${this.selectedEnchantments['unique'].type}`));
+    
+    // Emit the event
+   // this.enchantmentSelected_ValueUnique.emit(this.selectedEnchantments['unique'].value);
+  }
+
 
 
   formatValue(value: any): string {
@@ -559,6 +369,14 @@ export class HeadBoxObject {
   @Output() ratingSelected = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUncommon = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUncommon = new EventEmitter<number>();
-    
+  @Output() enchantmentSelected_TypeRare = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueRare = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeEpic = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueEpic = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeLegendary = new EventEmitter<string>();  
+  @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
+  @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
+  @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
+  @Output() selectionHelmet = new EventEmitter<any>();
 }
     
