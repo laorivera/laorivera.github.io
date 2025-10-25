@@ -114,13 +114,13 @@
           
             @if(Sm.getselectedRarity() >= 3){
               <div class="enchantment-Uncommon-select uncommon-border">
-                <select id="enchantment-select" [(ngModel)]="uncommont" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
+                <select id="enchantment-select" [(ngModel)]="state.uncommont" (ngModelChange)="onChangeEnchantment_TypeUncommon($event)">
                   @for (list of Sm.getEnchantmentList('Uncommon').types; track list + '_uncommon') {
                     <option [value]="list">{{ list }}</option>
                   } 
                 </select>
                 @if(Sm.getEnchantmentList('Uncommon').types){
-                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="uncommonv" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
+                <select id="enchantmentvalue-Uncommon-select" [(ngModel)]="state.uncommonv" (ngModelChange)="onChangeEnchantment_ValueUncommon($event)">
                   @for (listvalue of Sm.getEnchantmentList('Uncommon').values; track listvalue + '_uncommon_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
@@ -131,13 +131,13 @@
             
             @if(Sm.getselectedRarity() >= 4){
               <div class="enchantment-Rare-select rare-border">
-                <select id="enchantment-Rare-select" [(ngModel)]="raret" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
+                <select id="enchantment-Rare-select" [(ngModel)]="state.raret" (ngModelChange)="onChangeEnchantment_TypeRare($event)">
                   @for (list of Sm.getEnchantmentList('Rare').types; track list + '_rare') {
                     <option [value]="list">{{ list }}</option>
                   } 
                 </select>
                 @if(Sm.getEnchantmentList('Rare').types){
-                <select id="enchantmentvalue-Rare-select" [(ngModel)]="rarev" (ngModelChange)="onChangeEnchantment_ValueRare($event)">
+                <select id="enchantmentvalue-Rare-select" [(ngModel)]="state.rarev" (ngModelChange)="onChangeEnchantment_ValueRare($event)">
                   @for (listvalue of Sm.getEnchantmentList('Rare').values; track listvalue + '_rare_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
@@ -148,13 +148,13 @@
             
             @if(Sm.getselectedRarity() >= 5){
               <div class="enchantment-Epic-select epic-border">
-                <select id="enchantment-Epic-select" [(ngModel)]="epict" (ngModelChange)="onChangeEnchantment_TypeEpic($event)">
+                <select id="enchantment-Epic-select" [(ngModel)]="state.epict" (ngModelChange)="onChangeEnchantment_TypeEpic($event)">
                   @for (list of Sm.getEnchantmentList('Epic').types; track list + '_epic') {
                     <option [value]="list">{{ list }}</option>
                   }
                 </select>
                 @if(Sm.getEnchantmentList('Epic').types){
-                <select id="enchantmentvalue-Epic-select" [(ngModel)]="epicv" (ngModelChange)="onChangeEnchantment_ValueEpic($event)">
+                <select id="enchantmentvalue-Epic-select" [(ngModel)]="state.epicv" (ngModelChange)="onChangeEnchantment_ValueEpic($event)">
                   @for (listvalue of Sm.getEnchantmentList('Epic').values; track listvalue + '_epic_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
@@ -164,13 +164,13 @@
             }
             @if(Sm.getselectedRarity() >= 6){
               <div class="enchantment-Legendary-select legendary-border">
-                <select id="enchantment-Legendary-select" [(ngModel)]="legendt" (ngModelChange)="onChangeEnchantment_TypeLegendary($event)">
+                <select id="enchantment-Legendary-select" [(ngModel)]="state.legendt" (ngModelChange)="onChangeEnchantment_TypeLegendary($event)">
                   @for (list of Sm.getEnchantmentList('Legendary').types; track list + '_legendary') {
                     <option [value]="list">{{ list }}</option>
                   }
                 </select>
                 @if(Sm.getEnchantmentList('Legendary').types){
-                <select id="enchantmentvalue-Legendary-select" [(ngModel)]="legendv" (ngModelChange)="onChangeEnchantment_ValueLegendary($event)">
+                <select id="enchantmentvalue-Legendary-select" [(ngModel)]="state.legendv" (ngModelChange)="onChangeEnchantment_ValueLegendary($event)">
                   @for (listvalue of Sm.getEnchantmentList('Legendary').values; track listvalue + '_legendary_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 
@@ -180,13 +180,13 @@
             }
             @if(Sm.getselectedRarity() >= 7){
               <div class="enchantment-Unique-select unique-border">
-                <select id="enchantment-Unique-select" [(ngModel)]="uniquet" (ngModelChange)="onChangeEnchantment_TypeUnique($event)">
+                <select id="enchantment-Unique-select" [(ngModel)]="state.uniquet" (ngModelChange)="onChangeEnchantment_TypeUnique($event)">
                   @for (list of Sm.getEnchantmentList('Unique').types; track list + '_unique') {
                     <option [value]="list">{{ list }}</option>
                   }
                 </select>
                 @if(Sm.getEnchantmentList('Unique').types){
-                <select id="enchantmentvalue-Unique-select" [(ngModel)]="uniquev" (ngModelChange)="onChangeEnchantment_ValueUnique($event)">
+                <select id="enchantmentvalue-Unique-select" [(ngModel)]="state.uniquev" (ngModelChange)="onChangeEnchantment_ValueUnique($event)">
                   @for (listvalue of Sm.getEnchantmentList('Unique').values; track listvalue + '_unique_value') {
                     <option [value]="listvalue">{{ formatValue(listvalue) }}</option>
                   } 

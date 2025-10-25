@@ -1,62 +1,11 @@
 import { ApiConfigService } from '../services/api-config.service';
-import {  inject } from '@angular/core';
+import { inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { ListItem, Rarity, ItemData, Enchantment, EnchantmentList , AppState  } from './state-object'; 
 
-interface ItemData {
-  // Lists of enchantment types by rarity
-  listname_uncommon: string[];
-  listname_rare: string[];
-  listname_epic: string[];
-  listname_legend: string[]; 
-  listname_unique: string[];
-  
-  // Lists of enchantment values by rarity (can be numbers or null)
-  listvalue_uncommon: number[] | null;
-  listvalue_rare: number[] | null;
-  listvalue_epic: number[] | null;
-  listvalue_legend: number[] | null; 
-  listvalue_unique: number[] | null;
-}
-
-// Define comprehensive interfaces
-export interface ListItem {
-  name: string;
-  image: string;
-}
-
-interface Enchantment {
-  type: string;
-  value: number;
-}
-
-interface EnchantmentList {
-  types: string[];
-  values: number[];
-}
-
-interface ItemSelection {
-  itemList: ListItem[] | null;
-  itemSel: ListItem | null;
-  rarity: number;
-  rating: number;
-  ratingList: number[] | null;
-  itemData: ItemData | null;
-  itemDisplay: any | null;
-}
-
-interface EnchantmentState {
-  selected: { [rarity: string]: Enchantment };
-  lists: { [rarity: string]: EnchantmentList };
-}
-
-interface AppState {
-  selection: ItemSelection;
-  enchantments: EnchantmentState;
-}
-
-// Rarity type for type safety
-type Rarity = 'No Selection' | 'Poor'| 'Common'| 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Unique';
 
 class Smanager {
+
   private _classSelection: string = "";
   private selectedRatingIndex = 0
 
@@ -94,12 +43,12 @@ class Smanager {
 
   
   // (read-only)
-  getclassSelection(): string { return this._classSelection; }
-  getselectedItemList(): ListItem[] | null { return this.state.selection.itemList; }
-  getselectedItem(): ListItem | null {return this.state.selection.itemSel;}
+  getclassSelection(): string { return this._classSelection}
+  getselectedItemList(): ListItem[] | null { return this.state.selection.itemList}
+  getselectedItem(): ListItem | null {return this.state.selection.itemSel}
   getselectedRarity(): number { return this.state.selection.rarity; }
   getselectedRating(): number { return this.state.selection.rating; }
-  getselectedItemData(): ItemData | null { return this.state.selection.itemData; }
+  getselectedItemData(): ItemData | null { return this.state.selection.itemData}
   getrarities(): Rarity[] | null {return this.rarities}
   getselectedItemDisplay(): any | null {return this.state.selection.itemDisplay}
   getselectedRatingList(): number[] | null{return this.state.selection.ratingList}
@@ -109,9 +58,9 @@ class Smanager {
   setclassSelection(value: string) { this._classSelection = value; }
   setSelectedItemList(items: ListItem[] | null): void {this.state.selection.itemList = items}
   setSelectedRatingList(list: number[] | null): void{this.state.selection.ratingList = list}
-  setSelectedRarity(rarity: number): void {if (this.isValidRarity(rarity)) {this.state.selection.rarity = rarity;}}
+  setSelectedRarity(rarity: number): void {if (this.isValidRarity(rarity)) {this.state.selection.rarity = rarity}}
   setSelectedRating(rating: number): void {if (rating >= 0) {this.state.selection.rating = rating}}
-  setSelectedItemData(data: ItemData): void {this.state.selection.itemData = data;}
+  setSelectedItemData(data: ItemData): void {this.state.selection.itemData = data}
   setSelectedItemDisplay(item: any): void {this.state.selection.itemDisplay = item}
 
   // ===== PRIVATE =====\
@@ -149,6 +98,7 @@ class Smanager {
 
   private isValidEnchantmentType(type: string): boolean {
     // Add your validation logic here
+
     return type.length > 0;
   }
 
@@ -160,6 +110,11 @@ class Smanager {
     this.state.selection.rating = 0;
     this.state.selection.itemData = null;
     this.state.selection.itemDisplay = null;
+    this.state.enchantments.selected = {
+      uncommon: {type: '', value: 0},
+      rare: {type: '', value: 0}
+    };
+    this.state.enchantments.lists = {};
   }
 
   resetEnchant(): void{
@@ -173,8 +128,16 @@ class Smanager {
 }
 
 class FetchManager {
+
+    private payload: {[key: string]: string};
+
+    
     // Accept Smanager instance through constructor
-    constructor(private Sm: Smanager) {}
+    constructor(private Sm: Smanager){
+      this.payload = {
+        
+      }
+    }
     
     private apiConfig = inject(ApiConfigService);
    
@@ -194,6 +157,59 @@ class FetchManager {
           },
     });
     }
+
+  async fetchEnchantment_List(url: string) {
+  const payload = {
+    class: this.Sm.getclassSelection(),
+      itemSlot: {
+        head: {
+          name: this.Sm.getselectedItem()?.name,
+          rarity: this.Sm.getselectedRarity().toString()
+        }
+      }
+    }
+    console.log(payload)
+   try {
+    const response = await firstValueFrom(this.apiConfig.postData(url, payload))
+    // Sort all lists consistently and add "No selection" option
+
+    //const listuncommon = ['No selection', ...response['listname_uncommon']?.sort()];
+    //const uncommonvalue = response.listvalue_uncommon;
+
+    //console.log(listuncommon);
+    //console.log(uncommonvalue);
+    //this.Sm.setEnchantmentList('Uncommon', listuncommon, uncommonvalue);
+    this.Sm.setEnchantmentList('Uncommon', 
+      ['No selection', ...response['listname_uncommon']?.sort() || []], 
+      response['listvalue_uncommon'] || []
+    );
+    
+    this.Sm.setEnchantmentList('Rare', 
+      ['No selection', ...response['listname_rare']?.sort() || []], 
+      response['listvalue_rare'] ? [0, ...response['listvalue_rare']] : [0]
+    );
+    
+    this.Sm.setEnchantmentList('Epic', 
+      ['No selection', ...response['listname_epic']?.sort() || []], 
+      response['listvalue_epic'] ? [0, ...response['listvalue_epic']] : [0]
+    );
+    
+    this.Sm.setEnchantmentList('Legendary', 
+      ['No selection', ...response['listname_legend']?.sort() || []], 
+      response['listvalue_legend'] ? [0, ...response['listvalue_legend']] : [0]
+    );
+    
+    this.Sm.setEnchantmentList('Unique', 
+      ['No selection', ...response['listname_unique']?.sort() || []], 
+      response['listvalue_unique'] ? [0, ...response['listvalue_unique']] : [0]
+    );
+    
+    console.log(this.Sm.getEnchantmentList('Uncommon'))
+  } catch(err) {
+    console.error('Error fetching enchantment list:', err);
+  }
+};
+  
 
  fetchItemData_Armor(url: string) {
 
@@ -218,61 +234,32 @@ class FetchManager {
     });
   }
 
-  fetchList_Rating(url: string) {
-
-  const playload = {
-    class: this.Sm.getclassSelection(),
-      itemSlot: {
-        head: {
-          name: this.Sm.getselectedItem()?.name,
-          rarity: this.Sm.getselectedRarity().toString()
-        }
-    }
-    };
-    this.apiConfig.postData(url, playload).subscribe({
-    next: (response) => {;
-        this.Sm.setSelectedRatingList(response.list);
-        console.log(this.Sm.getselectedRatingList());
-        
-        // If there's only one rating option, automatically select it
-        //if (this.Sm.getselectedRatingList()?.length >= 1) {
-         // this.Sm.setSelectedRating = this.Sm.getselectedRatingList()?[0]
-          //this.ratingSelected.emit(this.selectedRating);
-        //}
-      },
-    error: (err) => {
-        console.error('Error fetching head list:', err);
-      },
-    });
-  }
-  fetchEnchantment_List(url: string) {
-  const payload = {
-    class: this.Sm.getclassSelection(),
+  async fetchList_Rating(url: string) {
+    try {
+     const playload = {
+      class: this.Sm.getclassSelection(),
       itemSlot: {
         head: {
           name: this.Sm.getselectedItem()?.name,
           rarity: this.Sm.getselectedRarity().toString()
         }
       }
-    }
-    console.log(payload)
-    this.apiConfig.postData(url, payload).subscribe({
-      next: (response) => { 
-        
-        // Add "No selection" option at the beginning of each list
-        this.Sm.setEnchantmentList('Uncommon', ['No selection', ...response['listname_uncommon']], response['listvalue_uncommon'] ? [0, ...response['listvalue_uncommon']] : [0]);
-        this.Sm.setEnchantmentList('Rare', ['No selection', ...response['listname_rare']], response['listvalue_rare'] ? [0, ...response['listvalue_rare']] : [0]);
-        this.Sm.setEnchantmentList('Epic', ['No selection', ...response['listname_epic']], response['listvalue_epic'] ? [0, ...response['listvalue_epic']] : [0]);
-        this.Sm.setEnchantmentList('Legendary', ['No selection', ...response['listname_legend']], response['listvalue_legend'] ? [0, ...response['listvalue_legend']] : [0]);
-        this.Sm.setEnchantmentList('Unique', ['No selection', ...response['listname_unique']], response['listvalue_unique'] ? [0, ...response['listvalue_unique']] : [0]);
-      },
-      error: (err) => {
-        console.error('Error fetching enchantment list:', err);
-      },
-    });
+    };
+    const response = await firstValueFrom (this.apiConfig.postData(url, playload));
+    this.Sm.setSelectedRatingList(response.list);
+    console.log(this.Sm.getselectedRatingList());
+    const lenght = this.Sm.getselectedRatingList()?.length;
+    console.log(lenght);
+        // If there's only one rating option, automatically select it
+    this.Sm.setSelectedRating(response.list[0])
+    
+        }catch(err){
+          console.error('error')
+        }
   }
 
-  fetchEnchantment_Value(url: string){
+
+async fetchEnchantment_Value(url: string){
   const payload = {
     class: this.Sm.getclassSelection(),
     race: "",
@@ -284,15 +271,15 @@ class FetchManager {
         rating: "",
           enchant: {
             typeu:  this.Sm.getEnchantment('Uncommon').type,
-            valueu: this.Sm.getEnchantment('Uncommon').value.toString(),
+            valueu: this.Sm.getEnchantment('Uncommon').value?.toString(),
             typer: this.Sm.getEnchantment('Rare').type,
-            valuer: this.Sm.getEnchantment('Rare').value.toString(),
+            valuer: this.Sm.getEnchantment('Rare').value?.toString(),
             typee: this.Sm.getEnchantment('Epic').type,
-            valuee: this.Sm.getEnchantment('Epic').value.toString(),
+            valuee: this.Sm.getEnchantment('Epic').value?.toString(),
             typel: this.Sm.getEnchantment('Legendary').type,
-            valuel: this.Sm.getEnchantment('Legendary').value.toString(),
+            valuel: this.Sm.getEnchantment('Legendary').value?.toString(),
             typeq: this.Sm.getEnchantment('Unique').type,
-            valueq: this.Sm.getEnchantment('Unique').value.toString(),
+            valueq: this.Sm.getEnchantment('Unique').value?.toString(),
           }
       }
     }
@@ -306,12 +293,13 @@ class FetchManager {
    // const currentEpicValue = this.Sm.getEnchantment('Epic').value;
    // const currentLegendaryValue = this.Sm.getEnchantment('Legendary').value;
    // const currentUniqueValue = this.Sm.getEnchantment('Unique').value;
-    
-    this.apiConfig.postData(url, payload).subscribe({
-      next: (response) => {
+    try {
+      const response = await firstValueFrom(this.apiConfig.postData(url, payload));
+        console.log(response['listvalue_uncommon']);
 
-        console.log(response['listvalue_uncommon'])
-        // Update uncommon values
+        
+
+        // Update uncommon val
         if (response.listvalue_uncommon) {
           this.Sm.setEnchantmentList('Uncommon', response['listname_uncommon'] || [], response['listvalue_uncommon']);
         }
@@ -320,7 +308,7 @@ class FetchManager {
         if (response.listvalue_rare) {
           this.Sm.setEnchantmentList('Rare', response['listname_rare'] || [], response['listvalue_rare']);
         }
-         
+        
         // Update epic values
         if (response.listvalue_epic) {
           this.Sm.setEnchantmentList('Epic', response['listname_epic'] || [], response['listvalue_epic']);
@@ -357,16 +345,10 @@ class FetchManager {
           this.selectedEnchantments['unique'].value = currentUniqueValue;
         }
           */
-      },
-      error: (err) => {
-        console.error('Error fetching enchantment list:', err);
-      },
-    });
+      }catch(error){
+        console.error('Error fetching enchantment list:');
+      }
+    }
   }
   
-}
-
-
-
-
 export { Smanager, FetchManager }
