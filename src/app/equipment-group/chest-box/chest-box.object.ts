@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { Smanager,FetchManager, } from '../boxes-object';
 //import { StateSelection  } from '../state-box.component';
 import { ListItem } from '../state-object'; 
-
 interface StateSelection {
     //  rating: string;
         uncommont: string ;
@@ -24,16 +23,14 @@ interface StateSelection {
 }
 
 @Component({
-  selector: 'head-boxy',
+  selector: 'chest-boxy',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './head-box.component.html',
-  styleUrl: './head-box.component.css'
+  templateUrl: './chest-box.component.html',
+  styleUrl: './chest-box.component.css'
 })
 
-
-
-export class HeadBoxObject {
+export class ChestBoxObject {
     selectedRatingIndex: number = 0;
     showList = false;
     showContextMenu = false;
@@ -55,14 +52,14 @@ export class HeadBoxObject {
   
 
     Sm = new Smanager();
-    Fm = new FetchManager(this.Sm, 'head');
+    Fm = new FetchManager(this.Sm, 'chest');
 
     @Input()
     set classSelection(value: string) {
       // Reset all selections when class changes
         this.Sm.resetSelection();
         this.Sm.setclassSelection(value);
-        this.Fm.fetchList_Items('/helmetlist/');
+        this.Fm.fetchList_Items('/chestlist/');
         
      }
     get classSelection(): string {
@@ -106,8 +103,9 @@ export class HeadBoxObject {
     this.rarityBoxColor();
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
-     await this.Fm.fetchList_Rating("/helmetratinglist/");
-     await this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+     await this.Fm.fetchList_Rating("/chestratinglist/");
+     console.log(this.Sm.getselectedRatingList())
+     await this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     }
    this.ratingSelected.emit(this.Sm.getselectedRating());
    this.raritySelected.emit(this.Sm.getselectedRarity());
@@ -155,8 +153,8 @@ export class HeadBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
@@ -173,8 +171,8 @@ export class HeadBoxObject {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
   }
@@ -182,37 +180,37 @@ export class HeadBoxObject {
   onChangeEnchantment_ValueRare(event: number){
 
     this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
   }
 
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
   
   onChangeEnchantment_ValueEpic(event: number){
 
     this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     this.enchantmentSelected_ValueEpic.emit(this.Sm.getEnchantment('Epic').value);
   }
 
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")};
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
   
   onChangeEnchantment_ValueLegendary(event: number){
 
     this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     this.enchantmentSelected_ValueLegendary.emit(this.Sm.getEnchantment('Legendary').value);
   }
 
@@ -220,8 +218,8 @@ export class HeadBoxObject {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistchest/")}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 
   }
@@ -229,7 +227,7 @@ export class HeadBoxObject {
   onChangeEnchantment_ValueUnique(event: number){
 
     this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     this.enchantmentSelected_ValueUnique.emit(this.Sm.getEnchantment('Unique').value);
 
   }
@@ -280,6 +278,6 @@ export class HeadBoxObject {
   @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
-  //@Output() selectionHelmet = new EventEmitter<any>();
+  //@Output() selectionchest = new EventEmitter<any>();
 }
     

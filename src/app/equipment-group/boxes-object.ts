@@ -129,13 +129,12 @@ class Smanager {
 
 class FetchManager {
 
-    private payload: {[key: string]: string};
+   private payload: {[key: string]: string};
 
     
     // Accept Smanager instance through constructor
-    constructor(private Sm: Smanager){
-      this.payload = {
-        
+    constructor(private Sm: Smanager, private slot: string){
+     this.payload = {
       }
     }
     
@@ -162,7 +161,7 @@ class FetchManager {
   const payload = {
     class: this.Sm.getclassSelection(),
       itemSlot: {
-        head: {
+        [this.slot]: {
           name: this.Sm.getselectedItem()?.name,
           rarity: this.Sm.getselectedRarity().toString()
         }
@@ -171,14 +170,7 @@ class FetchManager {
     console.log(payload)
    try {
     const response = await firstValueFrom(this.apiConfig.postData(url, payload))
-    // Sort all lists consistently and add "No selection" option
 
-    //const listuncommon = ['No selection', ...response['listname_uncommon']?.sort()];
-    //const uncommonvalue = response.listvalue_uncommon;
-
-    //console.log(listuncommon);
-    //console.log(uncommonvalue);
-    //this.Sm.setEnchantmentList('Uncommon', listuncommon, uncommonvalue);
     this.Sm.setEnchantmentList('Uncommon', 
       ['No selection', ...response['listname_uncommon']?.sort() || []], 
       response['listvalue_uncommon'] || []
@@ -216,7 +208,7 @@ class FetchManager {
   const payload = {
     class: this.Sm.getclassSelection(),
     itemSlot: {
-      head: { 
+      [this.slot]: { 
         name: this.Sm.getselectedItem()?.name,
       }
     }
@@ -236,16 +228,19 @@ class FetchManager {
 
   async fetchList_Rating(url: string) {
     try {
-     const playload = {
+     const payload = {
       class: this.Sm.getclassSelection(),
       itemSlot: {
-        head: {
+        [this.slot]: {
           name: this.Sm.getselectedItem()?.name,
           rarity: this.Sm.getselectedRarity().toString()
         }
       }
     };
-    const response = await firstValueFrom (this.apiConfig.postData(url, playload));
+    console.log(this.Sm.getclassSelection())
+    console.log(this.Sm.getselectedItem()?.name)
+    console.log(payload);
+    const response = await firstValueFrom (this.apiConfig.postData(url, payload));
     this.Sm.setSelectedRatingList(response.list);
     console.log(this.Sm.getselectedRatingList());
     const lenght = this.Sm.getselectedRatingList()?.length;
@@ -264,7 +259,7 @@ async fetchEnchantment_Value(url: string){
     class: this.Sm.getclassSelection(),
     race: "",
     itemSlot: {
-      head: {
+      [this.slot]: {
         id: "",
         name: this.Sm.getselectedItem()?.name,
         rarity: this.Sm.getselectedRarity().toString(),
@@ -285,66 +280,34 @@ async fetchEnchantment_Value(url: string){
     }
     };
 
-    //console.log(payload)
-
-    // Store current values before fetching
-   // const currentUncommonValue = this.Sm.getEnchantment('Uncommon').value;
-   // const currentRareValue = this.Sm.getEnchantment('Rare').value;
-   // const currentEpicValue = this.Sm.getEnchantment('Epic').value;
-   // const currentLegendaryValue = this.Sm.getEnchantment('Legendary').value;
-   // const currentUniqueValue = this.Sm.getEnchantment('Unique').value;
     try {
       const response = await firstValueFrom(this.apiConfig.postData(url, payload));
         console.log(response['listvalue_uncommon']);
-
         
-
-        // Update uncommon val
-        if (response.listvalue_uncommon) {
-          this.Sm.setEnchantmentList('Uncommon', response['listname_uncommon'] || [], response['listvalue_uncommon']);
-        }
-      
-        // Update rare values
-        if (response.listvalue_rare) {
-          this.Sm.setEnchantmentList('Rare', response['listname_rare'] || [], response['listvalue_rare']);
-        }
-        
-        // Update epic values
-        if (response.listvalue_epic) {
-          this.Sm.setEnchantmentList('Epic', response['listname_epic'] || [], response['listvalue_epic']);
-        }
-        
-        // Update legendary values
-        if (response.listvalue_legend) {
-          this.Sm.setEnchantmentList('Legendary', response['listname_legend'] || [], response['listvalue_legend']);
-        }
-        
-        // Update unique values
-        if (response.listvalue_unique) {
-         this.Sm.setEnchantmentList('Unique', response['listname_unique '] || [], response['listvalue_unique']);
-        }
-        /*
-        // Restore selected values if they exist in the new lists
-        if (currentUncommonValue && this.enchantmentLists['uncommon'].values.includes(currentUncommonValue)) {
-          this.selectedEnchantments['uncommon'].value = currentUncommonValue;
-        }
-        
-        if (currentRareValue && this.enchantmentLists['rare'].values.includes(currentRareValue)) {
-          this.selectedEnchantments['rare'].value = currentRareValue;
-        }
-        
-        if (currentEpicValue && this.enchantmentLists['epic'].values.includes(currentEpicValue)) {
-          this.selectedEnchantments['epic'].value = currentEpicValue;
-        }
-        
-        if (currentLegendaryValue && this.enchantmentLists['legendary'].values.includes(currentLegendaryValue)) {
-          this.selectedEnchantments['legendary'].value = currentLegendaryValue;
-        }
-        
-        if (currentUniqueValue && this.enchantmentLists['unique'].values.includes(currentUniqueValue)) {
-          this.selectedEnchantments['unique'].value = currentUniqueValue;
-        }
-          */
+         this.Sm.setEnchantmentList('Uncommon', 
+      ['No selection', ...response['listname_uncommon']?.sort() || []], 
+      response['listvalue_uncommon'] || []
+    );
+    
+    this.Sm.setEnchantmentList('Rare', 
+      ['No selection', ...response['listname_rare']?.sort() || []], 
+      response['listvalue_rare'] || []
+    );
+    
+    this.Sm.setEnchantmentList('Epic', 
+      ['No selection', ...response['listname_epic']?.sort() || []], 
+      response['listvalue_epic'] || []
+    );
+    
+    this.Sm.setEnchantmentList('Legendary', 
+      ['No selection', ...response['listname_legend']?.sort() || []], 
+      response['listvalue_legend'] || []
+    );
+    
+    this.Sm.setEnchantmentList('Unique', 
+      ['No selection', ...response['listname_unique']?.sort() || []], 
+      response['listvalue_unique'] || []
+    );
       }catch(error){
         console.error('Error fetching enchantment list:');
       }

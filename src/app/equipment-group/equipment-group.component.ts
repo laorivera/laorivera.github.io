@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Output, EventEmitter, ViewChildren, QueryList, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 //import { HeadBoxObject } from './head-box/head-box.component';
-import { ChestBoxComponent } from './chest-box/chest-box.component';
+
 import { GlovesBoxComponent } from './gloves-box/gloves-box.component';
 import { PantsBoxComponent } from './pants-box/pants-box.component';
 import { BootsBoxComponent } from './boots-box/boots-box.component';
@@ -14,6 +14,7 @@ import { ApiConfigService } from '../services/api-config.service';
 import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
 import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
 import { HeadBoxObject } from './head-box/head-box.object';
+import { ChestBoxObject } from './chest-box/chest-box.object';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { HeadBoxObject } from './head-box/head-box.object';
   imports: [
     CommonModule,
     HeadBoxObject,
-    ChestBoxComponent,
+    ChestBoxObject,
     GlovesBoxComponent,
     PantsBoxComponent,
     BootsBoxComponent,
@@ -90,7 +91,7 @@ export class BoxesGroupComponent {
   
 
   @ViewChildren(HeadBoxObject) headBoxes!: QueryList<HeadBoxObject>;
-  @ViewChildren(ChestBoxComponent) chestBoxes!: QueryList<ChestBoxComponent>;
+  @ViewChildren(ChestBoxObject) chestBoxes!: QueryList<ChestBoxObject>;
   @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
   @ViewChildren(PantsBoxComponent) pantsBoxes!: QueryList<PantsBoxComponent>;
   @ViewChildren(BootsBoxComponent) bootsBoxes!: QueryList<BootsBoxComponent>;
@@ -177,8 +178,8 @@ export class BoxesGroupComponent {
   }
 
   onItemSelected_Helmet(slot: string, itemName: string) {
-    console.log(slot)
-    console.log(itemName)
+    //console.log(slot)
+    //console.log(itemName)
     
     const slotType = slot.split('item')[1]; 
    
@@ -343,7 +344,6 @@ export class BoxesGroupComponent {
     if (this.selectedRarites[`rarityselect_${slotType}`]){
       this.resetRarity(slotType);
     }
-    
     if (this.selectedRatings[`armorrating_${slotType}`]){
       this.resetRating(slotType);
     }
@@ -389,14 +389,14 @@ export class BoxesGroupComponent {
 
   onEnchantmentSelected_TypeRare(slot: string, enchantment: string) {
     // Reset enchantments for this slot
-    console.log(this.selectedEnchant[slot])
-    console.log(slot)
+    //console.log(this.selectedEnchant[slot])
+    //console.log(slot)
     const valueSlot = slot.replace('type2', 'value2');
-     console.log(valueSlot)
+     //console.log(valueSlot)
     this.selectedEnchantValue[valueSlot] = 0;
-    console.log(this.selectedEnchantValue[valueSlot])
+    //console.log(this.selectedEnchantValue[valueSlot])
     this.selectedEnchant[slot] = enchantment;
-    console.log(this.selectedEnchant[slot])
+   // console.log(this.selectedEnchant[slot])
     this.calculateEquipment();
   }
 

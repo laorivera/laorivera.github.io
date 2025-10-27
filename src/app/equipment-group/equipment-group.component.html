@@ -1,5 +1,5 @@
 
- 
+
 <div class="equipment-boxes">
   
   <head-boxy
@@ -20,7 +20,7 @@
 
   ></head-boxy>
 
-  <chest-box 
+  <chest-boxy 
     [classSelection]="classSelection"
     (itemSelected)="onItemSelected_Chest('itemchest', $event)"
     (raritySelected)="onRaritySelected('rarityselect_chest', $event)"
@@ -35,7 +35,7 @@
     (enchantmentSelected_ValueLegendary)="onEnchantmentSelected_ValueLegendary('enchantment_chestvalue4', $event)"
     (enchantmentSelected_TypeUnique)="onEnchantmentSelected_TypeUnique('enchantment_chesttype5', $event)"
     (enchantmentSelected_ValueUnique)="onEnchantmentSelected_ValueUnique('enchantment_chestvalue5', $event)"
-  > </chest-box>
+  > </chest-boxy>
 
   <gloves-box 
     [classSelection]="classSelection"
