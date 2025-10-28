@@ -24,7 +24,7 @@
   
   .equipment-list {
     position: absolute;
-    top: 0;
+    top: 10%;
     left: 100%;
     margin-right: 5px;
     background: #222222;

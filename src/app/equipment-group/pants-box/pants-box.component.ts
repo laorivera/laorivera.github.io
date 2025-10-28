@@ -1,3 +1,5 @@
+/*
+
 import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -498,4 +500,4 @@ export class PantsBoxComponent {
       default: return 'rarity-default';
     }
   }
-}
+}*/
