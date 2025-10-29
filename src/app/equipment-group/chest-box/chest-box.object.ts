@@ -23,7 +23,7 @@ interface StateSelection {
 }
 
 @Component({
-  selector: 'chest-boxy',
+  selector: 'chest-box',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './chest-box.component.html',

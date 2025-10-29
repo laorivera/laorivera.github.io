@@ -9,7 +9,7 @@
   margin : auto
 }
 
-head-boxy {
+head-box {
   position: absolute;
   top: 20px;
   left: 170px;
@@ -21,7 +21,7 @@ necklace-box {
   left: 280px;
 }
 
-chest-boxy {
+chest-box {
   position: absolute;
   top: 140px;
   left: 170px;

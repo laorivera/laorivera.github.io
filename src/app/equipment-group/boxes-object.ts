@@ -158,7 +158,7 @@ class FetchManager {
     }
 
   async fetchEnchantment_List(url: string) {
-  const payload = {
+  const payload = {     
     class: this.Sm.getclassSelection(),
       itemSlot: {
         [this.slot]: {
