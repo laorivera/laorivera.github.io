@@ -24,15 +24,15 @@ interface StateSelection {
 }
 
 @Component({
-  selector: 'necklace-box',
+  selector: 'ring-box-two',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './necklace-box.component.html',
-  styleUrl: './necklace-box.component.css'
+  templateUrl: './ring-box.component-two.html',
+  styleUrl: './ring-box.component-two.css'
 })
 
 
-export class NecklaceBoxObject {
+export class RingTwoBoxObject {
     selectedRatingIndex: number = 0;
     showList = false;
     showContextMenu = false;
@@ -53,14 +53,14 @@ export class NecklaceBoxObject {
      }
   
     Sm = new Smanager();
-    Fm = new FetchManager(this.Sm, 'necklace');
+    Fm = new FetchManager(this.Sm, 'ringOne');
 
     @Input()
     set classSelection(value: string) {
       // Reset all selections when class changes
         this.Sm.resetSelection();
         this.Sm.setclassSelection(value);
-        this.Fm.fetchList_Items('/necklacelist/');
+        this.Fm.fetchList_Items('/ringlist/');
         
      }
     get classSelection(): string {
@@ -105,9 +105,9 @@ export class NecklaceBoxObject {
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
     console.log('Rarity change start:', event);
-     //await this.Fm.fetchList_Rating("/necklaceratinglist/");
+     //await this.Fm.fetchList_Rating("/ringratinglist/");
      console.log('Rating fetch complete');
-     await this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
+     await this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
      console.log('Enchantment fetch complete');
     }
    // Emit rarity first so parent has it when rating handler runs
@@ -160,8 +160,8 @@ export class NecklaceBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    //this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")}
+    //this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistring/")}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
@@ -178,8 +178,8 @@ export class NecklaceBoxObject {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistring/")}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
   }
@@ -187,37 +187,37 @@ export class NecklaceBoxObject {
   onChangeEnchantment_ValueRare(event: number){
 
     this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
     this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
   }
 
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistring/")}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
   
   onChangeEnchantment_ValueEpic(event: number){
 
     this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
     this.enchantmentSelected_ValueEpic.emit(this.Sm.getEnchantment('Epic').value);
   }
 
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")};
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistring/")};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
   
   onChangeEnchantment_ValueLegendary(event: number){
 
     this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
     this.enchantmentSelected_ValueLegendary.emit(this.Sm.getEnchantment('Legendary').value);
   }
 
@@ -225,8 +225,8 @@ export class NecklaceBoxObject {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistring/")}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 
   }
@@ -234,7 +234,7 @@ export class NecklaceBoxObject {
   onChangeEnchantment_ValueUnique(event: number){
 
     this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistnecklace/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistring/");
     this.enchantmentSelected_ValueUnique.emit(this.Sm.getEnchantment('Unique').value);
 
   }
@@ -285,6 +285,6 @@ export class NecklaceBoxObject {
   @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
-  //@Output() selectionnecklace = new EventEmitter<any>();
+  //@Output() selectionring = new EventEmitter<any>();
 }
     

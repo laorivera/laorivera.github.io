@@ -8,8 +8,8 @@ import { PantsBoxObject } from './pants-box/pants-box.object';
 import { BootsBoxObject } from './boots-box/boots-box.object';
 import { NecklaceBoxObject } from './necklace-box/necklace-box.object';
 import { CloakBoxObject } from './cloak-box/cloak-box.object';
-import { RingBoxComponent } from './ring-box/ring-box.component';
-import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
+import { RingBoxObject } from './ring-box/ring-box.object';
+import { RingTwoBoxObject } from './ring-box-two/ring-box.object-two';
 import { ApiConfigService } from '../services/api-config.service';
 import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
 import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
@@ -28,8 +28,8 @@ import { ChestBoxObject } from './chest-box/chest-box.object';
     BootsBoxObject,
     NecklaceBoxObject,
     CloakBoxObject,
-    RingBoxComponent,
-    RingBoxComponentTwo,
+    RingBoxObject,
+    RingTwoBoxObject,
     PrimaryWeaponBoxComponent,
     SecondaryWeaponBoxComponent
 ],
@@ -96,7 +96,7 @@ export class BoxesGroupComponent {
   @ViewChildren(BootsBoxObject) bootsBoxes!: QueryList<BootsBoxObject>;
   @ViewChildren(NecklaceBoxObject) necklaceBoxes!: QueryList<NecklaceBoxObject>;
   @ViewChildren(CloakBoxObject) cloakBoxes!: QueryList<CloakBoxObject>;
-  @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
+  @ViewChildren(RingBoxObject) ringBoxes!: QueryList<RingBoxObject>;
   @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
 
 
