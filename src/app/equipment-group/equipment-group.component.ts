@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { GlovesBoxObject } from './gloves-box/gloves-box.object';
 import { PantsBoxObject } from './pants-box/pants-box.object';
 import { BootsBoxObject } from './boots-box/boots-box.object';
-import { NecklaceBoxComponent } from './necklace-box/necklace-box.component';
-import { CloakBoxComponent } from './cloak-box/cloak-box.component';
+import { NecklaceBoxObject } from './necklace-box/necklace-box.object';
+import { CloakBoxObject } from './cloak-box/cloak-box.object';
 import { RingBoxComponent } from './ring-box/ring-box.component';
 import { RingBoxComponentTwo } from './ring-box-two/ring-box.component-two';
 import { ApiConfigService } from '../services/api-config.service';
@@ -26,8 +26,8 @@ import { ChestBoxObject } from './chest-box/chest-box.object';
     GlovesBoxObject,
     PantsBoxObject,
     BootsBoxObject,
-    NecklaceBoxComponent,
-    CloakBoxComponent,
+    NecklaceBoxObject,
+    CloakBoxObject,
     RingBoxComponent,
     RingBoxComponentTwo,
     PrimaryWeaponBoxComponent,
@@ -94,8 +94,8 @@ export class BoxesGroupComponent {
   @ViewChildren(GlovesBoxObject) glovesBoxes!: QueryList<GlovesBoxObject>;
   @ViewChildren(PantsBoxObject) pantsBoxes!: QueryList<PantsBoxObject>;
   @ViewChildren(BootsBoxObject) bootsBoxes!: QueryList<BootsBoxObject>;
-  @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
-  @ViewChildren(CloakBoxComponent) cloakBoxes!: QueryList<CloakBoxComponent>;
+  @ViewChildren(NecklaceBoxObject) necklaceBoxes!: QueryList<NecklaceBoxObject>;
+  @ViewChildren(CloakBoxObject) cloakBoxes!: QueryList<CloakBoxObject>;
   @ViewChildren(RingBoxComponent) ringBoxes!: QueryList<RingBoxComponent>;
   @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
 
