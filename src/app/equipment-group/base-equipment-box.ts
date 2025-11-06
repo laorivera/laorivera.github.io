@@ -1,12 +1,8 @@
-import { Component, EventEmitter, Input, Output, HostListener, inject } from '@angular/core';
-//import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-//import { ApiConfigService } from '../../services/api-config.service';
-//import { BoxesGroupComponent } from "../equipment-group.component";
-import { Smanager,FetchManager, } from '../boxes-object';
-//import { StateSelection  } from '../state-box.component';
-import { ListItem } from '../state-object'; 
+
+/*
+import { EventEmitter, Input, Output, HostListener, Directive } from '@angular/core';
+import { Smanager, FetchManager } from './boxes-object';
+import { ListItem } from './state-object'; 
 
 interface StateSelection {
     //  rating: string;
@@ -23,21 +19,13 @@ interface StateSelection {
         uniquev: number ;
 }
 
-@Component({
-  selector: 'boots-box',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './boots-box.component.html',
-  styleUrl: './boots-box.component.css'
-})
-
-
-export class BootsBoxObject {
+@Directive()
+export abstract class BaseEquipmentBox {
     selectedRatingIndex: number = 0;
     showList = false;
     showContextMenu = false;
     rating = "";
-   state: StateSelection = {
+    state: StateSelection = {
        // rating: "",
         uncommont: "",
         uncommonv: 0,
@@ -52,16 +40,26 @@ export class BootsBoxObject {
         uniquev: 0
      }
   
-
     Sm = new Smanager();
-    Fm = new FetchManager(this.Sm, 'foot');
+    Fm!: FetchManager;
+
+    // Abstract methods - child classes must provide these
+    protected abstract getSlot(): string;
+    protected abstract getItemListEndpoint(): string;
+    protected abstract getRatingListEndpoint(): string;
+    protected abstract getEnchantmentListEndpoint(): string;
+
+    constructor() {
+        // Initialize FetchManager with slot from child class
+        this.Fm = new FetchManager(this.Sm, this.getSlot());
+    }
 
     @Input()
     set classSelection(value: string) {
       // Reset all selections when class changes
         this.Sm.resetSelection();
         this.Sm.setclassSelection(value);
-        this.Fm.fetchList_Items('/bootslist/');
+        this.Fm.fetchList_Items(this.getItemListEndpoint());
         
      }
     get classSelection(): string {
@@ -105,11 +103,11 @@ export class BootsBoxObject {
     this.rarityBoxColor();
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
-     //console.log('Before API calls');
-     await this.Fm.fetchList_Rating("/bootsratinglist/");
-     //console.log('After first API call');
-     await this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-     //console.log('After second API call');
+    console.log('Rarity change start:', event);
+     await this.Fm.fetchList_Rating(this.getRatingListEndpoint());
+     console.log('Rating fetch complete');
+     await this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
+     console.log('Enchantment fetch complete');
     }
    // Emit rarity first so parent has it when rating handler runs
    this.raritySelected.emit(this.Sm.getselectedRarity());
@@ -117,7 +115,7 @@ export class BootsBoxObject {
    setTimeout(() => {
      this.ratingSelected.emit(this.Sm.getselectedRating());
    }, 0);
-   this.resetSelection()
+   this.resetSelection();
   }catch(error){console.error('error');}}
 
  onChangeRating(event: number) {
@@ -161,8 +159,8 @@ export class BootsBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    //this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
@@ -179,8 +177,8 @@ export class BootsBoxObject {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
   }
@@ -188,37 +186,37 @@ export class BootsBoxObject {
   onChangeEnchantment_ValueRare(event: number){
 
     this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
     this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
   }
 
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
   
   onChangeEnchantment_ValueEpic(event: number){
 
     this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
     this.enchantmentSelected_ValueEpic.emit(this.Sm.getEnchantment('Epic').value);
   }
 
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")};
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
   
   onChangeEnchantment_ValueLegendary(event: number){
 
     this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
     this.enchantmentSelected_ValueLegendary.emit(this.Sm.getEnchantment('Legendary').value);
   }
 
@@ -226,8 +224,8 @@ export class BootsBoxObject {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 
   }
@@ -235,7 +233,7 @@ export class BootsBoxObject {
   onChangeEnchantment_ValueUnique(event: number){
 
     this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
     this.enchantmentSelected_ValueUnique.emit(this.Sm.getEnchantment('Unique').value);
 
   }
@@ -286,6 +284,5 @@ export class BootsBoxObject {
   @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
-  //@Output() selectionboots = new EventEmitter<any>();
 }
-    
+*/

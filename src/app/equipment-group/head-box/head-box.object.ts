@@ -104,12 +104,19 @@ export class HeadBoxObject {
     this.rarityBoxColor();
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
+    console.log('Rarity change start:', event);
      await this.Fm.fetchList_Rating("/helmetratinglist/");
+     console.log('Rating fetch complete');
      await this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+     console.log('Enchantment fetch complete');
     }
-   this.ratingSelected.emit(this.Sm.getselectedRating());
+   // Emit rarity first so parent has it when rating handler runs
    this.raritySelected.emit(this.Sm.getselectedRarity());
-   this.resetSelection()
+   // Use setTimeout to ensure rarity handler completes before rating handler
+   setTimeout(() => {
+     this.ratingSelected.emit(this.Sm.getselectedRating());
+   }, 0);
+   this.resetSelection();
   }catch(error){console.error('error');}}
 
  onChangeRating(event: number) {
@@ -153,7 +160,7 @@ export class HeadBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    //this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/")}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }

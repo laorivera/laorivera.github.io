@@ -3,7 +3,7 @@ import { Component, Output, EventEmitter, ViewChildren, QueryList, Input } from 
 import { HttpClient } from '@angular/common/http';
 //import { HeadBoxObject } from './head-box/head-box.component';
 
-import { GlovesBoxComponent } from './gloves-box/gloves-box.component';
+import { GlovesBoxObject } from './gloves-box/gloves-box.object';
 import { PantsBoxObject } from './pants-box/pants-box.object';
 import { BootsBoxObject } from './boots-box/boots-box.object';
 import { NecklaceBoxComponent } from './necklace-box/necklace-box.component';
@@ -23,7 +23,7 @@ import { ChestBoxObject } from './chest-box/chest-box.object';
     CommonModule,
     HeadBoxObject,
     ChestBoxObject,
-    GlovesBoxComponent,
+    GlovesBoxObject,
     PantsBoxObject,
     BootsBoxObject,
     NecklaceBoxComponent,
@@ -91,7 +91,7 @@ export class BoxesGroupComponent {
 
   @ViewChildren(HeadBoxObject) headBoxes!: QueryList<HeadBoxObject>;
   @ViewChildren(ChestBoxObject) chestBoxes!: QueryList<ChestBoxObject>;
-  @ViewChildren(GlovesBoxComponent) glovesBoxes!: QueryList<GlovesBoxComponent>;
+  @ViewChildren(GlovesBoxObject) glovesBoxes!: QueryList<GlovesBoxObject>;
   @ViewChildren(PantsBoxObject) pantsBoxes!: QueryList<PantsBoxObject>;
   @ViewChildren(BootsBoxObject) bootsBoxes!: QueryList<BootsBoxObject>;
   @ViewChildren(NecklaceBoxComponent) necklaceBoxes!: QueryList<NecklaceBoxComponent>;
@@ -146,7 +146,7 @@ export class BoxesGroupComponent {
     this.selectedEnchant = {}; 
     this.selectedEnchantValue = {};
     
-    this.calculateCharacter(); // funcion calcula character base
+    this.calculateEquipment(); // funcion calcula character base
   }
 
   onRaceSelected() {
@@ -211,7 +211,7 @@ export class BoxesGroupComponent {
     }
     this.resetEnchantment(slotType);
 
-    this.selectedItems["chest"] = itemName;
+    this.selectedItems["itemchest"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -228,7 +228,7 @@ export class BoxesGroupComponent {
 
   
     this.resetEnchantment(slotType);
-    this.selectedItems["gloves"] = itemName;
+    this.selectedItems["itemgloves"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -243,7 +243,7 @@ export class BoxesGroupComponent {
       this.resetRating(slotType);
     }
     this.resetEnchantment(slotType);
-    this.selectedItems["pants"] = itemName;
+    this.selectedItems["itempants"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -258,7 +258,7 @@ export class BoxesGroupComponent {
       this.resetRating(slotType);
     }
     this.resetEnchantment(slotType);
-    this.selectedItems["boots"] = itemName;
+    this.selectedItems["itemboots"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -273,7 +273,7 @@ export class BoxesGroupComponent {
       this.resetRating(slotType);
     }
     this.resetEnchantment(slotType);
-    this.selectedItems["cloak"] = itemName;
+    this.selectedItems["itemcloak"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -285,7 +285,7 @@ export class BoxesGroupComponent {
     }
     
     this.resetEnchantment(slotType);
-    this.selectedItems["necklace"] = itemName;
+    this.selectedItems["itemnecklace"] = itemName;
     this.calculateEquipment(); 
   }
 
@@ -352,7 +352,7 @@ export class BoxesGroupComponent {
   }
 
 
-  onRaritySelected(slot: string, rarity: number){ 
+  onRaritySelected(slot: string, rarity: number,){ 
     this.selectedRarites[slot] = String(rarity);
     const slotType = slot.split('_')[1]; 
     //console.log(slot)
@@ -462,68 +462,68 @@ export class BoxesGroupComponent {
     itemSlot: {
       head: {
         name: this.selectedItems['itemhelmet'] || '',
-        rarity: this.selectedRarites['rarityselect_helmet'] || '0',
-        rating: this.selectedRatings['armorrating_helmet'] || '0',
+        rarity: this.selectedRarites['rarityselect_helmet'] || '',
+        rating: this.selectedRatings['armorrating_helmet'] || '',
         enchant: buildEnchant('helmet')
       },
       chest: {
-        name: this.selectedItems['chest'] || '',
-        rarity: this.selectedRarites['rarityselect_chest'] || '0',
-        rating: this.selectedRatings['armorrating_chest'] || '0',
+        name: this.selectedItems['itemchest'] || '',
+        rarity: this.selectedRarites['rarityselect_chest'] || '',
+        rating: this.selectedRatings['armorrating_chest'] || '',
         enchant: buildEnchant('chest')
       },
       hands: {
-        name: this.selectedItems['gloves'] || '',
-        rarity: this.selectedRarites['rarityselect_gloves'] || '0',
-        rating: this.selectedRatings['armorrating_gloves'] || '0',
+        name: this.selectedItems['itemgloves'] || '',
+        rarity: this.selectedRarites['rarityselect_gloves'] || '',
+        rating: this.selectedRatings['armorrating_gloves'] || '',
         enchant: buildEnchant('gloves')
       },
       pants: {
-        name: this.selectedItems['pants'] || '',
-        rarity: this.selectedRarites['rarityselect_pants'] || '0',
-        rating: this.selectedRatings['armorrating_pants'] || '0',
+        name: this.selectedItems['itempants'] || '',
+        rarity: this.selectedRarites['rarityselect_pants'] || '',
+        rating: this.selectedRatings['armorrating_pants'] || '',
         enchant: buildEnchant('pants')
       },
       foot: {
-        name: this.selectedItems['boots'] || '',
-        rarity: this.selectedRarites['rarityselect_boots'] || '0',
-        rating: this.selectedRatings['armorrating_boots'] || '0',
+        name: this.selectedItems['itemboots'] || '',
+        rarity: this.selectedRarites['rarityselect_boots'] || '',
+        rating: this.selectedRatings['armorrating_boots'] || '',
         enchant: buildEnchant('boots')
       },
       back: {
-        name: this.selectedItems['cloak'] || '',
-        rarity: this.selectedRarites['rarityselect_cloak'] || '0',
-        rating: this.selectedRatings['armorrating_cloak'] || '0',
+        name: this.selectedItems['itemcloak'] || '',
+        rarity: this.selectedRarites['rarityselect_cloak'] || '',
+        rating: this.selectedRatings['armorrating_cloak'] || '',
         enchant: buildEnchant('cloak')
       },
       necklace: {
-        name: this.selectedItems['necklace'] || '',
-        rarity: this.selectedRarites['rarityselect_necklace'] || '0',
-        rating: '0', 
+        name: this.selectedItems['itemnecklace'] || '',
+        rarity: this.selectedRarites['rarityselect_necklace'] || '',
+        rating: '', 
         enchant: buildEnchant('necklace')
       },
       ringOne: {
         name: this.selectedItems['ring'] || '',
-        rarity: this.selectedRarites['rarityselect_ring'] || '0',
-        rating: '0', 
+        rarity: this.selectedRarites['rarityselect_ring'] || '',
+        rating: '', 
         enchant: buildEnchant('ring')
       },
       ringTwo: {
         name: this.selectedItems['ringtwo'] || '',
-        rarity: this.selectedRarites['rarityselect_ringtwo'] || '0',
-        rating: '0', 
+        rarity: this.selectedRarites['rarityselect_ringtwo'] || '',
+        rating: '', 
         enchant: buildEnchant('ringtwo')
       },
       weaponOne: {
         name: this.selectedItems['primaryweapon'] || '',
-        rarity: this.selectedRarites['rarityselect_primaryweapon'] || '0',
-        rating: this.selectedRatings['armorrating_primaryweapon'] || '0',
+        rarity: this.selectedRarites['rarityselect_primaryweapon'] || '',
+        rating: this.selectedRatings['armorrating_primaryweapon'] || '',
         enchant: buildEnchant('primaryweapon')
       },
       weaponTwo: {
         name: this.selectedItems['secondaryweapon'] || '',
-        rarity: this.selectedRarites['rarityselect_secondaryweapon'] || '0',
-        rating: this.selectedRatings['armorrating_secondaryweapon'] || '0',
+        rarity: this.selectedRarites['rarityselect_secondaryweapon'] || '',
+        rating: this.selectedRatings['armorrating_secondaryweapon'] || '',
         enchant: buildEnchant('secondaryweapon')
       }
     }
@@ -532,21 +532,21 @@ export class BoxesGroupComponent {
 
 
   // API CALL TO CALCULATE EQUIPMENT
-   calculateEquipment() {
-    const payload = this.buildEquipmentPayload();
-    console.log(payload)
-    
-    this.apiConfig.postData('/api/', payload).subscribe({
-      next: (response) => {
-        this.calculationResultChanged.emit(response);
-      },
-      error: (err) => {
-        console.error('Error calculating equipment:', err);
-        this.calculationResultChanged.emit(null);
-      },
-    });
-  }
-
+ calculateEquipment() {
+  const payload = this.buildEquipmentPayload();
+  console.log(payload);
+  
+  this.apiConfig.postData('/api/', payload).subscribe({
+    next: (result) => {
+      this.calculationResultChanged.emit(result);
+    },
+    error: (err) => {
+      console.error('Error calculating equipment:', err);
+      this.calculationResultChanged.emit(null);
+    }
+  });
+}
+/*
   // API call to calculate character
   calculateCharacter() {
      const payload = this.buildEquipmentPayload();
@@ -559,9 +559,10 @@ export class BoxesGroupComponent {
       error: (err) => {
         console.error('Error calculating equipment:', err);
         this.calculationResultChanged.emit(null);
-      },*/
+      },
     });
   }
+*/
 
   fetchCharacterData() {
     const params = new URLSearchParams();

@@ -107,8 +107,12 @@ export class ChestBoxObject {
      console.log(this.Sm.getselectedRatingList())
      await this.Fm.fetchEnchantment_Value("/enchantmentlistchest/");
     }
-   this.ratingSelected.emit(this.Sm.getselectedRating());
+   // Emit rarity first so parent has it when rating handler runs
    this.raritySelected.emit(this.Sm.getselectedRarity());
+   // Use setTimeout to ensure rarity handler completes before rating handler
+   setTimeout(() => {
+     this.ratingSelected.emit(this.Sm.getselectedRating());
+   }, 0);
    this.resetSelection()
   }catch(error){console.error('error');}}
 

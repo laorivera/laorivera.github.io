@@ -1,3 +1,4 @@
+/*
 import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -127,7 +128,7 @@ export class GlovesBoxComponent {
     this.selectedEnchantments['epic'].type = '';
     this.selectedEnchantments['legendary'].type = '';
     this.selectedEnchantments['unique'].type = '';
-    */
+    
   }
 
 
@@ -510,4 +511,5 @@ export class GlovesBoxComponent {
       default: return 'rarity-default';
     }
   }
-}
+}*/
+ 

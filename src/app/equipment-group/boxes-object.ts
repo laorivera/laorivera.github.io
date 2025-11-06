@@ -243,14 +243,13 @@ class FetchManager {
     const response = await firstValueFrom (this.apiConfig.postData(url, payload));
     this.Sm.setSelectedRatingList(response.list);
     console.log(this.Sm.getselectedRatingList());
-    const lenght = this.Sm.getselectedRatingList()?.length;
-    console.log(lenght);
+    //const lenght = this.Sm.getselectedRatingList()?.length;
+   // console.log(lenght);
         // If there's only one rating option, automatically select it
     this.Sm.setSelectedRating(response.list[0])
-    
-        }catch(err){
+     }catch(err){
           console.error('error')
-        }
+     }
   }
 
 

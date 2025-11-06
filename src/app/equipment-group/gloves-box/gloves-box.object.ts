@@ -24,20 +24,20 @@ interface StateSelection {
 }
 
 @Component({
-  selector: 'boots-box',
+  selector: 'gloves-box',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './boots-box.component.html',
-  styleUrl: './boots-box.component.css'
+  templateUrl: './gloves-box.component.html',
+  styleUrl: './gloves-box.component.css'
 })
 
 
-export class BootsBoxObject {
+export class GlovesBoxObject {
     selectedRatingIndex: number = 0;
     showList = false;
     showContextMenu = false;
     rating = "";
-   state: StateSelection = {
+    state: StateSelection = {
        // rating: "",
         uncommont: "",
         uncommonv: 0,
@@ -52,16 +52,15 @@ export class BootsBoxObject {
         uniquev: 0
      }
   
-
     Sm = new Smanager();
-    Fm = new FetchManager(this.Sm, 'foot');
+    Fm = new FetchManager(this.Sm, 'hands');
 
     @Input()
     set classSelection(value: string) {
       // Reset all selections when class changes
         this.Sm.resetSelection();
         this.Sm.setclassSelection(value);
-        this.Fm.fetchList_Items('/bootslist/');
+        this.Fm.fetchList_Items('/gloveslist/');
         
      }
     get classSelection(): string {
@@ -105,11 +104,8 @@ export class BootsBoxObject {
     this.rarityBoxColor();
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
-     //console.log('Before API calls');
-     await this.Fm.fetchList_Rating("/bootsratinglist/");
-     //console.log('After first API call');
-     await this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-     //console.log('After second API call');
+     await this.Fm.fetchList_Rating("/glovesratinglist/");
+     await this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
     }
    // Emit rarity first so parent has it when rating handler runs
    this.raritySelected.emit(this.Sm.getselectedRarity());
@@ -161,8 +157,8 @@ export class BootsBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
@@ -179,8 +175,8 @@ export class BootsBoxObject {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
   }
@@ -188,37 +184,37 @@ export class BootsBoxObject {
   onChangeEnchantment_ValueRare(event: number){
 
     this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
     this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
   }
 
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
   
   onChangeEnchantment_ValueEpic(event: number){
 
     this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
     this.enchantmentSelected_ValueEpic.emit(this.Sm.getEnchantment('Epic').value);
   }
 
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")};
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
   
   onChangeEnchantment_ValueLegendary(event: number){
 
     this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
     this.enchantmentSelected_ValueLegendary.emit(this.Sm.getEnchantment('Legendary').value);
   }
 
@@ -226,8 +222,8 @@ export class BootsBoxObject {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistboots/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/")}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 
   }
@@ -235,7 +231,7 @@ export class BootsBoxObject {
   onChangeEnchantment_ValueUnique(event: number){
 
     this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistboots/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistgloves/");
     this.enchantmentSelected_ValueUnique.emit(this.Sm.getEnchantment('Unique').value);
 
   }
@@ -286,6 +282,6 @@ export class BootsBoxObject {
   @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
-  //@Output() selectionboots = new EventEmitter<any>();
+  //@Output() selectiongloves = new EventEmitter<any>();
 }
     
