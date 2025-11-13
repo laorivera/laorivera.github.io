@@ -68,7 +68,9 @@
           @if(Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeedBonus){
             <p>Move Speed Bonus: {{Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeedBonus}} </p>
           }
-      
+          @if(Sm.getselectedItemDisplay()?.itemdata[0]?.maxHealthAdd){
+            <p>Max Health Add: {{Sm.getselectedItemDisplay()?.itemdata[0]?.maxHealthAdd[Sm.getselectedRarity()]}}</p>
+          }
           @if(Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeed){
             <p>Move Speed: {{Sm.getselectedItemDisplay()?.itemdata[0]?.moveSpeed["1"]}} </p>
           }

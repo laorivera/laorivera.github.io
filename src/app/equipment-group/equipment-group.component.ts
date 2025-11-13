@@ -11,7 +11,7 @@ import { CloakBoxObject } from './cloak-box/cloak-box.object';
 import { RingBoxObject } from './ring-box/ring-box.object';
 import { RingTwoBoxObject } from './ring-box-two/ring-box.object-two';
 import { ApiConfigService } from '../services/api-config.service';
-import { PrimaryWeaponBoxComponent } from './primary-weapon-box/primary-weapon-box.component';
+import { PrimaryWeaponBoxObject} from './primary-weapon-box/primary-weapon-box.object';
 import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
 import { HeadBoxObject } from './head-box/head-box.object';
 import { ChestBoxObject } from './chest-box/chest-box.object';
@@ -30,7 +30,7 @@ import { ChestBoxObject } from './chest-box/chest-box.object';
     CloakBoxObject,
     RingBoxObject,
     RingTwoBoxObject,
-    PrimaryWeaponBoxComponent,
+    PrimaryWeaponBoxObject,
     SecondaryWeaponBoxComponent
 ],
   templateUrl: './equipment-group.component.html',
@@ -97,7 +97,7 @@ export class BoxesGroupComponent {
   @ViewChildren(NecklaceBoxObject) necklaceBoxes!: QueryList<NecklaceBoxObject>;
   @ViewChildren(CloakBoxObject) cloakBoxes!: QueryList<CloakBoxObject>;
   @ViewChildren(RingBoxObject) ringBoxes!: QueryList<RingBoxObject>;
-  @ViewChildren(PrimaryWeaponBoxComponent) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxComponent>;
+  @ViewChildren(PrimaryWeaponBoxObject) primaryWeaponBoxes!: QueryList<PrimaryWeaponBoxObject>;
 
 
 
@@ -516,15 +516,15 @@ export class BoxesGroupComponent {
       },
       weaponOne: {
         name: this.selectedItems['primaryweapon'] || '',
-        rarity: this.selectedRarites['rarityselect_primaryweapon'] || '',
-        rating: this.selectedRatings['armorrating_primaryweapon'] || '',
-        enchant: buildEnchant('primaryweapon')
+        rarity: this.selectedRarites['rarityselect_pwo'] || '',
+        rating: this.selectedRatings['armorrating_pwo'] || '',
+        enchant: buildEnchant('pwo')
       },
       weaponTwo: {
         name: this.selectedItems['secondaryweapon'] || '',
-        rarity: this.selectedRarites['rarityselect_secondaryweapon'] || '',
-        rating: this.selectedRatings['armorrating_secondaryweapon'] || '',
-        enchant: buildEnchant('secondaryweapon')
+        rarity: this.selectedRarites['rarityselect_pwt'] || '',
+        rating: this.selectedRatings['armorrating_pwt'] || '',
+        enchant: buildEnchant('pwt')
       }
     }
   };

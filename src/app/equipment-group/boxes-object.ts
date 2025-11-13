@@ -129,23 +129,17 @@ class Smanager {
 
 class FetchManager {
 
-   private payload: {[key: string]: string};
+  private payload: {[key: string]: string};
 
+  // Accept Smanager instance through constructor
+  constructor(private Sm: Smanager, private slot: string){ this.payload = {}}
     
-    // Accept Smanager instance through constructor
-    constructor(private Sm: Smanager, private slot: string){
-     this.payload = {
-      }
-    }
-    
-    private apiConfig = inject(ApiConfigService);
+  private apiConfig = inject(ApiConfigService);
    
-    fetchList_Items(url: string): void {
-      const payload = {
-          class: this.Sm.getclassSelection(), 
-        };
-        
-        this.apiConfig.postData(url, payload).subscribe({
+  fetchList_Items(url: string): void {
+      const payload = { class: this.Sm.getclassSelection()};
+    
+      this.apiConfig.postData(url, payload).subscribe({
           next: (response) => {
               const itemlist = [{ image: "assets/placeholderx.png", name: "No selection" }, ...response.list ];
               this.Sm.setSelectedItemList(itemlist); 
@@ -154,10 +148,9 @@ class FetchManager {
           error: (err) => {
               console.error('Error fetching head list:', err);
           },
-    });
-    }
+    });}
 
-  async fetchEnchantment_List(url: string) {
+async fetchEnchantment_List(url: string) {
   const payload = {     
     class: this.Sm.getclassSelection(),
       itemSlot: {
@@ -226,7 +219,7 @@ class FetchManager {
     });
   }
 
-  async fetchList_Rating(url: string) {
+async fetchList_Rating(url: string) {
     try {
      const payload = {
       class: this.Sm.getclassSelection(),
