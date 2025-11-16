@@ -25,15 +25,13 @@ interface StateSelection {
 }
 
 @Component({
-  selector: 'cloak-box',
-  standalone: true,
+  selector: 'secondary-weapon-box',
   imports: [CommonModule, FormsModule],
-  templateUrl: './cloak-box.component.html',
-  styleUrl: './cloak-box.component.css'
+  templateUrl: './secondary-weapon-box.component.html',
+  styleUrl: './secondary-weapon-box.component.css'
 })
 
-
-export class CloakBoxObject {
+export class SecondaryWeaponBoxObject {
     selectedRatingIndex: number = 0;
     showList = false;
     showContextMenu = false;
@@ -54,14 +52,14 @@ export class CloakBoxObject {
      }
   
     Sm = new Smanager();
-    Fm = new FetchManager(this.Sm, 'back');
+    Fm = new FetchManager(this.Sm, 'weaponTwo');
 
     @Input()
     set classSelection(value: string) {
       // Reset all selections when class changes
         this.Sm.resetSelection();
         this.Sm.setclassSelection(value);
-        this.Fm.fetchList_Items('/cloaklist/');
+        this.Fm.fetchList_Items('/pwtlist/');
         
      }
     get classSelection(): string {
@@ -106,9 +104,9 @@ export class CloakBoxObject {
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
     console.log('Rarity change start:', event);
-     await this.Fm.fetchList_Rating("/cloakratinglist/");
+     await this.Fm.fetchList_Rating("/pwtratinglist/");
      console.log('Rating fetch complete');
-     await this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
+     await this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
      console.log('Enchantment fetch complete');
     }
    // Emit rarity first so parent has it when rating handler runs
@@ -122,12 +120,12 @@ export class CloakBoxObject {
 
  onChangeRating(event: number) {
     const index = +event;
+    console.log("rating weapon: ", index)
     this.Sm.setSelectedRating(this.Sm.getselectedRatingList()?.[index]?? 0);
     console.log(this.Sm.getselectedRating());
 
     this.ratingSelected.emit(this.Sm.getselectedRating());
    }
-
 
   @HostListener('click', ['$event'])
     onLeftClick(event: MouseEvent) {
@@ -161,8 +159,8 @@ export class CloakBoxObject {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    //this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")}
+    //this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
 
@@ -179,8 +177,8 @@ export class CloakBoxObject {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
   }
@@ -188,37 +186,37 @@ export class CloakBoxObject {
   onChangeEnchantment_ValueRare(event: number){
 
     this.Sm.setEnchantment('Rare', this.Sm.getEnchantment('Rare').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
     this.enchantmentSelected_ValueRare.emit(this.Sm.getEnchantment('Rare').value);
   }
 
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
   
   onChangeEnchantment_ValueEpic(event: number){
 
     this.Sm.setEnchantment('Epic', this.Sm.getEnchantment('Epic').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
     this.enchantmentSelected_ValueEpic.emit(this.Sm.getEnchantment('Epic').value);
   }
 
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")};
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
   
   onChangeEnchantment_ValueLegendary(event: number){
 
     this.Sm.setEnchantment('Legendary', this.Sm.getEnchantment('Legendary').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
     this.enchantmentSelected_ValueLegendary.emit(this.Sm.getEnchantment('Legendary').value);
   }
 
@@ -226,8 +224,8 @@ export class CloakBoxObject {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")
-    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/")}
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")
+    if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/")}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 
   }
@@ -235,7 +233,7 @@ export class CloakBoxObject {
   onChangeEnchantment_ValueUnique(event: number){
 
     this.Sm.setEnchantment('Unique', this.Sm.getEnchantment('Unique').type, event);
-    this.Fm.fetchEnchantment_Value("/enchantmentlistcloak/");
+    this.Fm.fetchEnchantment_Value("/enchantmentlistpwt/");
     this.enchantmentSelected_ValueUnique.emit(this.Sm.getEnchantment('Unique').value);
 
   }
@@ -286,6 +284,6 @@ export class CloakBoxObject {
   @Output() enchantmentSelected_ValueLegendary = new EventEmitter<number>();
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
-  //@Output() selectioncloak = new EventEmitter<any>();
+  //@Output() selectionpwt = new EventEmitter<any>();
 }
     */

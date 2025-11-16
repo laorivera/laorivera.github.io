@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, Output, EventEmitter, ViewChildren, QueryList, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-//import { HeadBoxObject } from './head-box/head-box.component';
-
-import { GlovesBoxObject } from './gloves-box/gloves-box.object';
-import { PantsBoxObject } from './pants-box/pants-box.object';
-import { BootsBoxObject } from './boots-box/boots-box.object';
-import { NecklaceBoxObject } from './necklace-box/necklace-box.object';
-import { CloakBoxObject } from './cloak-box/cloak-box.object';
-import { RingBoxObject } from './ring-box/ring-box.object';
-import { RingTwoBoxObject } from './ring-box-two/ring-box.object-two';
 import { ApiConfigService } from '../services/api-config.service';
-import { PrimaryWeaponBoxObject} from './primary-weapon-box/primary-weapon-box.object';
-import { SecondaryWeaponBoxComponent } from './secondary-weapon-box/secondary-weapon-box.component';
-import { HeadBoxObject } from './head-box/head-box.object';
-import { ChestBoxObject } from './chest-box/chest-box.object';
+
+import { HeadBoxObject } from   './head-box/head-box';
+import { GlovesBoxObject } from './gloves-box/gloves-box';
+import { ChestBoxObject } from  './chest-box/chest-box';
+import { PantsBoxObject } from  './pants-box/pants-box';
+import { BootsBoxObject } from  './boots-box/boots-box';
+import { CloakBoxObject } from  './cloak-box/cloak-box';
+
+import { NecklaceBoxObject } from './necklace-box/necklace-box';
+import { RingBoxObject } from './ring-box/ring-box';
+import { RingTwoBoxObject } from './ring-box-two/ring-box-two';
+
+import { PrimaryWeaponBoxObject} from './primary-weapon-box/primary-weapon'
+import { SecondaryWeaponBoxObject } from './secondary-weapon-box/secondary-weapon'
+
+
 
 @Component({
   selector: 'app-boxes-group',
@@ -31,7 +34,7 @@ import { ChestBoxObject } from './chest-box/chest-box.object';
     RingBoxObject,
     RingTwoBoxObject,
     PrimaryWeaponBoxObject,
-    SecondaryWeaponBoxComponent
+    SecondaryWeaponBoxObject
 ],
   templateUrl: './equipment-group.component.html',
   styleUrl: './equipment-group.component.css'

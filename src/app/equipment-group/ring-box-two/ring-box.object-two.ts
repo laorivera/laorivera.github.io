@@ -1,3 +1,4 @@
+/*
 import { Component, EventEmitter, Input, Output, HostListener, inject } from '@angular/core';
 //import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -287,4 +288,4 @@ export class RingTwoBoxObject {
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   //@Output() selectionring = new EventEmitter<any>();
 }
-    
+    */

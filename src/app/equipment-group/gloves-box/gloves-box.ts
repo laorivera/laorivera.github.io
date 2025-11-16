@@ -1,35 +1,32 @@
-/*
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BaseEquipmentBox } from '../base-equipment-box';
 
 @Component({
-  selector: 'head-box',
+  selector: 'gloves-box',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './head-box.component.html',
-  styleUrl: './head-box.component.css'
+  templateUrl: './gloves-box.component.html',
+  styleUrl: './gloves-box.component.css'
 })
 
-export class HeadBoxObject extends BaseEquipmentBox {
+export class GlovesBoxObject extends BaseEquipmentBox {
   
   // Implement abstract methods - just provide the slot and endpoints
   protected getSlot(): string {
-    return 'head';
+    return 'hands';
   }
 
   protected getItemListEndpoint(): string {
-    return '/helmetlist/';
+    return '/gloveslist/';
   }
 
-  protected getRatingListEndpoint(): string {
-    return '/helmetratinglist/';
+   protected override getRatingListEndpoint(): string {
+    return '/glovesratinglist/';
   }
 
   protected getEnchantmentListEndpoint(): string {
-    return '/enchantmentlisthelmet/';
+    return '/enchantmentlistgloves/';
   }
-}*/
-
+}

@@ -69,7 +69,7 @@
             <p>Move Speed Bonus: {{Sm.getselectedItemDisplay()?.itemdataacc[0]?.moveSpeedBonus}} </p>
           }
       
-          @if(Sm.getselectedItemDisplay()?.itemdataacc[0]?.moveSpeed){
+          @if(Sm.getselectedItemDisplay()?.itemdataacc[0]?.moveSpeed > 0){
             <p>Move Speed: {{Sm.getselectedItemDisplay()?.itemdataacc[0]?.moveSpeed["1"]}} </p>
           }
           @if(Sm.getselectedItemDisplay()?.itemdataacc[0]?.armorRatings ){
@@ -103,14 +103,6 @@
         <div class="modal-content">
           <h3 [class]="'rarity-' + Sm.getselectedRarity()">{{ Sm.getselectedItem()?.name || 'No Item Selected' }}</h3>
           <img [src]="Sm.getselectedItem()?.image" [alt]="Sm.getselectedItem()?.name" class="modal-image" />
-            <div class = "rating-select">
-              <label for="rating-select">Rating:</label>
-              <select id="rating-select" [(ngModel)]="rating" (ngModelChange)="onChangeRating($event)">
-                @for (rating of Sm.getselectedRatingList(); track $index) {
-                  <option [value]="$index">{{ rating }}</option>
-                }
-              </select>
-            </div>
           
             @if(Sm.getselectedRarity() >= 3){
               <div class="enchantment-Uncommon-select uncommon-border">

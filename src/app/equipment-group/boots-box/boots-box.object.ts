@@ -1,3 +1,4 @@
+/*
 import { Component, EventEmitter, Input, Output, HostListener, inject } from '@angular/core';
 //import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -287,5 +288,4 @@ export class BootsBoxObject {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
   //@Output() selectionboots = new EventEmitter<any>();
-}
-    
+}*/

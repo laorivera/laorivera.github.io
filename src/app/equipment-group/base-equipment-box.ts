@@ -1,5 +1,4 @@
 
-/*
 import { EventEmitter, Input, Output, HostListener, Directive } from '@angular/core';
 import { Smanager, FetchManager } from './boxes-object';
 import { ListItem } from './state-object'; 
@@ -46,7 +45,9 @@ export abstract class BaseEquipmentBox {
     // Abstract methods - child classes must provide these
     protected abstract getSlot(): string;
     protected abstract getItemListEndpoint(): string;
-    protected abstract getRatingListEndpoint(): string;
+
+    protected getRatingListEndpoint(): string | null{return null}
+    
     protected abstract getEnchantmentListEndpoint(): string;
 
     constructor() {
@@ -67,7 +68,6 @@ export abstract class BaseEquipmentBox {
     }
    
     resetSelection() {
-
     this.showList = false;
     this.state = {
        // rating: "",
@@ -92,7 +92,7 @@ export abstract class BaseEquipmentBox {
     console.log(this.Sm.getselectedItem()?.name)
     this.Fm.fetchItemData_Armor("/itemdisplay/");
     this.itemSelected.emit(item.name);
-  }
+    }
 
   async onChangeRarity(event: number) { // Reset enchantment values and types // send quety to API // send event to parent // send event to css color box
     try {
@@ -103,8 +103,12 @@ export abstract class BaseEquipmentBox {
     this.rarityBoxColor();
     
     if (this.Sm.getselectedItem() && this.Sm.getselectedItem()?.name) {
-    console.log('Rarity change start:', event);
-     await this.Fm.fetchList_Rating(this.getRatingListEndpoint());
+      console.log('Rarity change start:', event);
+      const ratingEndpoint = this.getRatingListEndpoint();
+      if (ratingEndpoint) {
+        await this.Fm.fetchList_Rating(ratingEndpoint);
+        console.log('Rating fetch complete');
+      }
      console.log('Rating fetch complete');
      await this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
      console.log('Enchantment fetch complete');
@@ -285,4 +289,3 @@ export abstract class BaseEquipmentBox {
   @Output() enchantmentSelected_TypeUnique = new EventEmitter<string>();
   @Output() enchantmentSelected_ValueUnique = new EventEmitter<number>();
 }
-*/
