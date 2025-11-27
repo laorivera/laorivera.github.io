@@ -4,11 +4,11 @@ constructor(){}
 
 public environment = {
   production: true,
-  apiBaseUrl: 'https://crm-resulting-toolbar-clay.trycloudflare.com',
+  apiBaseUrl: 'https://extensions-pocket-sake-longitude.trycloudflare.com',
 } 
 
 public decode(): string {
-  const encoded = '!DA$N3NN@S';
-  return encoded.split('').reverse().join('');
+  const encoded = 'S@NN3N$AD!';
+  return encoded
 }
 }
