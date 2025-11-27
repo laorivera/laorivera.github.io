@@ -122,7 +122,8 @@ export abstract class BaseEquipmentBox {
    this.resetSelection();
   }catch(error){console.error('error');}}
 
- onChangeRating(event: number) {
+  
+  onChangeRating(event: number) {
     const index = +event;
     this.Sm.setSelectedRating(this.Sm.getselectedRatingList()?.[index]?? 0);
     console.log(this.Sm.getselectedRating());
@@ -163,7 +164,7 @@ export abstract class BaseEquipmentBox {
   onChangeEnchantment_TypeUncommon(event: string){
    
     this.Sm.setEnchantment('Uncommon',event, 0);
-    //this.Fm.fetchEnchantment_Value("/enchantmentlisthelmet/");
+    
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeUncommon.emit(this.Sm.getEnchantment('Uncommon').type);
   }
@@ -181,7 +182,7 @@ export abstract class BaseEquipmentBox {
    onChangeEnchantment_TypeRare(event: string){
 
     this.Sm.setEnchantment('Rare',event, 0);
-    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+   
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeRare.emit(this.Sm.getEnchantment('Rare').type);
 
@@ -197,7 +198,7 @@ export abstract class BaseEquipmentBox {
   onChangeEnchantment_TypeEpic(event: string){
 
     this.Sm.setEnchantment('Epic',event, 0);
-    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+    
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeEpic.emit(this.Sm.getEnchantment('Epic').type);
   }
@@ -212,7 +213,7 @@ export abstract class BaseEquipmentBox {
   onChangeEnchantment_TypeLegendary(event: string){
 
     this.Sm.setEnchantment('Legendary',event, 0);
-    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint());
+    
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())};
     this.enchantmentSelected_TypeLegendary.emit(this.Sm.getEnchantment('Legendary').type);
   }
@@ -228,7 +229,7 @@ export abstract class BaseEquipmentBox {
 
     this.Sm.setEnchantment('Unique',event, 0);
 
-    this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())
+   
     if(this.Sm.getselectedItem()){this.Fm.fetchEnchantment_Value(this.getEnchantmentListEndpoint())}
     this.enchantmentSelected_TypeUnique.emit(this.Sm.getEnchantment('Unique').type);
 

@@ -39,24 +39,46 @@
   }
 
   .race-box {
-    position: center;
     padding: 10px;
     text-align: center;
     max-width: 150px;
+    border:     2px solid #7e7d7d;
     margin: auto;
   }
   
   .race-image {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 1px;
     margin-bottom: 1px;
   }
   
   .race-selection {
     font-size: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     text-align: center;
+    margin: auto;
+  }
+
+  .skills-selection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .skill-slot {
+    font-size: 12px;
+    margin-bottom: 1px;
+    text-align: center;
+    margin: auto;
+  }
+
+  .skill-image {
+    padding: 10px;
+    text-align: center;
+    max-width: 150px;
+    border: 2px solid #7e7d7d;
     margin: auto;
   }
 

@@ -30,5 +30,6 @@ export class PrimaryWeaponBoxObject extends BaseEquipmentBox {
   protected getEnchantmentListEndpoint(): string {
     return '/enchantmentlistpwo/';
   }
+
 }
 

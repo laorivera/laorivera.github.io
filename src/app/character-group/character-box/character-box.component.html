@@ -23,26 +23,66 @@
       </select>
     </div>
       @if(selectedRaceImage !== 'No selection' && selectedRaceImage !== '') {
-      <div class="race-image">
+      <div class="race-box">
         <img [src]="selectedRaceImage" alt="Select a Race" class="race-image" />
       </div>
       }
 
-    <div class="perk-selection">
-      <label for="perk-select">Choose a perk:</label>
-      <!-- 
-      <select id="perk-select" (change)="onChangeRace($event)">
-        @for (list of characterRaces; track $index) {
-        <option [value]="$index">{{ list }}</option>
-        }
-      </select>
-    </div>
- 
-      @if(selectedRaceImage !== 'No selection' && selectedRaceImage !== '') {
-      <div class="race-image">
-        <img [src]="selectedRaceImage" alt="Select a Race" class="race-image" />
+    <div class="skills-selection">
+      <div class="skill-slot">
+        <label for="skill1-select">Skill 1:</label>
+        <select id="skill1-select" [value]="selectedSkill1" (change)="onChangeSkill1($event)">
+          @for (skill of getAvailableSkills1(); track $index) {
+            <option [value]="skill" [selected]="skill === selectedSkill1">{{ skill }}</option>
+          }
+        </select>
       </div>
+      @if(selectedSkill1Image !== '' && selectedSkill1 !== 'No selection') {
+        <div class="skill-image">
+          <img [src]="selectedSkill1Image" alt="Skill 1" class="skill-image" />
+        </div>
       }
-      -->
+      
+      <div class="skill-slot">
+        <label for="skill2-select">Skill 2:</label>
+        <select id="skill2-select" [value]="selectedSkill2" (change)="onChangeSkill2($event)">
+          @for (skill of getAvailableSkills2(); track $index) {
+            <option [value]="skill" [selected]="skill === selectedSkill2">{{ skill }}</option>
+          }
+        </select>
+      </div>
+      @if(selectedSkill2Image !== '' && selectedSkill2 !== 'No selection') {
+        <div class="skill-image">
+          <img [src]="selectedSkill2Image" alt="Skill 2" class="skill-image" />
+        </div>
+      }
+      
+      <div class="skill-slot">
+        <label for="skill3-select">Skill 3:</label>
+        <select id="skill3-select" [value]="selectedSkill3" (change)="onChangeSkill3($event)">
+          @for (skill of getAvailableSkills3(); track $index) {
+            <option [value]="skill" [selected]="skill === selectedSkill3">{{ skill }}</option>
+          }
+        </select>
+      </div>
+      @if(selectedSkill3Image !== '' && selectedSkill3 !== 'No selection') {
+        <div class="skill-image">
+          <img [src]="selectedSkill3Image" alt="Skill 3" class="skill-image" />
+        </div>
+      }
+      
+      <div class="skill-slot">
+        <label for="skill4-select">Skill 4:</label>
+        <select id="skill4-select" [value]="selectedSkill4" (change)="onChangeSkill4($event)">
+          @for (skill of getAvailableSkills4(); track $index) {
+            <option [value]="skill" [selected]="skill === selectedSkill4">{{ skill }}</option>
+          }
+        </select>
+      </div>
+      @if(selectedSkill4Image !== '' && selectedSkill4 !== 'No selection') {
+        <div class="skill-image">
+          <img [src]="selectedSkill4Image" alt="Skill 4" class="skill-image" />
+        </div>
+      }
     </div>
 </div>

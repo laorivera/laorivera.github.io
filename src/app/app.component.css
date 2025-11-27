@@ -35,19 +35,18 @@
       padding: 1rem;
        /* Dark background for bottom container */
     }
-  
+
 .disclaimer {
   text-align: center;
   color: #ffffff;
   font-size: 14px;
   padding: 0.5rem;
-  border-top: 0.5px solid #515153f2;
   position: fixed;
   bottom: 0;
   height: 25px;
   left: 130px;
   width: calc(100% - 130px);
-  background: #000000;
+ /* background: #000000;*/
 }
 
 .version {

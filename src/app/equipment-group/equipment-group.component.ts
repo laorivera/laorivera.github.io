@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, ViewChildren, QueryList, Input } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChildren, QueryList, Input, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiConfigService } from '../services/api-config.service';
 
@@ -42,7 +42,13 @@ import { SecondaryWeaponBoxObject } from './secondary-weapon-box/secondary-weapo
 
 
 export class BoxesGroupComponent {
-   private doubleHandlist: string[] = [
+
+  private _Payload: any;  // total payload seleciton to API
+ 
+  private storedWeaponState: any = null;
+  private weaponDraw: Boolean = true;
+
+  private doubleHandlist: string[] = [
       "Lute",
       "Zweihander",
       "War Maul",
@@ -69,6 +75,9 @@ export class BoxesGroupComponent {
   private _raceSelection: string = '';
  //private doubleHanded: boolean = false;
   allclass: string[]= ["", "Fighter", "Barbarian", "Rogue", "Wizard", "Cleric", "Warlock", "Bard", "Ranger", "Soccerer"]
+
+  
+
   @Input()
   set classSelection(value: string) {
     this._classSelection = value;
@@ -111,10 +120,10 @@ export class BoxesGroupComponent {
   selectedEnchantValue: {[key: string]: number} = {}; 
 
   constructor(
-    private http: HttpClient,
+   // private http: HttpClient,
     private apiConfig: ApiConfigService
   ) {}
-
+ 
   onCharacterSelected() {
     
     if (this.headBoxes) {
@@ -157,7 +166,6 @@ export class BoxesGroupComponent {
     console.log(this._raceSelection)
     this.calculateEquipment(); // funcion calcula character base
   }
-
 
   resetEnchantment(slot: string){
     //console.log(slot)
@@ -354,7 +362,6 @@ export class BoxesGroupComponent {
     this.calculateEquipment(); 
   }
 
-
   onRaritySelected(slot: string, rarity: number,){ 
     this.selectedRarites[slot] = String(rarity);
     const slotType = slot.split('_')[1]; 
@@ -363,7 +370,6 @@ export class BoxesGroupComponent {
     this.resetEnchantment(slotType);
     this.calculateEquipment();
   }
-
 
   onRatingSelected(slot: string, rating: number){
     this.selectedRatings[slot] = String(rating);
@@ -442,6 +448,96 @@ export class BoxesGroupComponent {
     this.selectedEnchantValue[slot] = enchantmentValue;
     this.calculateEquipment();
   }
+
+onWeaponDraw(): void {
+  if (this.weaponDraw === true) {
+    console.log('if - weapons off');
+    
+    // Store current state
+    this.storedWeaponState = {
+      weaponOne: {
+        name: this.selectedItems["primaryweapon"] || '',
+        rarity: this.selectedRarites['rarityselect_pwo'] || '',
+        rating: this.selectedRatings['armorrating_pwo'] || '',
+        enchant: {}
+      },
+      weaponTwo: {
+        name: this.selectedItems["secondaryweapon"] || '',
+        rarity: this.selectedRarites['rarityselect_pwt'] || '',
+        rating: this.selectedRatings['armorrating_pwt'] || '',
+        enchant: {}
+      }
+    };
+
+    // Store enchantments with loop
+    for (let i = 1; i <= 5; i++) {
+      const suffix = i === 1 ? '' : i.toString();
+      this.storedWeaponState.weaponOne.enchant[`type${suffix}`] = this.selectedEnchant[`enchantment_pwotype${suffix}`] || '';
+      this.storedWeaponState.weaponOne.enchant[`value${suffix}`] = this.selectedEnchantValue[`enchantment_pwovalue${suffix}`] || 0;
+      
+      this.storedWeaponState.weaponTwo.enchant[`type${suffix}`] = this.selectedEnchant[`enchantment_pwttype${suffix}`] || '';
+      this.storedWeaponState.weaponTwo.enchant[`value${suffix}`] = this.selectedEnchantValue[`enchantment_pwtvalue${suffix}`] || 0;
+    }
+    
+    // Clear weapons
+    this.selectedItems["primaryweapon"] = "";
+    this.selectedItems["secondaryweapon"] = "";
+    this.resetEnchantment('pwo');
+    this.resetRarity('pwo');
+    this.resetRating('pwo');
+    this.resetEnchantment('pwt');
+    this.resetRarity('pwt');
+    this.resetRating('pwt');
+    
+    this.weaponDraw = false;
+  } else {
+    console.log("else - weapons on");
+    
+    // Restore stored state
+    if (this.storedWeaponState) {
+      console.log('restoring weapons');
+      
+      // Restore primary weapon
+      this.selectedItems["primaryweapon"] = this.storedWeaponState.weaponOne.name;
+      this.selectedRarites['rarityselect_pwo'] = this.storedWeaponState.weaponOne.rarity;
+      this.selectedRatings['armorrating_pwo'] = this.storedWeaponState.weaponOne.rating;
+      
+      // Restore secondary weapon
+      this.selectedItems["secondaryweapon"] = this.storedWeaponState.weaponTwo.name;
+      this.selectedRarites['rarityselect_pwt'] = this.storedWeaponState.weaponTwo.rarity;
+      this.selectedRatings['armorrating_pwt'] = this.storedWeaponState.weaponTwo.rating;
+      
+      // Restore enchantments with loop
+      for (let i = 1; i <= 5; i++) {
+        const suffix = i === 1 ? '' : i.toString();
+        this.selectedEnchant[`enchantment_pwotype${suffix}`] = this.storedWeaponState.weaponOne.enchant[`type${suffix}`];
+        this.selectedEnchantValue[`enchantment_pwovalue${suffix}`] = this.storedWeaponState.weaponOne.enchant[`value${suffix}`];
+        
+        this.selectedEnchant[`enchantment_pwttype${suffix}`] = this.storedWeaponState.weaponTwo.enchant[`type${suffix}`];
+        this.selectedEnchantValue[`enchantment_pwtvalue${suffix}`] = this.storedWeaponState.weaponTwo.enchant[`value${suffix}`];
+      }
+    }
+    this.weaponDraw = true;
+  }
+  
+  this.calculateEquipment();
+} 
+
+private createEmptyWeapon() {
+  return {
+    name: '',
+    rarity: '',
+    rating: '',
+    enchant: {
+      TypeU: '', ValueU: '0',
+      TypeR: '', ValueR: '0', 
+      TypeE: '', ValueE: '0',
+      TypeL: '', ValueL: '0',
+      TypeQ: '', ValueQ: '0',
+      TypeA: '', ValueA: '0'
+    }
+  };
+}
 
   private buildEquipmentPayload(): any {
   const buildEnchant = (slotPrefix: string): any => ({
@@ -536,10 +632,10 @@ export class BoxesGroupComponent {
 
   // API CALL TO CALCULATE EQUIPMENT
  calculateEquipment() {
-  const payload = this.buildEquipmentPayload();
-  console.log(payload);
+  this._Payload = this.buildEquipmentPayload();
+  console.log(this._Payload);
   
-  this.apiConfig.postData('/api/', payload).subscribe({
+  this.apiConfig.postData('/api/', this._Payload).subscribe({
     next: (result) => {
       this.calculationResultChanged.emit(result);
     },
@@ -549,39 +645,6 @@ export class BoxesGroupComponent {
     }
   });
 }
-/*
-  // API call to calculate character
-  calculateCharacter() {
-     const payload = this.buildEquipmentPayload();
-    
-    this.apiConfig.postData('/api/', payload).subscribe({
-      next: (response) => {
-        this.calculationResultChanged.emit(response);
-      },
-      /*
-      error: (err) => {
-        console.error('Error calculating equipment:', err);
-        this.calculationResultChanged.emit(null);
-      },
-    });
-  }
-*/
-
-  fetchCharacterData() {
-    const params = new URLSearchParams();
-    // ... existing params code ...
-    const url = this.apiConfig.getApiUrl(`/charbuilder/${this.classSelection}?${params.toString()}`);
-    this.http.get<any>(url).subscribe({
-      // ... existing code ...
-    });
-  }
-
-  fetchCharacterData_NoParams() {
-    const url = this.apiConfig.getApiUrl(`/charbuilder/${this._classSelection}`);
-    this.http.get<any>(url).subscribe({
-      // ... existing code ...
-    });
-  }
 
   closeAllDropdownsExcept(except?: any) {
   // Close all equipment dropdowns

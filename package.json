@@ -2,8 +2,7 @@
   "name": "bfrontend",
   "version": "0.0.9",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
+    "start": "ng run dev",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
